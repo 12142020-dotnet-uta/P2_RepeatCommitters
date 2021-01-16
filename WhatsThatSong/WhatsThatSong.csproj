@@ -2,6 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
+	<!-- For Testing with SonarCloud-->
+	<DebugType>Full</DebugType>
+	<ProjectGuid>{884BB8A7-83C9-42CA-BE68-03019BA98488}</ProjectGuid>
   </PropertyGroup>
 
 </Project>
