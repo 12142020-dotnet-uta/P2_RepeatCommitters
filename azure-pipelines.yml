@@ -22,7 +22,7 @@ steps:
     projectKey: 'Repeat-Committers_Whats-That-Song'
     projectName: 'Whats That Song'
     extraProperties: |
-      sonar.exclusions=**/obj/**,**/*.dll, ./WhatsThatSong/wwwroot/**
+      sonar.exclusions=**/obj/**,**/*.dll, **/WhatsThatSong/wwwroot/**
       sonar.branch.name=$(Build.SourceBranchName)
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*.xml
