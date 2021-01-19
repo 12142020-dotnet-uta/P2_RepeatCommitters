@@ -7,4 +7,9 @@
 	<ProjectGuid>{884BB8A7-83C9-42CA-BE68-03019BA98488}</ProjectGuid>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BusinessLogicLayer\BusinessLogicLayer.csproj" />
+    <ProjectReference Include="..\ModelLayer\ModelLayer.csproj" />
+  </ItemGroup>
+
 </Project>
