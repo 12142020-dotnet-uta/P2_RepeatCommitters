@@ -56,5 +56,13 @@ namespace ModelLayer
             Buffer.BlockCopy(buffer2, 0, dst, SaltByteSize + 1, HashByteSize);
             return Convert.ToBase64String(dst);
         }
+
+        public User() { }
+        public User(string userN, string passw, string email)
+        {
+            this.UserName = userN;
+            this.Password = passw;
+            this.Email = email;
+        }
     }
 }

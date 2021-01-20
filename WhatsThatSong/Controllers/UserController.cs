@@ -21,6 +21,13 @@ namespace WhatsThatSong.Controllers
         }
 
         [HttpGet]
+        [Route("create")]
+        public async Task<User> CreateUser(string userName,string password, string email)
+        {
+            return await  _businessLogicClass.CreatNewBC(userName, password, email);
+        }// if the user lready exists then make return null
+
+        [HttpGet]
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _businessLogicClass.GetAllUsersAsync();

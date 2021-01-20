@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ModelLayer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RepositoryLayer
@@ -29,6 +30,31 @@ namespace RepositoryLayer
             this.artists = _applicationDbContext.Artists;
             this.genres = _applicationDbContext.Genres;
         }
+
+        public async Task<bool> DoesUserExist(string username, string passw)
+        {
+            User user = await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);
+            if (user!=null){
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// creates a new user
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public async Task<User> CreateNewUser(string userName, string password, string email)
+        {
+            User newUser = new User(userName, password, email);
+            return await users.FirstOrDefaultAsync(x => x.UserName == userName && x.Password == password);
+        }
+        
 
         /// <summary>
         /// Returns all messages for a user.

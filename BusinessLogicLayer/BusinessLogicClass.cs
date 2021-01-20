@@ -28,6 +28,19 @@ namespace BusinessLogicLayer
             return await _repository.GetAllUsersAsync();
         }
 
+        public async Task<User> CreatNewBC(string userName, string password, string email)
+        {
+            bool userExists = await _repository.DoesUserExist(userName, password);
+            if(userExists == false)
+            {
+                return null;
+            }else 
+            {
+                User newUser = await _repository.CreateNewUser(userName, password,email);
+                return newUser;
+            }
+        }
+
         /// <summary>
         /// Returns a User specified by their id.
         /// </summary>
