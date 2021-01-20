@@ -20,5 +20,10 @@ namespace ModelLayer
         [Required]
         [Display(Name="Number Of Plays")]
         public int NumberOfPlays { get; set; }
+        [Display(Name = "Lyrycs")]
+        public string Lyrics { get; set; } = null;
+        [Display(Name ="URL Path")]
+        public string UrlPath { get; set; }
+        public Boolean isOriginal { get; set; }
     }
 }
