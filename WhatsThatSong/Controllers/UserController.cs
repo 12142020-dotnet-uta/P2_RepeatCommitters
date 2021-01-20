@@ -55,17 +55,14 @@ namespace WhatsThatSong.Controllers
             await _businessLogicClass.SaveUserToDb(userToEdit);
             return userToEdit; 
         }
-        //[HttpGet]
-        //[Route("getUser")]
-        //public async Task<User> GetUser(int id)
-        //{
-        //    User LoggedInUser = await _businessLogicClass.LoginUser(userName, password);
-        //    if (LoggedInUser != null)
-        //    {
-        //        return LoggedInUser;
-        //    }
-        //    return null;
-        //}
+        [HttpGet]
+        [Route("SearchForUsers")]
+        public async Task<List<User>> SearchForUsers(string searchString)
+        {
+            List<User> listOfUsers = await _businessLogicClass.SearchForUsersByPartialN(searchString);
+            
+            return listOfUsers;
+        }
 
         [HttpGet]
         public async Task<IEnumerable<User>> GetAllUsersAsync()

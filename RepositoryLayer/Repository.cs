@@ -78,6 +78,19 @@ namespace RepositoryLayer
             return await messages.ToListAsync();
         }
 
+        public async Task<List<User>> GetUsersByPartialN(string searchString)
+        {
+            List<User> list = new List<User>();
+            foreach(var x in users)
+            {
+                if (x.UserName.Contains(searchString))
+                {
+                    list.Add(x);
+                }
+            }
+            return list ;
+        }
+
         /// <summary>
         /// Returns all users to a list.
         /// </summary>

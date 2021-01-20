@@ -50,6 +50,7 @@ namespace BusinessLogicLayer
         public async Task<User> SaveUserToDb(User userToEdit)
         {
            await _repository.SaveUserToDb(userToEdit);
+            return null;
         }
 
         /// <summary>
@@ -69,6 +70,12 @@ namespace BusinessLogicLayer
             {
                 return null;
             }
+        }
+
+        public async Task<List<User>> SearchForUsersByPartialN(string searchstring)
+        {
+            List<User> ListOfUsers = await _repository.GetUsersByPartialN(searchstring);
+            return ListOfUsers;
         }
 
         /// <summary>
