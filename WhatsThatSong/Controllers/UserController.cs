@@ -22,10 +22,30 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("create")]
-        public async Task<User> CreateUser(string userName,string password, string email)
+        public async Task<User> CreateUser(string userName, string password, string email)
         {
-            return await  _businessLogicClass.CreatNewBC(userName, password, email);
-        }// if the user lready exists then make return null
+            User newUser = await _businessLogicClass.CreatNewBC(userName, password, email);
+            if(newUser != null)
+            {
+                return newUser;
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
+        [HttpGet]
+        [Route("login")]
+        public async Task<User> loginUser(string userName, string password)
+        {
+            User LoggedInUser = await _businessLogicClass.LoginUser(userName, password);
+            if(LoggedInUser != null)
+            {
+                return LoggedInUser;
+            }
+                return null;
+        }
 
         [HttpGet]
         public async Task<IEnumerable<User>> GetAllUsersAsync()

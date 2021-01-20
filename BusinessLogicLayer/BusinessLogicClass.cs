@@ -41,6 +41,19 @@ namespace BusinessLogicLayer
             }
         }
 
+        public async Task<User> LoginUser(string userName, string password)
+        {
+            bool userExists = await _repository.DoesUserExist(userName, password);
+            if(userExists  != null)
+            {
+                return await _repository.GetUserByNameAndPass(userName,password);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
         /// <summary>
         /// Returns a User specified by their id.
         /// </summary>
