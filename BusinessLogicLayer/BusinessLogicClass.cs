@@ -27,7 +27,13 @@ namespace BusinessLogicLayer
         {
             return await _repository.GetAllUsersAsync();
         }
-
+        /// <summary>
+        /// checks to see if a user with that info already exists and returns null if the user already exist. creates a new user if the ures does not already exist.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
         public async Task<User> CreatNewBC(string userName, string password, string email)
         {
             bool userExists = await _repository.DoesUserExist(userName, password);
@@ -41,6 +47,17 @@ namespace BusinessLogicLayer
             }
         }
 
+        public async Task<User> SaveUserToDb(User userToEdit)
+        {
+           await _repository.SaveUserToDb(userToEdit);
+        }
+
+        /// <summary>
+        /// checks to see if the user exists and logs them in if they do. returns null if they dont exist
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public async Task<User> LoginUser(string userName, string password)
         {
             bool userExists = await _repository.DoesUserExist(userName, password);

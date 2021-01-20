@@ -46,6 +46,26 @@ namespace WhatsThatSong.Controllers
             }
                 return null;
         }
+        [HttpGet]
+        [Route("editUser")]
+        public async Task<User> EditUser(int userId, string userName, string password, string email, string firstName, string lastName)
+        {
+            User userToEdit = await _businessLogicClass.GetUserByIdAsync(userId);
+            userToEdit.UserName = userName; userToEdit.Password = password; userToEdit.Email = email; userToEdit.FirstName = firstName; userToEdit.LastName = lastName;
+            await _businessLogicClass.SaveUserToDb(userToEdit);
+            return userToEdit; 
+        }
+        //[HttpGet]
+        //[Route("getUser")]
+        //public async Task<User> GetUser(int id)
+        //{
+        //    User LoggedInUser = await _businessLogicClass.LoginUser(userName, password);
+        //    if (LoggedInUser != null)
+        //    {
+        //        return LoggedInUser;
+        //    }
+        //    return null;
+        //}
 
         [HttpGet]
         public async Task<IEnumerable<User>> GetAllUsersAsync()

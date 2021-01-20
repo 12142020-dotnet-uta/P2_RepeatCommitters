@@ -48,6 +48,13 @@ namespace RepositoryLayer
             return await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);
         }
 
+        public async Task<User> SaveUserToDb(User userToEdit)
+        {
+            User UserInDb = userToEdit; 
+             _applicationDbContext.SaveChanges();
+            return null;
+        }
+
         /// <summary>
         /// creates a new user
         /// </summary>
@@ -57,6 +64,7 @@ namespace RepositoryLayer
         public async Task<User> CreateNewUser(string userName, string password, string email)
         {
             User newUser = new User(userName, password, email);
+            _applicationDbContext.SaveChanges();
             return await users.FirstOrDefaultAsync(x => x.UserName == userName && x.Password == password);
         }
         
