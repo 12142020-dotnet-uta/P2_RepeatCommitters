@@ -32,17 +32,30 @@ namespace RepositoryLayer
             this.genres = _applicationDbContext.Genres;
         }
 
-        public async Task<int> GetNumOfFriendsByUserId(int id)
-        {   
+        public async Task<string> HasPendingFrinedRequest(int id)
+        {
+            string hasPendingRequest ="";
+            await foreach(var item in friendList)
+            {
+                if((item.FriendId == id || item.RequestedFriendId == id) && item.status == "Pending")
+                {
+                    hasPendingRequest = "Pending";
+                }
+            }
+            return hasPendingRequest;
+        }
 
-            foreach(var item in friendList)
+        public async Task<int> GetNumOfFriendsByUserId(int id)
+        {
+            int numOfFriends = 0;
+            await foreach(var item in friendList)
             {
                 if(item.FriendId == id || item.RequestedFriendId == id)
                 {
-
+                    numOfFriends += 1;
                 }
             }
-            return await friendList.Count(x => x.FriendId == id || x.RequestedFriendId == id);
+            return numOfFriends;
         }
 
         public async Task<bool> DoesUserExist(string username, string passw)
@@ -64,9 +77,9 @@ namespace RepositoryLayer
 
         public async Task<User> SaveUserToDb(User userToEdit)
         {
-            User UserInDb = userToEdit; 
-             _applicationDbContext.SaveChanges();
-            return null;
+            User UserInDb = userToEdit;
+            _applicationDbContext.SaveChanges();
+            return UserInDb;
         }
 
         /// <summary>

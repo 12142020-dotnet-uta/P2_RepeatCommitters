@@ -10,6 +10,7 @@ namespace RepositoryLayer
         public DbSet<Artist> Artists { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<FriendList> friendList { get; set; }
 
         public ApplicationDbContext() { }
 

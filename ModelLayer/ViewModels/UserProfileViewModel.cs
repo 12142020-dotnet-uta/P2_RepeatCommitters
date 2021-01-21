@@ -13,5 +13,8 @@ namespace ModelLayer.ViewModels
         public int userId { get; set; }
         public int numberOfFriends { get; set; }
         public List<Song> top5Songs { get; set; }
+        public string FirendStatus { get; set; }
+
+        public UserProfileViewModel() { }
     }
 }

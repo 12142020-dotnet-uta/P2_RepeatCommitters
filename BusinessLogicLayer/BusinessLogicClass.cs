@@ -31,7 +31,7 @@ namespace BusinessLogicLayer
 
         public async Task<UserProfileViewModel> GetUserProfileViewModel(int id)
         {
-            UserProfileViewModel model = _mapperClass.BuildUserProfileViewModel(id);
+            UserProfileViewModel model = await _mapperClass.BuildUserProfileViewModel(id);
             return model;
         }
 

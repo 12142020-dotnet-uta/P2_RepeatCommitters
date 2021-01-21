@@ -27,7 +27,9 @@ namespace BusinessLogicLayer
             model.userId = Id;
             User user = await _repository.GetUserByIdAsync(Id);
             model.userName = user.UserName;
-            model.numberOfFriends = await _repository.GetNumOfFriendsByUserId(id);
+            model.numberOfFriends = await _repository.GetNumOfFriendsByUserId(Id);
+            model.FirendStatus = await _repository.HasPendingFrinedRequest(Id);
+            
             return model;
         }
     }
