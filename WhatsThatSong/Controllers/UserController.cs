@@ -21,6 +21,50 @@ namespace WhatsThatSong.Controllers
         }
 
         [HttpGet]
+        [Route("create")]
+        public async Task<User> CreateUser(string userName, string password, string email)
+        {
+            User newUser = await _businessLogicClass.CreatNewBC(userName, password, email);
+            if(newUser != null)
+            {
+                return newUser;
+            }
+            else
+            {
+                return null;
+            }
+            
+        }
+        [HttpGet]
+        [Route("login")]
+        public async Task<User> loginUser(string userName, string password)
+        {
+            User LoggedInUser = await _businessLogicClass.LoginUser(userName, password);
+            if(LoggedInUser != null)
+            {
+                return LoggedInUser;
+            }
+                return null;
+        }
+        [HttpGet]
+        [Route("editUser")]
+        public async Task<User> EditUser(int userId, string userName, string password, string email, string firstName, string lastName)
+        {
+            User userToEdit = await _businessLogicClass.GetUserByIdAsync(userId);
+            userToEdit.UserName = userName; userToEdit.Password = password; userToEdit.Email = email; userToEdit.FirstName = firstName; userToEdit.LastName = lastName;
+            await _businessLogicClass.SaveUserToDb(userToEdit);
+            return userToEdit; 
+        }
+        [HttpGet]
+        [Route("SearchForUsers")]
+        public async Task<List<User>> SearchForUsers(string searchString)
+        {
+            List<User> listOfUsers = await _businessLogicClass.SearchForUsersByPartialN(searchString);
+            
+            return listOfUsers;
+        }
+
+        [HttpGet]
         public async Task<IEnumerable<User>> GetAllUsersAsync()
         {
             return await _businessLogicClass.GetAllUsersAsync();

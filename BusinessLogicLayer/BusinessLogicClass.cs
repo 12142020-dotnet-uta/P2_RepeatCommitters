@@ -27,6 +27,56 @@ namespace BusinessLogicLayer
         {
             return await _repository.GetAllUsersAsync();
         }
+        /// <summary>
+        /// checks to see if a user with that info already exists and returns null if the user already exist. creates a new user if the ures does not already exist.
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<User> CreatNewBC(string userName, string password, string email)
+        {
+            bool userExists = await _repository.DoesUserExist(userName, password);
+            if(userExists == false)
+            {
+                return null;
+            }else 
+            {
+                User newUser = await _repository.CreateNewUser(userName, password,email);
+                return newUser;
+            }
+        }
+
+        public async Task<User> SaveUserToDb(User userToEdit)
+        {
+           await _repository.SaveUserToDb(userToEdit);
+            return null;
+        }
+
+        /// <summary>
+        /// checks to see if the user exists and logs them in if they do. returns null if they dont exist
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public async Task<User> LoginUser(string userName, string password)
+        {
+            bool userExists = await _repository.DoesUserExist(userName, password);
+            if(userExists  != null)
+            {
+                return await _repository.GetUserByNameAndPass(userName,password);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<List<User>> SearchForUsersByPartialN(string searchstring)
+        {
+            List<User> ListOfUsers = await _repository.GetUsersByPartialN(searchstring);
+            return ListOfUsers;
+        }
 
         /// <summary>
         /// Returns a User specified by their id.
