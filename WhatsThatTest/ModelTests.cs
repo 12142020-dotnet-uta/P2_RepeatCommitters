@@ -471,13 +471,33 @@ namespace WhatsThatTest
             Assert.NotEqual(0, errorcount);
         }
 
+        [Fact]
+        public void CreateUserWithOnlyRequiredParameters()
+        {
+            // Create a user with only 3 paramaters
+            var user = new User
+            {
+                UserName = "TestSubject-0143",
+                Email = "testSub_0143@email.com",
+                Password = "Test1!"
+            };
+
+            // Get the number of errors in the model. Expecting 0 errors.
+            var errorcount = ValidateModel(user).Count;
+            // No errors indicates that the model built without errors, and we like that.
+            Assert.Equal(0, errorcount);
+        }
+
         /// <summary>
-        /// Checks that salted and hashed passwords don't return the same value. It may be possible to have a hash collision, but is unlikely for testing.
+        /// Checks that salted and hashed passwords don't return the same value.
         /// </summary>
         [Fact]
         public void HashPasswordTest()
         {
-            // Create a user with requried parameters and full name
+            // Create const string to test against
+            const string password = "Test1!";
+
+            // Create a user with plain text password
             var user = new User
             {
                 Id = int.MaxValue,
@@ -488,16 +508,13 @@ namespace WhatsThatTest
                 LastName = "Test"
             };
 
-            // Create a user with only 3 paramaters
-            var user2 = new User
-            {
-                UserName = "TestSubject-0143",
-                Email = "testSub_0143@zmail.com",
-                Password = "Test1!"
-            };
+            // Get the number of errors in the model. Expecting 0 errors.
+            var errorcount = ValidateModel(user).Count;
+            // No errors indicates that the model built without errors, and we like that.
+            Assert.Equal(0, errorcount);
 
-            // Password salting should give us different passwords
-            Assert.NotEqual(user.Password, user2.Password);
+            // Password salting and hashing gives different passwords.
+            Assert.NotEqual(user.HashPassword(password), password);
         }
     }
 }
