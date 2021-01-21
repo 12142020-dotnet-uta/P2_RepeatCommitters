@@ -15,11 +15,11 @@ namespace RepositoryLayer
 
         public ApplicationDbContext(DbContextOptions options) : base(options) { }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!options.IsConfigured)
+            if (!optionsBuilder.IsConfigured)
             {
-                options.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=WhatsThatSong;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS;Database=WhatsThatSong;Trusted_Connection=True;");
             }
         }
     }

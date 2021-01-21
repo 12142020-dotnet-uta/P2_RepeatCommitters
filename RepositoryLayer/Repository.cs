@@ -50,8 +50,9 @@ namespace RepositoryLayer
 
         public async Task<User> SaveUserToDb(User userToEdit)
         {
-            User UserInDb = userToEdit; 
-             _applicationDbContext.SaveChanges();
+            User UserInDb = userToEdit;
+            users.Update(UserInDb);
+            await _applicationDbContext.SaveChangesAsync();
             return null;
         }
 
@@ -64,7 +65,8 @@ namespace RepositoryLayer
         public async Task<User> CreateNewUser(string userName, string password, string email)
         {
             User newUser = new User(userName, password, email);
-            _applicationDbContext.SaveChanges();
+            await users.AddAsync(newUser);
+            await _applicationDbContext.SaveChangesAsync();
             return await users.FirstOrDefaultAsync(x => x.UserName == userName && x.Password == password);
         }
         
@@ -81,14 +83,15 @@ namespace RepositoryLayer
         public async Task<List<User>> GetUsersByPartialN(string searchString)
         {
             List<User> list = new List<User>();
-            foreach(var x in users)
+            List<User> usersToSearch = await users.ToListAsync();
+            foreach(var x in usersToSearch)
             {
                 if (x.UserName.Contains(searchString))
                 {
                     list.Add(x);
                 }
             }
-            return list ;
+            return list;
         }
 
         /// <summary>
