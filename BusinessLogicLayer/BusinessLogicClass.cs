@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using ModelLayer;
+using ModelLayer.Models;
 using RepositoryLayer;
 using System;
 using System.Collections.Generic;

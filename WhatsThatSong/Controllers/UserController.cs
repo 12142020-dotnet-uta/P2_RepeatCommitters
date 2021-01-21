@@ -1,7 +1,7 @@
 ﻿using BusinessLogicLayer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ModelLayer;
+using ModelLayer.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
