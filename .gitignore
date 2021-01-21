@@ -359,7 +359,9 @@ MigrationBackup/
 # ignore vs build in other folders
 */.vs
 # ignore assmebly reference builds
-*/obj/Debug/net5.0/*.csprojAssemblyReference.cache
+#*/obj/Debug/net5.0/*.csprojAssemblyReference.cache
+*/Debug
+*.cache
 
 
 # Local History for Visual Studio Code
