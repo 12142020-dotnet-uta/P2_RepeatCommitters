@@ -470,5 +470,34 @@ namespace WhatsThatTest
             // There should be an error. If there's not, something is wrong with validation.
             Assert.NotEqual(0, errorcount);
         }
+
+        /// <summary>
+        /// Checks that salted and hashed passwords don't return the same value. It may be possible to have a hash collision, but is unlikely for testing.
+        /// </summary>
+        [Fact]
+        public void HashPasswordTest()
+        {
+            // Create a user with requried parameters and full name
+            var user = new User
+            {
+                Id = int.MaxValue,
+                UserName = "TestSubject-0143",
+                Email = "testSub_0143@email.com",
+                Password = "Test1!",
+                FirstName = "Johnny",
+                LastName = "Test"
+            };
+
+            // Create a user with only 3 paramaters
+            var user2 = new User
+            {
+                UserName = "TestSubject-0143",
+                Email = "testSub_0143@zmail.com",
+                Password = "Test1!"
+            };
+
+            // Password salting should give us different passwords
+            Assert.NotEqual(user.Password, user2.Password);
+        }
     }
 }
