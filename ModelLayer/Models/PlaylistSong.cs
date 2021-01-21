@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModelLayer
+namespace ModelLayer.Models
 {
     public class PlaylistSong
     {

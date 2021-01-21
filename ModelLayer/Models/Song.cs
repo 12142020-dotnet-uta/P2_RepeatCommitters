@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace ModelLayer
+namespace ModelLayer.Models
 {
     public class Song
     {
@@ -17,10 +17,9 @@ namespace ModelLayer
         public string Title { get; set; }
         [Required]
         public TimeSpan Duration { get; set; }
-        [Required]
         [Display(Name="Number Of Plays")]
         public int NumberOfPlays { get; set; }
-        [Display(Name = "Lyrycs")]
+        [Display(Name = "Lyrics")]
         public string Lyrics { get; set; } = null;
         [Display(Name ="URL Path")]
         public string UrlPath { get; set; }

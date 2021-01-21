@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace ModelLayer
+namespace ModelLayer.Models
 {
     public class Message
     {

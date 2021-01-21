@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 
-namespace ModelLayer
+namespace ModelLayer.Models
 {
     public class User
     {
@@ -17,12 +17,14 @@ namespace ModelLayer
         public string UserName { get; set; }
         [Required]
         [Display(Name="Email Address")]
+        [DataType(DataType.EmailAddress)]
+        //[RegularExpression("^[a-z0-9_\\+-]+(\\.[a-z0-9_\\+-]+)*@[a-z0-9-]+(\\.[a-z0-9]+)*\\.([a-z]{2,4})$")]
         [EmailAddress(ErrorMessage ="Email must be valid.")]
         public string Email { get; set; }
         [Required]
         [DataType(DataType.Password)]
         [Display(Name="Password")]
-        public string Password { get { return password; } set { this.password = HashPassword(Password); } }
+        public string Password { get { return password; } set { this.password = HashPassword(value); } }
         [Display(Name="First Name")]
         public string FirstName { get; set; }
         [Display(Name="Last Name")]
@@ -44,7 +46,7 @@ namespace ModelLayer
             byte[] buffer2;
             if (password == null)
             {
-                throw new ArgumentNullException("password");
+                throw new ArgumentNullException(nameof(password));
             }
             using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, SaltByteSize, HasingIterationsCount))
             {

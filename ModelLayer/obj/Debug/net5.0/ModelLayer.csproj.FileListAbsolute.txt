@@ -1,0 +1,12 @@
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\bin\Debug\net5.0\ModelLayer.deps.json
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\bin\Debug\net5.0\ModelLayer.dll
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\bin\Debug\net5.0\ref\ModelLayer.dll
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\bin\Debug\net5.0\ModelLayer.pdb
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\obj\Debug\net5.0\ModelLayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\obj\Debug\net5.0\ModelLayer.AssemblyInfoInputs.cache
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\obj\Debug\net5.0\ModelLayer.AssemblyInfo.cs
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\obj\Debug\net5.0\ModelLayer.csproj.CoreCompileInputs.cache
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\obj\Debug\net5.0\ModelLayer.dll
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\obj\Debug\net5.0\ref\ModelLayer.dll
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\obj\Debug\net5.0\ModelLayer.pdb
+C:\Users\Dayton\Desktop\RevvyBoi\P2_ProjectFolder\P2_RepeatCommitters\ModelLayer\obj\Debug\net5.0\ModelLayer.csprojAssemblyReference.cache

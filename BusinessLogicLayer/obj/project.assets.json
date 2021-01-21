@@ -5696,19 +5696,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\joelb\\.nuget\\packages\\": {}
+    "C:\\Users\\Dayton\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+      "projectUniqueName": "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
       "projectName": "BusinessLogicLayer",
-      "projectPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
-      "packagesPath": "C:\\Users\\joelb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\BusinessLogicLayer\\obj\\",
+      "projectPath": "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+      "packagesPath": "C:\\Users\\Dayton\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\BusinessLogicLayer\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\joelb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dayton\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5722,11 +5726,11 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj": {
-              "projectPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj"
+            "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj": {
+              "projectPath": "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj"
             },
-            "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\RepositoryLayer\\RepositoryLayer.csproj": {
-              "projectPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\RepositoryLayer\\RepositoryLayer.csproj"
+            "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\RepositoryLayer\\RepositoryLayer.csproj": {
+              "projectPath": "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\RepositoryLayer\\RepositoryLayer.csproj"
             }
           }
         }

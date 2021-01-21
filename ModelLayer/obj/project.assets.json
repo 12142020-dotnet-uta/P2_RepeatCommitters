@@ -8,19 +8,23 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\joelb\\.nuget\\packages\\": {}
+    "C:\\Users\\Dayton\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj",
+      "projectUniqueName": "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj",
       "projectName": "ModelLayer",
-      "projectPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj",
-      "packagesPath": "C:\\Users\\joelb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\ModelLayer\\obj\\",
+      "projectPath": "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj",
+      "packagesPath": "C:\\Users\\Dayton\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Dayton\\Desktop\\RevvyBoi\\P2_ProjectFolder\\P2_RepeatCommitters\\ModelLayer\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\joelb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Dayton\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
