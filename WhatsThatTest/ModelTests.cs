@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
 
-namespace Models.Tests
+namespace WhatsThatTest
 {
     public class ModelTests
     {
