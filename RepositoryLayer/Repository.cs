@@ -78,14 +78,14 @@ namespace RepositoryLayer
         public async Task<User> SaveUserToDb(User userToEdit)
         {
             User UserInDb = userToEdit;
-<<<<<<< HEAD
+
             _applicationDbContext.SaveChanges();
             return UserInDb;
-=======
+
             users.Update(UserInDb);
             await _applicationDbContext.SaveChangesAsync();
             return null;
->>>>>>> 1bc886efcb3a6e0662dedd4f31747778994b1122
+
         }
 
         /// <summary>
