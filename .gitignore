@@ -357,7 +357,7 @@ MigrationBackup/
 !.vscode/extensions.json
 *.code-workspace
 # ignore vs build in other folders
-*/.vs/
+*/.vs
 # ignore assmebly reference builds
 */obj/Debug/net5.0/*.csprojAssemblyReference.cache
 
