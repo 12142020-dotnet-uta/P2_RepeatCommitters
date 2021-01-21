@@ -22,7 +22,7 @@ namespace ModelLayer.Models
         [Required]
         [DataType(DataType.Password)]
         [Display(Name="Password")]
-        public string Password { get { return password; } set { this.password = HashPassword(Password); } }
+        public string Password { get { return password; } set { this.password = HashPassword(value); } }
         [Display(Name="First Name")]
         public string FirstName { get; set; }
         [Display(Name="Last Name")]
@@ -35,7 +35,7 @@ namespace ModelLayer.Models
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        public string HashPassword(string password)
+        private static string HashPassword(string password)
         {
             int SaltByteSize = 24;
             int HashByteSize = 24;
@@ -44,7 +44,7 @@ namespace ModelLayer.Models
             byte[] buffer2;
             if (password == null)
             {
-                throw new ArgumentNullException("password");
+                throw new ArgumentNullException(nameof(password));
             }
             using (Rfc2898DeriveBytes bytes = new Rfc2898DeriveBytes(password, SaltByteSize, HasingIterationsCount))
             {

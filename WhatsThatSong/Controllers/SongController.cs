@@ -8,12 +8,5 @@ namespace WhatsThatSong.Controllers
 {
     public class SongController : ControllerBase
     {
-
-        /*
-        public IActionResult Index()
-        {
-            return Ok();
-        }
-        */
     }
 }

@@ -45,10 +45,11 @@ namespace BusinessLogicLayer
         public async Task<User> CreatNewBC(string userName, string password, string email)
         {
             bool userExists = await _repository.DoesUserExist(userName, password);
-            if(userExists == false)
+            if(!userExists)
             {
                 return null;
-            }else 
+            }
+            else 
             {
                 User newUser = await _repository.CreateNewUser(userName, password,email);
                 return newUser;
@@ -70,7 +71,11 @@ namespace BusinessLogicLayer
         public async Task<User> LoginUser(string userName, string password)
         {
             bool userExists = await _repository.DoesUserExist(userName, password);
+<<<<<<< HEAD
             if(userExists  == true)
+=======
+            if(userExists)
+>>>>>>> 1bc886efcb3a6e0662dedd4f31747778994b1122
             {
                 return await _repository.GetUserByNameAndPass(userName,password);
             }

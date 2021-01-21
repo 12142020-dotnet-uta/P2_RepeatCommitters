@@ -104,13 +104,5 @@ namespace WhatsThatSong.Controllers
         {
             return await _businessLogicClass.GetAllMessagesAsync();
         }
-
-
-        /*
-        public IActionResult Index()
-        {
-            return Ok();
-        }
-        */
     }
 }
