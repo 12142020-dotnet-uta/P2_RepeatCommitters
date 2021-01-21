@@ -317,7 +317,7 @@ namespace WhatsThatTest
             {
                 Id = int.MaxValue,
                 FromUserId = int.MaxValue,
-                ToUserId = int.MinValue,
+                ToUserId = 1,
                 Content = "Dulce et decorum est pro patria mori"
             };
 
@@ -439,7 +439,8 @@ namespace WhatsThatTest
                 ArtistId = int.MaxValue,
                 Duration = TimeSpan.MaxValue,
                 GenreId = int.MaxValue,
-                Title = "Du Hast"
+                Title = "Du Hast",
+                NumberOfPlays = 0
             };
 
             // Get the number of errors in the model. Expecting 0 errors.
