@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ModelLayer.Models;
+using ModelLayer.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -22,12 +23,13 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("create")]
-        public async Task<User> CreateUser(string userName, string password, string email)
+        public async Task<UserProfileViewModel> CreateUser(string userName, string password, string email)
         {
             User newUser = await _businessLogicClass.CreatNewBC(userName, password, email);
+            UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
             if(newUser != null)
             {
-                return newUser;
+                return UPVM;
             }
             else
             {
@@ -46,8 +48,21 @@ namespace WhatsThatSong.Controllers
             }
                 return null;
         }
+        /// <summary>
+        /// Gets the user to edit
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet]
-        [Route("editUser")]
+        [Route("EditButton")]
+        public async Task<User> GetUserToEdit(int id)
+        {
+            User user = await _businessLogicClass.GetUserByIdAsync(id);
+            return user;
+        }
+
+        [HttpPost]
+        [Route("SaveEdit")]
         public async Task<User> EditUser(int userId, string userName, string password, string email, string firstName, string lastName)
         {
             User userToEdit = await _businessLogicClass.GetUserByIdAsync(userId);
@@ -62,6 +77,14 @@ namespace WhatsThatSong.Controllers
             List<User> listOfUsers = await _businessLogicClass.SearchForUsersByPartialN(searchString);
             
             return listOfUsers;
+        }
+        [HttpGet]
+        [Route("RequestFriend")]
+        public async Task<User> FriendRequest(int userId, int requestedFriendId)
+        {
+            await _businessLogicClass.RequesFriend(userId, requestedFriendId);
+            User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
+            return LoggedInUser;
         }
 
         [HttpGet]

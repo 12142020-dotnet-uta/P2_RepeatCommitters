@@ -4,6 +4,7 @@ using RepositoryLayer;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ModelLayer.ViewModels;
 
 namespace BusinessLogicLayer
 {
@@ -27,6 +28,13 @@ namespace BusinessLogicLayer
         {
             return await _repository.GetAllUsersAsync();
         }
+
+        public async Task<UserProfileViewModel> GetUserProfileViewModel(int id)
+        {
+            UserProfileViewModel model = _mapperClass.BuildUserProfileViewModel(id);
+            return model;
+        }
+
         /// <summary>
         /// checks to see if a user with that info already exists and returns null if the user already exist. creates a new user if the ures does not already exist.
         /// </summary>
@@ -62,7 +70,7 @@ namespace BusinessLogicLayer
         public async Task<User> LoginUser(string userName, string password)
         {
             bool userExists = await _repository.DoesUserExist(userName, password);
-            if(userExists  != null)
+            if(userExists  == true)
             {
                 return await _repository.GetUserByNameAndPass(userName,password);
             }
@@ -70,6 +78,12 @@ namespace BusinessLogicLayer
             {
                 return null;
             }
+        }
+
+        public async Task<User> RequesFriend(int userid, int RerequestedFriendId)
+        {
+            _repository.RequestFreind(userid, RerequestedFriendId);
+            return null;
         }
 
         public async Task<List<User>> SearchForUsersByPartialN(string searchstring)

@@ -11,9 +11,12 @@ namespace ModelLayer.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public int FriendListLink { get; set; }
+        //[Required]
+        //public int FriendListLink { get; set; }
         [Required]
         public int FriendId { get; set; }
+        [Required]
+        public int RequestedFriendId { get; set; }
+        public string status { get; set; } = "pending";
     }
 }

@@ -11,13 +11,14 @@ namespace RepositoryLayer
     public class Repository
     {
         private readonly ApplicationDbContext _applicationDbContext;
-        private readonly ILogger _logger;
+        readonly ILogger _logger;
 
         public DbSet<User> users;
         public DbSet<Song> songs;
         public DbSet<Message> messages;
         public DbSet<Artist> artists;
         public DbSet<Genre> genres;
+        public DbSet<FriendList> friendList;
         //public DbSet<>
 
         public Repository(ApplicationDbContext applicationDbContext, ILogger<Repository> logger)
@@ -29,6 +30,19 @@ namespace RepositoryLayer
             this.messages = _applicationDbContext.Messages;
             this.artists = _applicationDbContext.Artists;
             this.genres = _applicationDbContext.Genres;
+        }
+
+        public async Task<int> GetNumOfFriendsByUserId(int id)
+        {   
+
+            foreach(var item in friendList)
+            {
+                if(item.FriendId == id || item.RequestedFriendId == id)
+                {
+
+                }
+            }
+            return await friendList.Count(x => x.FriendId == id || x.RequestedFriendId == id);
         }
 
         public async Task<bool> DoesUserExist(string username, string passw)
@@ -76,6 +90,14 @@ namespace RepositoryLayer
         public async Task<IEnumerable<Message>> GetAllMessagesAsync()
         {
             return await messages.ToListAsync();
+        }
+
+        public async void RequestFreind(int userId, int RerequestedFriendId)
+        {
+            FriendList request = new FriendList(userId, RerequestedFriendId);
+            friendList.Add(request);
+            _applicationDbContext.SaveChanges();
+            throw new NotImplementedException();
         }
 
         public async Task<List<User>> GetUsersByPartialN(string searchString)
