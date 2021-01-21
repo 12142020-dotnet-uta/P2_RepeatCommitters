@@ -356,6 +356,9 @@ MigrationBackup/
 !.vscode/launch.json
 !.vscode/extensions.json
 *.code-workspace
+*.vs/
+!.WhatsThatSong/obj/Debug/net5.0/
+
 
 # Local History for Visual Studio Code
 .history/
