@@ -32,6 +32,17 @@ namespace RepositoryLayer
             this.genres = _applicationDbContext.Genres;
         }
 
+        //public void populateDb()
+        //{
+        //    if(users == null)
+        //    {
+        //        User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
+        //        _applicationDbContext.SaveChanges();
+                
+        //    }
+            
+        //}
+
         public async Task<string> HasPendingFrinedRequest(int id)
         {
             string hasPendingRequest ="";
@@ -50,7 +61,7 @@ namespace RepositoryLayer
             int numOfFriends = 0;
             await foreach(var item in friendList)
             {
-                if(item.FriendId == id || item.RequestedFriendId == id)
+                if((item.FriendId == id || item.RequestedFriendId == id)&& (item.status == "accept"))
                 {
                     numOfFriends += 1;
                 }
@@ -101,7 +112,20 @@ namespace RepositoryLayer
             await _applicationDbContext.SaveChangesAsync();
             return await users.FirstOrDefaultAsync(x => x.UserName == userName && x.Password == password);
         }
-        
+
+        public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
+        {
+            //List<FriendList> list = new List<FriendList>();
+            //foreach(var item in friendList)
+            //{
+            //    if((item.FriendId == id || item.RequestedFriendId == id))
+            //    {
+            //        list.Add(item);
+            //    }
+            //}
+            return await friendList.Where(item => item.FriendId == id || item.RequestedFriendId == id && item.status == "accept").ToListAsync();
+        }
+
 
         /// <summary>
         /// Returns all messages for a user.
@@ -118,6 +142,12 @@ namespace RepositoryLayer
             friendList.Add(request);
             _applicationDbContext.SaveChanges();
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Message>> GetMessages2users(int id, int userToMessage)
+        {
+            return await messages.Where(item => item.FromUserId == id && item.ToUserId == userToMessage ||
+            item.ToUserId == id && item.FromUserId == userToMessage).ToListAsync();
         }
 
         public async Task<List<User>> GetUsersByPartialN(string searchString)

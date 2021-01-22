@@ -25,6 +25,7 @@ namespace WhatsThatSong.Controllers
         [Route("create")]
         public async Task<UserProfileViewModel> CreateUser(string userName, string password, string email)
         {
+            //User user = await _businessLogicClass.CreatNewBC("ronald", "mcdonald", "ronald@mcdonald.com");
             User newUser = await _businessLogicClass.CreatNewBC(userName, password, email);
             UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
             if(newUser != null)
@@ -85,6 +86,31 @@ namespace WhatsThatSong.Controllers
             await _businessLogicClass.RequesFriend(userId, requestedFriendId);
             User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
             return LoggedInUser;
+        }
+
+        /// <summary>
+        /// sends a list of friends that have been accepted
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("RequestFriend")]
+        public async Task<List<FriendList>> GetFriendsByUserId(int id)
+        {
+           List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
+            return  friendList;
+        }
+
+        /// <summary>
+        /// RETURNS A MESSAGEVIEWMODEL WITH ALL OF THE MESSAGES BETWEEN 2 USERS
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GoToChat")]
+        public async Task<MessagingViewModel> GetMessagesBetween2Users(int UserToMessageId)
+        {
+            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
+            return viewModel;
         }
 
         [HttpGet]

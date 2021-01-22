@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ModelLayer.ViewModels;
 
+
 namespace BusinessLogicLayer
 {
     public class BusinessLogicClass
@@ -20,6 +21,19 @@ namespace BusinessLogicLayer
             _mapperClass = mapperClass;
             _logger = logger;
         }
+
+        public BusinessLogicClass()
+        {
+        }
+
+        public User LoggedInUser = new User();
+
+        //public void PopulateDb()
+        //{
+        //    _repository.populateDb();
+            
+        //}
+
         /// <summary>
         /// Returns a list of all users.
         /// </summary>
@@ -52,6 +66,7 @@ namespace BusinessLogicLayer
             else 
             {
                 User newUser = await _repository.CreateNewUser(userName, password,email);
+                LoggedInUser = newUser;
                 return newUser;
             }
         }
@@ -75,7 +90,9 @@ namespace BusinessLogicLayer
             if(userExists)
 
             {
-                return await _repository.GetUserByNameAndPass(userName,password);
+                User user = await _repository.GetUserByNameAndPass(userName, password);
+                LoggedInUser = user;
+                return user;
             }
             else
             {
@@ -95,6 +112,12 @@ namespace BusinessLogicLayer
             return ListOfUsers;
         }
 
+        public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
+        {
+            List<FriendList> list = await _repository.GetListOfFriendsByUserId(id);
+            return list; ;
+        }
+
         /// <summary>
         /// Returns a User specified by their id.
         /// </summary>
@@ -104,6 +127,18 @@ namespace BusinessLogicLayer
         {
             return await _repository.GetUserByIdAsync(id);
         }
+        /// <summary>
+        /// returns a messageviewModel for 2 users
+        /// </summary>
+        /// <param name="UserToMessageId"></param>
+        /// <returns></returns>
+        public async Task<MessagingViewModel> GetMessagesViewModel(int UserToMessageId)
+        {
+            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(UserToMessageId);
+            return viewModel;
+        }
+
+
 
         /// <summary>
         /// Returns all messages for a user.
@@ -112,6 +147,10 @@ namespace BusinessLogicLayer
         public async Task<IEnumerable<Message>> GetAllMessagesAsync()
         {
             return await _repository.GetAllMessagesAsync();
+        }
+        public async Task<User> GetLoggedInUser()
+        {
+            return LoggedInUser;
         }
     }
 }
