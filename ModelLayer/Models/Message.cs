@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ModelLayer.Models
 {
@@ -14,5 +15,8 @@ namespace ModelLayer.Models
         public int FromUserId { get; set; }
         [Required]
         public string Content { get; set; }
+        public DateTime dateTime { get; set; } = DateTime.Now;
+
+        public Message() { }
     }
 }
