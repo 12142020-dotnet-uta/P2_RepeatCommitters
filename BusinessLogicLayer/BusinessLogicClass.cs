@@ -61,6 +61,12 @@ namespace BusinessLogicLayer
             return model;
         }
 
+        public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
+        {
+            List<FavoriteList> favs = await _repository.GetUsersFavorites(userId);
+            return favs; 
+        }
+
         /// <summary>
         /// checks to see if a user with that info already exists and returns null if the user already exist. creates a new user if the ures does not already exist.
         /// </summary>

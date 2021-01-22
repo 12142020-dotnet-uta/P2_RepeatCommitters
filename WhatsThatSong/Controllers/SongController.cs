@@ -43,5 +43,17 @@ namespace WhatsThatSong.Controllers
         {
             await _businessLogicClass.AddSongToFavorites(songid);
         }
+
+        /// <summary>
+        /// gets all of a users favorite songs
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("getAllSongs")]
+        public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
+        {
+            List<FavoriteList> favs = await _businessLogicClass.GetUsersFavorites(userId);
+            return favs;
+        }
     }
 }

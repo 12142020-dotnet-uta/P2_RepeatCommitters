@@ -58,6 +58,11 @@ namespace RepositoryLayer
             }
         }
 
+        public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
+        {
+            return await favoriteLists.Where(item => item.UserId == userId).ToListAsync();
+        }
+
         public async Task<Song> GetSongById(int id)
         {
             return await songs.FirstOrDefaultAsync(item => item.Id == id);
