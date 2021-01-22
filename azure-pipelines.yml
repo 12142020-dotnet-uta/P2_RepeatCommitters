@@ -33,6 +33,14 @@ steps:
   inputs:
     command: 'test'
     projects: './WhatsThatTest'
+    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/MyCoverage/'
+    publishTestResults: true
+
+- task: PublishCodeCoverageResults@1
+  displayName: publish code coverage
+  inputs:
+    codeCoverageTool: 'Cobertura'
+    summaryFileLocation: '$(Build.SourcesDirectory)/**/MyCoverage/coverage.cobertura.xml'
 
 - task: SonarCloudAnalyze@1
 
