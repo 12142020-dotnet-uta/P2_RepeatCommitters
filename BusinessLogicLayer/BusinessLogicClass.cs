@@ -28,10 +28,22 @@ namespace BusinessLogicLayer
 
         public User LoggedInUser = new User();
 
+        public async Task<Song> GetSongById(int id)
+        {
+            Song song = await _repository.GetSongById(id);
+            return song;
+        }
+
+        public async Task AddSongToFavorites(int sogid)
+        {
+
+            await _repository.AddSongToFavorites(sogid, LoggedInUser.Id);
+        }
+
         //public void PopulateDb()
         //{
         //    _repository.populateDb();
-            
+
         //}
 
         /// <summary>

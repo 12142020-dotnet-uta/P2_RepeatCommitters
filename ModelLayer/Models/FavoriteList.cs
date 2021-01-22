@@ -17,5 +17,6 @@ namespace ModelLayer.Models
         [Required]
         [Range(1,int.MaxValue, ErrorMessage ="Only positive numbers are allowed.")]
         public int SongId { get; set; }
+        public int UserId { get; set; }
     }
 }

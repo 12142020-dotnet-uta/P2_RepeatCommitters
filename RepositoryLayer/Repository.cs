@@ -19,6 +19,7 @@ namespace RepositoryLayer
         public DbSet<Artist> artists;
         public DbSet<Genre> genres;
         public DbSet<FriendList> friendList;
+        public DbSet<FavoriteList> favoriteLists;
         //public DbSet<>
 
         public Repository(ApplicationDbContext applicationDbContext, ILogger<Repository> logger)
@@ -31,6 +32,35 @@ namespace RepositoryLayer
             this.artists = _applicationDbContext.Artists;
             this.genres = _applicationDbContext.Genres;
 
+        }
+
+        /// <summary>
+        /// adds a song to the favorites of a user if it isnt already a favorite of that user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task AddSongToFavorites(int songid, int loggedInUserId)
+        {
+            FavoriteList SongToAdd = new FavoriteList();
+            foreach(var item in favoriteLists)
+            {
+                if(item.SongId == songid && item.UserId == loggedInUserId)
+                {
+                    SongToAdd = item; 
+                }
+            }
+            if(SongToAdd == null)
+            {
+                SongToAdd.UserId = loggedInUserId;
+                SongToAdd.SongId = songid;
+                favoriteLists.Add(SongToAdd);
+                _applicationDbContext.SaveChanges();
+            }
+        }
+
+        public async Task<Song> GetSongById(int id)
+        {
+            return await songs.FirstOrDefaultAsync(item => item.Id == id);
         }
 
         //public void populateDb()
