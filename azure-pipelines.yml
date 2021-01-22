@@ -33,7 +33,7 @@ steps:
   inputs:
     command: 'test'
     projects: './WhatsThatTest'
-    arguments: '/p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/MyCoverage/'
+    arguments: '--configuration $(buildConfiguration) --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/MyCoverage/'
     publishTestResults: true
 
 - task: PublishCodeCoverageResults@1
