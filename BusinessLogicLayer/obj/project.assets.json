@@ -5696,19 +5696,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\joelb\\.nuget\\packages\\": {}
+    "C:\\Users\\Ryana\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+      "projectUniqueName": "C:\\Users\\Ryana\\Desktop\\Revature GIT Folder\\P2_RepeatCommitters\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
       "projectName": "BusinessLogicLayer",
-      "projectPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
-      "packagesPath": "C:\\Users\\joelb\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\BusinessLogicLayer\\obj\\",
+      "projectPath": "C:\\Users\\Ryana\\Desktop\\Revature GIT Folder\\P2_RepeatCommitters\\BusinessLogicLayer\\BusinessLogicLayer.csproj",
+      "packagesPath": "C:\\Users\\Ryana\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Ryana\\Desktop\\Revature GIT Folder\\P2_RepeatCommitters\\BusinessLogicLayer\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\joelb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Ryana\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -5722,11 +5722,11 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj": {
-              "projectPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj"
+            "C:\\Users\\Ryana\\Desktop\\Revature GIT Folder\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj": {
+              "projectPath": "C:\\Users\\Ryana\\Desktop\\Revature GIT Folder\\P2_RepeatCommitters\\ModelLayer\\ModelLayer.csproj"
             },
-            "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\RepositoryLayer\\RepositoryLayer.csproj": {
-              "projectPath": "C:\\Users\\joelb\\Desktop\\revatureBatchDox\\P2_RepeatCommiters\\P2_RepeatCommitters\\RepositoryLayer\\RepositoryLayer.csproj"
+            "C:\\Users\\Ryana\\Desktop\\Revature GIT Folder\\P2_RepeatCommitters\\RepositoryLayer\\RepositoryLayer.csproj": {
+              "projectPath": "C:\\Users\\Ryana\\Desktop\\Revature GIT Folder\\P2_RepeatCommitters\\RepositoryLayer\\RepositoryLayer.csproj"
             }
           }
         }
@@ -5755,7 +5755,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.102\\RuntimeIdentifierGraph.json"
       }
     }
   }
