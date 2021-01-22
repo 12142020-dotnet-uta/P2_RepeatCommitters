@@ -30,17 +30,17 @@ namespace RepositoryLayer
             this.messages = _applicationDbContext.Messages;
             this.artists = _applicationDbContext.Artists;
             this.genres = _applicationDbContext.Genres;
+
         }
 
         //public void populateDb()
         //{
-        //    if(users == null)
+        //    if (users == null)
         //    {
         //        User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
+        //        users.Add(user);
         //        _applicationDbContext.SaveChanges();
-                
         //    }
-            
         //}
 
         public async Task<string> HasPendingFrinedRequest(int id)
@@ -126,6 +126,27 @@ namespace RepositoryLayer
             return await friendList.Where(item => item.FriendId == id || item.RequestedFriendId == id && item.status == "accept").ToListAsync();
         }
 
+        public async Task DeletFriend(int id1, int id2)
+        {
+            List<FriendList> listToDelete = new List<FriendList>();
+            foreach(var item in friendList)
+            {
+                if(item.RequestedFriendId == id1 && item.FriendId == id2)
+                {
+                    friendList.Remove(item);
+                    _applicationDbContext.SaveChanges();
+                }
+                else if (item.RequestedFriendId == id2 && item.FriendId == id1)
+                {
+                    friendList.Remove(item);
+                    _applicationDbContext.SaveChanges();
+                }
+            }
+            
+            //List<FriendList> listToDelete = friendList.Where(item => item.RequestedFriendId == id1 && item.FriendId == id2 ||
+            //item.RequestedFriendId == id2 && item.FriendId == id1);
+        }
+
 
         /// <summary>
         /// Returns all messages for a user.
@@ -141,7 +162,14 @@ namespace RepositoryLayer
             FriendList request = new FriendList(userId, RerequestedFriendId);
             friendList.Add(request);
             _applicationDbContext.SaveChanges();
-            throw new NotImplementedException();
+        }
+
+        public async Task SaveMessage(int userToMessageId, int loggedInId, string content)
+        {
+
+            Message message = new Message(userToMessageId, loggedInId, content);
+            messages.Add(message);
+            _applicationDbContext.SaveChanges();
         }
 
         public async Task<List<Message>> GetMessages2users(int id, int userToMessage)

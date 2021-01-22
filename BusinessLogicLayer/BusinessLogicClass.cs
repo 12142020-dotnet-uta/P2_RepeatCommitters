@@ -127,6 +127,12 @@ namespace BusinessLogicLayer
         {
             return await _repository.GetUserByIdAsync(id);
         }
+
+        public async Task DeleteFriend(int id)
+        {
+            await _repository.DeletFriend(LoggedInUser.Id, id);
+        }
+
         /// <summary>
         /// returns a messageviewModel for 2 users
         /// </summary>
@@ -135,6 +141,14 @@ namespace BusinessLogicLayer
         public async Task<MessagingViewModel> GetMessagesViewModel(int UserToMessageId)
         {
             MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(UserToMessageId);
+            return viewModel;
+        }
+
+        public async Task<MessagingViewModel> sendMessage(int userToMessageId, string content)
+        {
+            int fromUserId = LoggedInUser.Id;
+            await  _repository.SaveMessage(userToMessageId, fromUserId, content);
+            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(userToMessageId);
             return viewModel;
         }
 
