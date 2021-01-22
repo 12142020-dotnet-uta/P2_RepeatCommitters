@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RepositoryLayer;
 
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210121233954_initialRPA")]
+    partial class initialRPA
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,33 +37,6 @@ namespace RepositoryLayer.Migrations
                     b.ToTable("Artists");
                 });
 
-<<<<<<< HEAD
-=======
-            modelBuilder.Entity("ModelLayer.Models.FriendList", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
-
-                    b.Property<int>("FriendId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FriendListLink")
-                        .HasColumnType("int");
-
-                    b.Property<int>("RequestedFriendId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("status")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("friendList");
-                });
-
->>>>>>> 656fbd2a178008f786e32d53c8ad843e3df31427
             modelBuilder.Entity("ModelLayer.Models.Genre", b =>
                 {
                     b.Property<int>("Id")
