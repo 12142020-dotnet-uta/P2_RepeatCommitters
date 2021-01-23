@@ -31,7 +31,7 @@ namespace RepositoryLayer
             this.messages = _applicationDbContext.Messages;
             this.artists = _applicationDbContext.Artists;
             this.genres = _applicationDbContext.Genres;
-
+            
         }
 
         /// <summary>
