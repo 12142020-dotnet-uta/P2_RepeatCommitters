@@ -20,6 +20,7 @@ namespace RepositoryLayer
         public DbSet<Genre> genres;
         public DbSet<FriendList> friendList;
         public DbSet<FavoriteList> favoriteLists;
+       
         //public DbSet<>
 
         public Repository(ApplicationDbContext applicationDbContext, ILogger<Repository> logger)
@@ -31,7 +32,8 @@ namespace RepositoryLayer
             this.messages = _applicationDbContext.Messages;
             this.artists = _applicationDbContext.Artists;
             this.genres = _applicationDbContext.Genres;
-
+            this.friendList = _applicationDbContext.FriendList;
+            this.favoriteLists = _applicationDbContext.FavoriteLists;
         }
 
         /// <summary>
