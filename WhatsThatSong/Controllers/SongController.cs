@@ -96,5 +96,19 @@ namespace WhatsThatSong.Controllers
             return originalSongSearch;
 
         }
+
+        /// <summary>
+        /// gets a list of original song serached by lyric phrase
+        /// </summary>
+        /// <param name="genre"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("getOriginalsongsByLyrics")]
+        public async Task<List<Song>> GetOriginalsongsByLyrics(string phrase)
+        {
+            List<Song> originalSongSearch = await _businessLogicClass.GetOriginalsongsByLyrics(phrase);
+            return originalSongSearch;
+
+        }
     }
 }

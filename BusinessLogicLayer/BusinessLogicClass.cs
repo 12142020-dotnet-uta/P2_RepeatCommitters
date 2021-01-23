@@ -124,6 +124,11 @@ namespace BusinessLogicLayer
             }
         }
 
+        public async Task<List<Song>> GetOriginalsongsByLyrics(string phrase)
+        {
+            return await _repository.GetOriginalSongByLyrics(phrase);
+        }
+
         public async Task RequesFriend(int userid, int RerequestedFriendId)
         {
             _repository.RequestFreind(userid, RerequestedFriendId);

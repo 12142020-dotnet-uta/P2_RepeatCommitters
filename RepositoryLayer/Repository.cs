@@ -129,6 +129,19 @@ namespace RepositoryLayer
             }
         }
 
+        public async Task<List<Song>> GetOriginalSongByLyrics(string phrase)
+        {
+            List<Song> songlist = new List<Song>();
+            await foreach (var item in songs)
+            {
+                if(item.Lyrics.Contains(phrase))
+                {
+                    songlist.Add(item);
+                }
+            }
+            return songlist;
+        }
+
         public async Task<User> GetUserByNameAndPass(string username, string passw)
         {
             return await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);
