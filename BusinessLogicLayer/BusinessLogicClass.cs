@@ -118,10 +118,10 @@ namespace BusinessLogicLayer
             }
         }
 
-        public async Task<User> RequesFriend(int userid, int RerequestedFriendId)
+        public async Task RequesFriend(int userid, int RerequestedFriendId)
         {
             _repository.RequestFreind(userid, RerequestedFriendId);
-            return null;
+           
         }
 
         public async Task<List<User>> SearchForUsersByPartialN(string searchstring)

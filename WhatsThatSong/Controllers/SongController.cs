@@ -6,18 +6,27 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
+using System.Web;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+//using System.Web.Abstractions;
+
+
 
 namespace WhatsThatSong.Controllers
 {
     public class SongController : ControllerBase
     {
+        private IHostingEnvironment _env;
         private readonly BusinessLogicClass _businessLogicClass;
         private readonly ILogger<SongController> _logger;
 
-        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger)
+        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger, IHostingEnvironment env)
         {
             _businessLogicClass = businessLogicClass;
             _logger = logger;
+            _env = env;
         }
 
         /// <summary>
@@ -54,6 +63,24 @@ namespace WhatsThatSong.Controllers
         {
             List<FavoriteList> favs = await _businessLogicClass.GetUsersFavorites(userId);
             return favs;
+        }
+
+        [HttpPost]
+        [Route("uploadSong")]
+        public async void  UploadSong(IFormFile file)
+        {
+            //string path = @"\WhatsThatSong\wwwroot\Songs\";
+            if (file != null)
+            {
+                var dir = _env.ContentRootPath;
+                using (var fileStream = new FileStream(Path.Combine(dir, file.FileName), FileMode.Create, FileAccess.Write))
+                {
+                    file.CopyTo(fileStream);
+                }
+
+                //file.CopyToAsync(path + file.FileName);
+                
+            }
         }
     }
 }
