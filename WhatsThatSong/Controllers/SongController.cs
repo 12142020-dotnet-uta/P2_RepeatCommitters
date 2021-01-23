@@ -67,7 +67,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpPost]
         [Route("uploadSong")]
-        public async void  UploadSong(IFormFile file)
+        public async void  UploadSong(IFormFile file, int userid, string artist, string lyrics)
         {
             //string path = @"\WhatsThatSong\wwwroot\Songs\";
             if (file != null)
@@ -110,5 +110,12 @@ namespace WhatsThatSong.Controllers
             return originalSongSearch;
 
         }
+
+        //[HttpGet]
+        //[Route("getTop5Originals")]
+        //public async Task<List<Song>> GetTop5Originals()
+        //{
+
+        //}
     }
 }
