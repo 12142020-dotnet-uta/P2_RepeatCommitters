@@ -470,7 +470,7 @@ namespace WhatsThatTest
                 Task<User> usee = businessLogicClass.SaveUserToDb(user);
                 Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
                 Assert.Equal(loggedInUser.Result, user);
-            }*/
-        }
+            }
+        }*/
     }
 }
