@@ -272,8 +272,8 @@ namespace WhatsThatTest
         public void GetUserByIdAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-.UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
-.Options;
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
 
             using (var context = new ApplicationDbContext(options))
             {
@@ -292,9 +292,8 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                Task<User> usee = businessLogicClass.SaveUserToDb(user);
-                Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
-                Assert.NotNull(loggedInUser);
+                Task<User> userById = businessLogicClass.GetUserByIdAsync(user.Id);
+                Assert.NotNull(userById);
             }
         }
 
@@ -302,8 +301,8 @@ namespace WhatsThatTest
         public void DeleteFriendTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-.UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
-.Options;
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
 
             using (var context = new ApplicationDbContext(options))
             {
@@ -312,7 +311,8 @@ namespace WhatsThatTest
 
                 Repository _repository = new Repository(context, _logger);
                 BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
-                var user = new User
+                // Create a user
+                var user1 = new User
                 {
                     Id = int.MaxValue,
                     UserName = "jtest",
@@ -322,9 +322,24 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                Task<User> usee = businessLogicClass.SaveUserToDb(user);
-                Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
-                Assert.NotNull(loggedInUser);
+                // Create a second user
+                var user2 = new User
+                {
+                    Id = int.MaxValue - 1,
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@zmail.com"
+                };
+
+                // make them friends
+                FriendList fl = new FriendList(user1.Id, user2.Id);
+                _repository.friendList.Add(fl);
+                // revoke friendship
+                Task deleted = businessLogicClass.DeleteFriend(user2.Id);
+                _repository.friendList.Remove(fl);
+                Assert.DoesNotContain<FriendList>(fl, _repository.friendList);
             }
         }
 
@@ -332,8 +347,8 @@ namespace WhatsThatTest
         public void GetMessagesViewModelTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-.UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
-.Options;
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
 
             using (var context = new ApplicationDbContext(options))
             {
@@ -352,9 +367,8 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                Task<User> usee = businessLogicClass.SaveUserToDb(user);
-                Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
-                Assert.NotNull(loggedInUser);
+                Task<MessagingViewModel> mvm = businessLogicClass.GetMessagesViewModel(user.Id);
+                Assert.NotNull(mvm);
             }
         }
 
@@ -362,8 +376,8 @@ namespace WhatsThatTest
         public void SendMessageTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-.UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
-.Options;
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
 
             using (var context = new ApplicationDbContext(options))
             {
@@ -372,7 +386,8 @@ namespace WhatsThatTest
 
                 Repository _repository = new Repository(context, _logger);
                 BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
-                var user = new User
+                // Create a user
+                var user1 = new User
                 {
                     Id = int.MaxValue,
                     UserName = "jtest",
@@ -382,9 +397,20 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                Task<User> usee = businessLogicClass.SaveUserToDb(user);
-                Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
-                Assert.NotNull(loggedInUser);
+                // Create a second user
+                var user2 = new User
+                {
+                    Id = int.MaxValue - 1,
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@zmail.com"
+                };
+
+                // It's about sending a message
+                Task<MessagingViewModel> mvm = businessLogicClass.sendMessage(user2.Id,"content of message");
+                Assert.NotNull(mvm);
             }
         }
 
@@ -392,8 +418,37 @@ namespace WhatsThatTest
         public void GetAllMessageAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-.UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
-.Options;
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+                var user = new User
+                {
+                    Id = int.MaxValue,
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
+
+                Task<IEnumerable<Message>> messages = businessLogicClass.GetAllMessagesAsync();
+                Assert.NotNull(messages);
+            }
+        }
+
+        [Fact]
+        public void GetLoggedInUserTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
 
             using (var context = new ApplicationDbContext(options))
             {
@@ -414,7 +469,7 @@ namespace WhatsThatTest
 
                 Task<User> usee = businessLogicClass.SaveUserToDb(user);
                 Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
-                Assert.NotNull(loggedInUser);
+                Assert.Equal(loggedInUser.Result, user);
             }
         }
     }
