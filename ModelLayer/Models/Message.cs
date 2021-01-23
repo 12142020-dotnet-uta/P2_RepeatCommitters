@@ -18,5 +18,11 @@ namespace ModelLayer.Models
         public DateTime dateTime { get; set; } = DateTime.Now;
 
         public Message() { }
+        public Message(int toUser, int fromUser, string content) 
+        {
+            this.ToUserId = toUser;
+            this.FromUserId = fromUser;
+            this.Content = content;
+        }
     }
 }

@@ -28,10 +28,22 @@ namespace BusinessLogicLayer
 
         public User LoggedInUser = new User();
 
+        public async Task<Song> GetSongById(int id)
+        {
+            Song song = await _repository.GetSongById(id);
+            return song;
+        }
+
+        public async Task AddSongToFavorites(int sogid)
+        {
+
+            await _repository.AddSongToFavorites(sogid, LoggedInUser.Id);
+        }
+
         //public void PopulateDb()
         //{
         //    _repository.populateDb();
-            
+
         //}
 
         /// <summary>
@@ -47,6 +59,12 @@ namespace BusinessLogicLayer
         {
             UserProfileViewModel model = await _mapperClass.BuildUserProfileViewModel(id);
             return model;
+        }
+
+        public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
+        {
+            List<FavoriteList> favs = await _repository.GetUsersFavorites(userId);
+            return favs; 
         }
 
         /// <summary>
@@ -77,6 +95,12 @@ namespace BusinessLogicLayer
             return null;
         }
 
+        public async Task<List<Song>> GetSongsBySearhGenre(string genre)
+        {
+            List<Song> originalSongs = await _repository.GetOriginalSongsByGenre(genre);
+            return originalSongs;
+        }
+
         /// <summary>
         /// checks to see if the user exists and logs them in if they do. returns null if they dont exist
         /// </summary>
@@ -100,10 +124,15 @@ namespace BusinessLogicLayer
             }
         }
 
-        public async Task<User> RequesFriend(int userid, int RerequestedFriendId)
+        public async Task<List<Song>> GetOriginalsongsByLyrics(string phrase)
+        {
+            return await _repository.GetOriginalSongByLyrics(phrase);
+        }
+
+        public async Task RequesFriend(int userid, int RerequestedFriendId)
         {
             _repository.RequestFreind(userid, RerequestedFriendId);
-            return null;
+           
         }
 
         public async Task<List<User>> SearchForUsersByPartialN(string searchstring)
@@ -127,6 +156,12 @@ namespace BusinessLogicLayer
         {
             return await _repository.GetUserByIdAsync(id);
         }
+
+        public async Task DeleteFriend(int id)
+        {
+            await _repository.DeletFriend(LoggedInUser.Id, id);
+        }
+
         /// <summary>
         /// returns a messageviewModel for 2 users
         /// </summary>
@@ -135,6 +170,14 @@ namespace BusinessLogicLayer
         public async Task<MessagingViewModel> GetMessagesViewModel(int UserToMessageId)
         {
             MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(UserToMessageId);
+            return viewModel;
+        }
+
+        public async Task<MessagingViewModel> sendMessage(int userToMessageId, string content)
+        {
+            int fromUserId = LoggedInUser.Id;
+            await  _repository.SaveMessage(userToMessageId, fromUserId, content);
+            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(userToMessageId);
             return viewModel;
         }
 

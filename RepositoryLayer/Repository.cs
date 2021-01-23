@@ -19,6 +19,7 @@ namespace RepositoryLayer
         public DbSet<Artist> artists;
         public DbSet<Genre> genres;
         public DbSet<FriendList> friendList;
+        public DbSet<FavoriteList> favoriteLists;
         //public DbSet<>
 
         public Repository(ApplicationDbContext applicationDbContext, ILogger<Repository> logger)
@@ -30,17 +31,51 @@ namespace RepositoryLayer
             this.messages = _applicationDbContext.Messages;
             this.artists = _applicationDbContext.Artists;
             this.genres = _applicationDbContext.Genres;
+
+        }
+
+        /// <summary>
+        /// adds a song to the favorites of a user if it isnt already a favorite of that user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public async Task AddSongToFavorites(int songid, int loggedInUserId)
+        {
+            FavoriteList SongToAdd = new FavoriteList();
+            foreach(var item in favoriteLists)
+            {
+                if(item.SongId == songid && item.UserId == loggedInUserId)
+                {
+                    SongToAdd = item; 
+                }
+            }
+            if(SongToAdd == null)
+            {
+                SongToAdd.UserId = loggedInUserId;
+                SongToAdd.SongId = songid;
+                favoriteLists.Add(SongToAdd);
+                _applicationDbContext.SaveChanges();
+            }
+        }
+
+        public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
+        {
+            return await favoriteLists.Where(item => item.UserId == userId).ToListAsync();
+        }
+
+        public async Task<Song> GetSongById(int id)
+        {
+            return await songs.FirstOrDefaultAsync(item => item.Id == id);
         }
 
         //public void populateDb()
         //{
-        //    if(users == null)
+        //    if (users == null)
         //    {
         //        User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
+        //        users.Add(user);
         //        _applicationDbContext.SaveChanges();
-                
         //    }
-            
         //}
 
         public async Task<string> HasPendingFrinedRequest(int id)
@@ -54,6 +89,19 @@ namespace RepositoryLayer
                 }
             }
             return hasPendingRequest;
+        }
+
+        public async Task<List<Song>> GetOriginalSongsByGenre(string genre)
+        {
+            List<Song> OriginalSongs = new List<Song>();
+           await foreach(var item in songs)
+            {
+                if(item.isOriginal == true)
+                {
+                    OriginalSongs.Add(item);
+                }
+            }
+            return OriginalSongs;
         }
 
         public async Task<int> GetNumOfFriendsByUserId(int id)
@@ -79,6 +127,19 @@ namespace RepositoryLayer
             {
                 return true;
             }
+        }
+
+        public async Task<List<Song>> GetOriginalSongByLyrics(string phrase)
+        {
+            List<Song> songlist = new List<Song>();
+            await foreach (var item in songs)
+            {
+                if(item.Lyrics.Contains(phrase))
+                {
+                    songlist.Add(item);
+                }
+            }
+            return songlist;
         }
 
         public async Task<User> GetUserByNameAndPass(string username, string passw)
@@ -126,6 +187,27 @@ namespace RepositoryLayer
             return await friendList.Where(item => item.FriendId == id || item.RequestedFriendId == id && item.status == "accept").ToListAsync();
         }
 
+        public async Task DeletFriend(int id1, int id2)
+        {
+            List<FriendList> listToDelete = new List<FriendList>();
+            foreach(var item in friendList)
+            {
+                if(item.RequestedFriendId == id1 && item.FriendId == id2)
+                {
+                    friendList.Remove(item);
+                    _applicationDbContext.SaveChanges();
+                }
+                else if (item.RequestedFriendId == id2 && item.FriendId == id1)
+                {
+                    friendList.Remove(item);
+                    _applicationDbContext.SaveChanges();
+                }
+            }
+            
+            //List<FriendList> listToDelete = friendList.Where(item => item.RequestedFriendId == id1 && item.FriendId == id2 ||
+            //item.RequestedFriendId == id2 && item.FriendId == id1);
+        }
+
 
         /// <summary>
         /// Returns all messages for a user.
@@ -141,7 +223,14 @@ namespace RepositoryLayer
             FriendList request = new FriendList(userId, RerequestedFriendId);
             friendList.Add(request);
             _applicationDbContext.SaveChanges();
-            throw new NotImplementedException();
+        }
+
+        public async Task SaveMessage(int userToMessageId, int loggedInId, string content)
+        {
+
+            Message message = new Message(userToMessageId, loggedInId, content);
+            messages.Add(message);
+            _applicationDbContext.SaveChanges();
         }
 
         public async Task<List<Message>> GetMessages2users(int id, int userToMessage)

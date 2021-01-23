@@ -40,12 +40,14 @@ namespace WhatsThatSong.Controllers
         }
         [HttpGet]
         [Route("login")]
-        public async Task<User> loginUser(string userName, string password)
+        public async Task<UserProfileViewModel> loginUser(string userName, string password)
         {
             User LoggedInUser = await _businessLogicClass.LoginUser(userName, password);
-            if(LoggedInUser != null)
+            UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(LoggedInUser.Id);
+
+            if (LoggedInUser != null)
             {
-                return LoggedInUser;
+                return UPVM;
             }
                 return null;
         }
@@ -100,6 +102,19 @@ namespace WhatsThatSong.Controllers
            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
             return  friendList;
         }
+        /// <summary>
+        /// deletes a friend from the friend list
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("DeleteFriend")]
+        public async Task<List<FriendList>> DeleteFriend(int id)
+        {
+            await _businessLogicClass.DeleteFriend(id);
+            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
+            return friendList;
+        }
 
         /// <summary>
         /// RETURNS A MESSAGEVIEWMODEL WITH ALL OF THE MESSAGES BETWEEN 2 USERS
@@ -110,6 +125,24 @@ namespace WhatsThatSong.Controllers
         public async Task<MessagingViewModel> GetMessagesBetween2Users(int UserToMessageId)
         {
             MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
+            return viewModel;
+        }
+
+        [HttpGet]
+        [Route("sendMessage")]
+        public async Task<MessagingViewModel> SendMessage(int UserToMessageId, string content)
+        {
+            await _businessLogicClass.sendMessage(UserToMessageId, content);
+            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
+            return viewModel;
+        }
+
+        [HttpGet]
+        [Route("BakToProfile")]
+        public async Task<MessagingViewModel> BackToProfile(int LoggedInUser)
+        {
+            User user = await _businessLogicClass.GetUserByIdAsync(LoggedInUser);
+            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(user.Id);
             return viewModel;
         }
 
