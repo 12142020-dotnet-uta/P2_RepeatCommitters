@@ -436,9 +436,9 @@ namespace WhatsThatTest
             var song = new Song
             {
                 Id = int.MaxValue,
-                ArtistId = int.MaxValue,
+                ArtistName = "z",
                 Duration = TimeSpan.MaxValue,
-                GenreId = int.MaxValue,
+                Genre = "Rock",
                 Title = "Du Hast",
                 NumberOfPlays = 0
             };
@@ -459,9 +459,9 @@ namespace WhatsThatTest
             var song = new Song
             {
                 Id = int.MaxValue,
-                ArtistId = int.MaxValue,
+                ArtistName = "Bad Posture",
                 Duration = TimeSpan.MaxValue,
-                GenreId = int.MaxValue,
+                Genre = "Pop Punk",
                 Title = ""
             };
 
