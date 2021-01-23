@@ -119,6 +119,53 @@ namespace RepositoryLayer
             return numOfFriends;
         }
 
+        /// <summary>
+        /// returns the top 5 songs based on the number of plays
+        /// </summary>
+        /// <returns></returns>
+        public async Task<List<Song>> GetTop5Originals()
+        {
+            int count = 0;
+            List<Song> allSongs = await getAllSongs();
+            List<Song> fiveSongs = new List<Song>();
+
+            do
+            {
+                Song highest = new Song();
+                foreach (var item in allSongs)
+                {
+                    if(item.NumberOfPlays > highest.NumberOfPlays)
+                    {
+                        highest = item;
+                    }
+                }
+                fiveSongs.Add(highest);
+                allSongs.Remove(highest);
+                count++;
+            }
+            while (fiveSongs.Count < 5);
+            {
+
+            }
+            return fiveSongs; 
+        }
+
+        public async Task IncrementNumPlays(int songId)
+        {
+            Song songToIncrement = await GetSongById(songId);
+            songToIncrement.NumberOfPlays += 1;
+            _applicationDbContext.SaveChanges();
+        }
+
+        public async Task<List<Song>> getAllSongs()
+        {
+            List<Song> x = new List<Song>();
+            await foreach(var item in songs)
+            {
+                x.Add(item);
+            }
+            return x;
+        }
         public async Task<bool> DoesUserExist(string username, string passw)
         {
             User user = await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);
