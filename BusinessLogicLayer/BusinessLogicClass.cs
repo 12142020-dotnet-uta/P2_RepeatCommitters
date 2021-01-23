@@ -95,6 +95,12 @@ namespace BusinessLogicLayer
             return null;
         }
 
+        public async Task<List<Song>> GetSongsBySearhGenre(string genre)
+        {
+            List<Song> originalSongs = await _repository.GetOriginalSongsByGenre(genre);
+            return originalSongs;
+        }
+
         /// <summary>
         /// checks to see if the user exists and logs them in if they do. returns null if they dont exist
         /// </summary>

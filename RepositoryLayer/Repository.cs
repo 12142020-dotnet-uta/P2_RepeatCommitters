@@ -91,6 +91,19 @@ namespace RepositoryLayer
             return hasPendingRequest;
         }
 
+        public async Task<List<Song>> GetOriginalSongsByGenre(string genre)
+        {
+            List<Song> OriginalSongs = new List<Song>();
+           await foreach(var item in songs)
+            {
+                if(item.isOriginal == true)
+                {
+                    OriginalSongs.Add(item);
+                }
+            }
+            return OriginalSongs;
+        }
+
         public async Task<int> GetNumOfFriendsByUserId(int id)
         {
             int numOfFriends = 0;
