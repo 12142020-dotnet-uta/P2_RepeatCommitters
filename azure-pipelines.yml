@@ -54,3 +54,18 @@ steps:
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
+
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'publish'
+    publishWebProjects: true
+    zipAfterPublish: true
+
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(177e072a-ef5e-4a5f-94f4-d006ea8b8575)'
+    appType: 'webApp'
+    WebAppName: 'P2Pipeline'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
