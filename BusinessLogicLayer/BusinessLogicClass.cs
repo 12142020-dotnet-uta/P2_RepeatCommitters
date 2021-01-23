@@ -124,6 +124,12 @@ namespace BusinessLogicLayer
             }
         }
 
+        public async Task<List<Song>> GetTop5Originals()
+        {
+            List<Song> songs = await _repository.GetTop5Originals();
+            return songs;
+        }
+
         public async Task<List<Song>> GetOriginalsongsByLyrics(string phrase)
         {
             return await _repository.GetOriginalSongByLyrics(phrase);
@@ -133,6 +139,11 @@ namespace BusinessLogicLayer
         {
             _repository.RequestFreind(userid, RerequestedFriendId);
            
+        }
+
+        public async Task IncrementNUmPlays(int songId)
+        {
+            await _repository.IncrementNumPlays(songId);
         }
 
         public async Task<List<User>> SearchForUsersByPartialN(string searchstring)

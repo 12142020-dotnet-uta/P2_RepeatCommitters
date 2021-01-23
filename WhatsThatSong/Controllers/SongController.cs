@@ -111,11 +111,26 @@ namespace WhatsThatSong.Controllers
 
         }
 
-        //[HttpGet]
-        //[Route("getTop5Originals")]
-        //public async Task<List<Song>> GetTop5Originals()
-        //{
+        /// <summary>
+        /// return the top 5 songs basedon the number of plays
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("getTop5Originals")]
+        public async Task<List<Song>> GetTop5Originals()
+        {
+            List<Song> songs = await _businessLogicClass.GetTop5Originals();
+            return songs;
+        }
 
-        //}
+        /// <summary>
+        /// increments the song number of plays property
+        /// </summary>
+        [HttpPost]
+        [Route("incrementNumPlays")]
+        public async Task IncrementNumPlays(int songId)
+        {
+            await _businessLogicClass.IncrementNUmPlays(songId);
+        }
     }
 }

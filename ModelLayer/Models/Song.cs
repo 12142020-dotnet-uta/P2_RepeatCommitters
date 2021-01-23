@@ -9,25 +9,23 @@ namespace ModelLayer.Models
         public int Id { get; set; }
         [Required]
         [Display(Name="Artist")]
-        [Range(1, int.MaxValue, ErrorMessage = "Only positive numbers are allowed.")]
-        public int ArtistId { get; set; }
+        public string ArtistName { get; set; }
         [Required]
         [Display(Name="Genre")]
-        [Range(1, int.MaxValue, ErrorMessage = "Only positive numbers are allowed.")]
-        public int GenreId { get; set; }
+        public string Genre { get; set; }
         [Required]
         public string Title { get; set; }
         [Required]
         public TimeSpan Duration { get; set; }
         [Required]
-        [Display(Name="Number Of Plays")]
+        [Display(Name = "Number Of Plays")]
         [Range(0, int.MaxValue, ErrorMessage = "Only positive numbers are allowed.")]
-        public int NumberOfPlays { get; set; }
+        public int NumberOfPlays { get; set; } = 0;
         [Display(Name = "Lyrics")]
         public string Lyrics { get; set; } = null;
         [Display(Name = "URL Path")]
         public string UrlPath { get; set; }
         [Display(Name = "Original")]
-        public Boolean isOriginal { get; set; }
+        public Boolean isOriginal { get; set; } = true;
     }
 }
