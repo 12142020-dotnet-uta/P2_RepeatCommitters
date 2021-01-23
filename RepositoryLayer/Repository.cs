@@ -34,6 +34,7 @@ namespace RepositoryLayer
             this.genres = _applicationDbContext.Genres;
             this.friendList = _applicationDbContext.FriendList;
             this.favoriteLists = _applicationDbContext.FavoriteLists;
+            populateDb();
         }
 
         /// <summary>
@@ -70,15 +71,15 @@ namespace RepositoryLayer
             return await songs.FirstOrDefaultAsync(item => item.Id == id);
         }
 
-        //public void populateDb()
-        //{
-        //    if (users == null)
-        //    {
-        //        User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
-        //        users.Add(user);
-        //        _applicationDbContext.SaveChanges();
-        //    }
-        //}
+        public void populateDb()
+        {
+            if (users.Count() > 0)
+            {
+                User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
+                users.Add(user);
+                _applicationDbContext.SaveChanges();
+            }
+        }
 
         public async Task<string> HasPendingFrinedRequest(int id)
         {
