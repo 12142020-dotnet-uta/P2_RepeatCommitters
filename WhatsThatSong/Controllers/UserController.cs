@@ -3,22 +3,38 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ModelLayer.Models;
 using ModelLayer.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace WhatsThatSong.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
+    [Route("user")]
     public class UserController : ControllerBase
     {
         private readonly BusinessLogicClass _businessLogicClass;
         private readonly ILogger<UserController> _logger;
 
+        
+
+
         public UserController(BusinessLogicClass businessLogicClass, ILogger<UserController> logger)
         {
             _businessLogicClass = businessLogicClass;
             _logger = logger;
+        }
+
+        //temp method to figure out whats going on
+        [HttpGet]
+        [Route("makeNewuser")]
+        public async Task<User> makeNewUser()
+        {
+             User user = new User("Jimmy", "john", "jimmy@john.com");
+            await _businessLogicClass.SaveNewUser(user);
+            return user;
         }
 
         [HttpGet]
@@ -147,18 +163,21 @@ namespace WhatsThatSong.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        [Route("getAllUsers")]
+        public async Task<List<User>> GetAllUsersAsync()
         {
             return await _businessLogicClass.GetAllUsersAsync();
         }
 
         [HttpGet]
+        [Route("getUserByIdaAync")]
         public async Task<User> GetUserByIdAsync(int id)
         {
             return await _businessLogicClass.GetUserByIdAsync(id);
         }
 
         [HttpGet]
+        [Route("GetAllMessagesAsync")]
         public async Task<IEnumerable<Message>> GetAllMessagesAsync()
         {
             return await _businessLogicClass.GetAllMessagesAsync();

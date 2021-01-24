@@ -21,10 +21,7 @@ namespace BusinessLogicLayer
             _mapperClass = mapperClass;
             _logger = logger;
         }
-
-        public BusinessLogicClass()
-        {
-        }
+       
 
         public User LoggedInUser = new User();
 
@@ -40,25 +37,45 @@ namespace BusinessLogicLayer
             await _repository.AddSongToFavorites(sogid, LoggedInUser.Id);
         }
 
-        //public void PopulateDb()
-        //{
-        //    _repository.populateDb();
+        public void PopulateDb()
+        {
+             _repository.populateDb();
 
-        //}
+        }
+
+        internal Task<int> GetNumOfFriendsByUserId(int id)
+        {
+            return _repository.GetNumOfFriendsByUserId(id);
+        }
+
+        internal Task<string> HasPendingFrinedRequest(int id)
+        {
+            return _repository.HasPendingFrinedRequest(id);
+        }
 
         /// <summary>
         /// Returns a list of all users.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync()
         {
-            return await _repository.GetAllUsersAsync();
+            List<User> users = await _repository.GetAllUsersAsync();
+            return users;
         }
 
         public async Task<UserProfileViewModel> GetUserProfileViewModel(int id)
         {
-            UserProfileViewModel model = await _mapperClass.BuildUserProfileViewModel(id);
+            User user = await _repository.GetUserByIdAsync(id);
+            int num = await _repository.GetNumOfFriendsByUserId(id);
+            string pending = await _repository.HasPendingFrinedRequest(id);
+            UserProfileViewModel model = await _mapperClass.BuildUserProfileViewModel(id, user, num, pending);
+
             return model;
+        }
+
+        internal Task<List<Message>> GetMessages2users(int id, int userToMessageId)
+        {
+            return GetMessages2users(id, userToMessageId);
         }
 
         public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
@@ -180,15 +197,19 @@ namespace BusinessLogicLayer
         /// <returns></returns>
         public async Task<MessagingViewModel> GetMessagesViewModel(int UserToMessageId)
         {
-            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(UserToMessageId);
+            User user = await GetUserByIdAsync(UserToMessageId);
+            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
+            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(UserToMessageId, LoggedInUser,user, Messages);
             return viewModel;
         }
 
-        public async Task<MessagingViewModel> sendMessage(int userToMessageId, string content)
+        public async Task<MessagingViewModel> sendMessage(int UserToMessageId, string content)
         {
             int fromUserId = LoggedInUser.Id;
-            await  _repository.SaveMessage(userToMessageId, fromUserId, content);
-            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(userToMessageId);
+            await  _repository.SaveMessage(UserToMessageId, fromUserId, content);
+            User user = await GetUserByIdAsync(UserToMessageId);
+            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
+            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(UserToMessageId, LoggedInUser, user, Messages);
             return viewModel;
         }
 
@@ -205,6 +226,10 @@ namespace BusinessLogicLayer
         public async Task<User> GetLoggedInUser()
         {
             return LoggedInUser;
+        }
+        public async Task SaveNewUser(User user)
+        {
+            await _repository.SaveNewUser(user);
         }
     }
 }

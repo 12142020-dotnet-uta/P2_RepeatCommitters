@@ -10,7 +10,7 @@ namespace RepositoryLayer
 {
     public class Repository
     {
-        private readonly ApplicationDbContext _applicationDbContext;
+        private ApplicationDbContext _applicationDbContext;
         readonly ILogger _logger;
 
         public DbSet<User> users;
@@ -36,6 +36,7 @@ namespace RepositoryLayer
             this.favoriteLists = _applicationDbContext.FavoriteLists;
             populateDb();
         }
+
 
         /// <summary>
         /// adds a song to the favorites of a user if it isnt already a favorite of that user
@@ -73,7 +74,7 @@ namespace RepositoryLayer
 
         public void populateDb()
         {
-            if (users.Count() > 0)
+            if (users == null)
             {
                 User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
                 users.Add(user);
@@ -237,6 +238,12 @@ namespace RepositoryLayer
             return await friendList.Where(item => item.FriendId == id || item.RequestedFriendId == id && item.status == "accept").ToListAsync();
         }
 
+        public async Task SaveNewUser(User user)
+        {
+             users.Add(user);
+             _applicationDbContext.SaveChanges();
+        }
+
         public async Task DeletFriend(int id1, int id2)
         {
             List<FriendList> listToDelete = new List<FriendList>();
@@ -307,7 +314,7 @@ namespace RepositoryLayer
         /// Returns all users to a list.
         /// </summary>
         /// <returns></returns>
-        public async Task<IEnumerable<User>> GetAllUsersAsync()
+        public async Task<List<User>> GetAllUsersAsync()
         {
             return await users.ToListAsync();
         }

@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Hosting;
 
 namespace WhatsThatSong.Controllers
 {
+    [ApiController]
+    [Route("Song")]
     public class SongController : ControllerBase
     {
         private IHostingEnvironment _env;

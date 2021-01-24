@@ -27,9 +27,11 @@ namespace WhatsThatSong
         {
             services.AddMvc();
             services.AddControllersWithViews();
-            //services.AddScoped<BusinessLogicClass>();
+            services.AddControllers();
+            services.AddScoped<BusinessLogicClass>();
             services.AddScoped<Repository>();
             services.AddScoped<ApplicationDbContext>();
+            services.AddScoped<MapperClass>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
