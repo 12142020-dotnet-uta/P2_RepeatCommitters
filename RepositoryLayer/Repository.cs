@@ -84,7 +84,7 @@ namespace RepositoryLayer
 
         public async Task<string> HasPendingFrinedRequest(int id)
         {
-            string hasPendingRequest ="";
+            string hasPendingRequest ="No Pending Friend Requests";
             await foreach(var item in friendList)
             {
                 if((item.FriendId == id || item.RequestedFriendId == id) && item.status == "Pending")
@@ -222,7 +222,8 @@ namespace RepositoryLayer
             User newUser = new User(userName, password, email);
             await users.AddAsync(newUser);
             await _applicationDbContext.SaveChangesAsync();
-            return await users.FirstOrDefaultAsync(x => x.UserName == userName && x.Password == password);
+            //return await users.FirstOrDefaultAsync(x => x.UserName == userName && x.Password == password);
+            return newUser;
         }
 
         public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)

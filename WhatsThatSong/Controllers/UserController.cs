@@ -32,13 +32,13 @@ namespace WhatsThatSong.Controllers
         [Route("makeNewuser")]
         public async Task<User> makeNewUser()
         {
-             User user = new User("Jimmy", "john", "jimmy@john.com");
-            await _businessLogicClass.SaveNewUser(user);
+            User user = new User("Jimmy", "john", "jimmy@john.com");
+            //await _businessLogicClass.SaveNewUser(user);
             return user;
         }
 
-        [HttpGet]
-        [Route("create")]
+        [HttpPost]
+        [Route("CreateUser")]
         public async Task<UserProfileViewModel> CreateUser(string userName, string password, string email)
         {
             //User user = await _businessLogicClass.CreatNewBC("ronald", "mcdonald", "ronald@mcdonald.com");
