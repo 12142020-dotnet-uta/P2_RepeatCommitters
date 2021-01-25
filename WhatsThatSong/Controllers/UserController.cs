@@ -80,14 +80,15 @@ namespace WhatsThatSong.Controllers
             return user;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("SaveEdit")]
-        public async Task<User> EditUser(int userId, string userName, string password, string email, string firstName, string lastName)
+        public async Task<UserProfileViewModel> EditUser(int userId, string userName, string password, string email, string firstName, string lastName)
         {
             User userToEdit = await _businessLogicClass.GetUserByIdAsync(userId);
             userToEdit.UserName = userName; userToEdit.Password = password; userToEdit.Email = email; userToEdit.FirstName = firstName; userToEdit.LastName = lastName;
             await _businessLogicClass.SaveUserToDb(userToEdit);
-            return userToEdit; 
+            UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(userToEdit.Id);
+            return UPVM; 
         }
         [HttpGet]
         [Route("SearchForUsers")]
