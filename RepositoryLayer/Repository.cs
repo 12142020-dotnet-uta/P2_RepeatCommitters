@@ -57,7 +57,7 @@ namespace RepositoryLayer
             {
                 SongToAdd.UserId = loggedInUserId;
                 SongToAdd.SongId = songid;
-                favoriteLists.Add(SongToAdd);
+                await favoriteLists.AddAsync(SongToAdd);
                 _applicationDbContext.SaveChanges();
             }
         }
