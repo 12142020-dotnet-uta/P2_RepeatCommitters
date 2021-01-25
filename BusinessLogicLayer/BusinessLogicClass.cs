@@ -68,7 +68,7 @@ namespace BusinessLogicLayer
             User user = await _repository.GetUserByIdAsync(id);
             int num = await _repository.GetNumOfFriendsByUserId(id);
             string pending = await _repository.HasPendingFrinedRequest(id);
-            UserProfileViewModel model = await _mapperClass.BuildUserProfileViewModel(id, user, num, pending);
+            UserProfileViewModel model = await _mapperClass.BuildUserProfileViewModel(id, num, pending);
 
             return model;
         }
@@ -199,7 +199,7 @@ namespace BusinessLogicLayer
         {
             User user = await GetUserByIdAsync(UserToMessageId);
             List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
-            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(UserToMessageId, LoggedInUser,user, Messages);
+            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(LoggedInUser.Id,user.Id, Messages);
             return viewModel;
         }
 
@@ -209,7 +209,7 @@ namespace BusinessLogicLayer
             await  _repository.SaveMessage(UserToMessageId, fromUserId, content);
             User user = await GetUserByIdAsync(UserToMessageId);
             List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
-            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(UserToMessageId, LoggedInUser, user, Messages);
+            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(LoggedInUser.Id, user.Id, Messages);
             return viewModel;
         }
 
