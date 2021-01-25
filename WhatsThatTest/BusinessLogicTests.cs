@@ -53,6 +53,8 @@ namespace WhatsThatTest
             }
         }
 
+        // Make Async all the way down through all layers
+        // Some where there is something that is Asnyc and has not gotten the data yet.
         [Fact]
         public void GetUserProfileViewModelAsyncTest()
         {
@@ -343,34 +345,34 @@ namespace WhatsThatTest
             }
         }
 
-        [Fact]
-        public async void GetMessagesViewModelTest()
-        {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
-            .Options;
+        //[Fact]
+        //public async void GetMessagesViewModelTest()
+        //{
+        //    var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+        //    .Options;
 
-            using (var context = new ApplicationDbContext(options))
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
+        //    using (var context = new ApplicationDbContext(options))
+        //    {
+        //        context.Database.EnsureDeleted();
+        //        context.Database.EnsureCreated();
 
-                Repository _repository = new Repository(context, _logger);
-                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
-                var user = new User
-                {
-                    Id = int.MaxValue,
-                    UserName = "jtest",
-                    Password = "Test1!",
-                    FirstName = "Johnny",
-                    LastName = "Test",
-                    Email = "johnnytest123@email.com"
-                };
+        //        Repository _repository = new Repository(context, _logger);
+        //        BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+        //        var user = new User
+        //        {
+        //            Id = int.MaxValue,
+        //            UserName = "jtest",
+        //            Password = "Test1!",
+        //            FirstName = "Johnny",
+        //            LastName = "Test",
+        //            Email = "johnnytest123@email.com"
+        //        };
 
-                MessagingViewModel mvm = await businessLogicClass.GetMessagesViewModel(user.Id);
-                Assert.NotNull(mvm);
-            }
-        }
+        //        MessagingViewModel mvm = await businessLogicClass.GetMessagesViewModel(user.Id);
+        //        Assert.NotNull(mvm);
+        //    }
+        //}
 
         //[Fact]
         //public void SendMessageTest()
