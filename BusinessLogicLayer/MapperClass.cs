@@ -12,37 +12,37 @@ namespace BusinessLogicLayer
     {
         //private readonly Repository _repository;
         ////private readonly ILogger _logger;
-        private readonly BusinessLogicClass _businessLogicClass;
+        //private readonly BusinessLogicClass _businessLogicClass;
 
-        public MapperClass(Repository repository, BusinessLogicClass businessLogicClass)
-        {
-            //_repository = repository;
-            //_logger = logger;
-            _businessLogicClass = businessLogicClass;
-        }
+        //public MapperClass(Repository repository, BusinessLogicClass businessLogicClass)
+        //{
+        //    //_repository = repository;
+        //    //_logger = logger;
+        //    _businessLogicClass = businessLogicClass;
+        //}
 
 
-        public async Task<UserProfileViewModel> BuildUserProfileViewModel(int Id, int numOfFriend, string pending)
+        public UserProfileViewModel BuildUserProfileViewModel(int Id, int numOfFriend, string pending, string username)
         {
             UserProfileViewModel model = new UserProfileViewModel();
             model.userId = Id;
-            User user = await _businessLogicClass.GetUserByIdAsync(Id);
-            model.userName = user.UserName;
+            //User user = await _businessLogicClass.GetUserByIdAsync(Id);
+            model.userName = username;
             model.numberOfFriends = numOfFriend;
             model.FirendStatus = pending;
             
             return model;
         }
 
-        public async Task<MessagingViewModel> GetMessagingViewModel(int loggedInUserId, int usertomessageId, List<Message> Messages)
+        public  MessagingViewModel GetMessagingViewModel(int loggedInUserId, int usertomessageId, List<Message> Messages, string LoggedInUserName, string userToMessageUserName)
         {
             MessagingViewModel viewModel = new MessagingViewModel();
-            User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(loggedInUserId);
-            User UserToMessage = await _businessLogicClass.GetUserByIdAsync(usertomessageId);
-            viewModel.CurrentUserId = LoggedInUser.Id;
-            viewModel.currentUserName = LoggedInUser.UserName;
-            viewModel.friendToMessageUserId = UserToMessage.Id;
-            viewModel.friendToMessageUserName = UserToMessage.UserName;
+            //User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(loggedInUserId);
+            //User UserToMessage = await _businessLogicClass.GetUserByIdAsync(usertomessageId);
+            viewModel.CurrentUserId = loggedInUserId;
+            viewModel.currentUserName = LoggedInUserName;
+            viewModel.friendToMessageUserId = usertomessageId;
+            viewModel.friendToMessageUserName = userToMessageUserName;
             viewModel.messages = Messages;
 
             return viewModel;
