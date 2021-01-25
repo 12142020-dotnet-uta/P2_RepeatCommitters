@@ -39,11 +39,8 @@ namespace BusinessLogicLayer
 
         public void PopulateDb()
         {
-<<<<<<< HEAD
-             //_repository.populateDb();
-=======
-           //  _repository.populateDb();
->>>>>>> 17dffce1255b924c6d04bf8c9c23e433d170f8bf
+
+            //_repository.populateDb();
 
         }
 
