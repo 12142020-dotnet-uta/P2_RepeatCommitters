@@ -84,7 +84,7 @@ namespace RepositoryLayer
 
         public async Task<string> HasPendingFrinedRequest(int id)
         {
-            string hasPendingRequest ="No Pending Friend Requests";
+            string hasPendingRequest ="";
             await foreach(var item in friendList)
             {
                 if((item.FriendId == id || item.RequestedFriendId == id) && item.status == "Pending")
