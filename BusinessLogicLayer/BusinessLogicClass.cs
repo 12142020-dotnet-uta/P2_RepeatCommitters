@@ -39,7 +39,7 @@ namespace BusinessLogicLayer
 
         public void PopulateDb()
         {
-             _repository.populateDb();
+           //  _repository.populateDb();
 
         }
 
@@ -68,7 +68,7 @@ namespace BusinessLogicLayer
             User user = await _repository.GetUserByIdAsync(id);
             int num = await _repository.GetNumOfFriendsByUserId(id);
             string pending = await _repository.HasPendingFrinedRequest(id);
-            UserProfileViewModel model = await _mapperClass.BuildUserProfileViewModel(id, num, pending);
+            UserProfileViewModel model = _mapperClass.BuildUserProfileViewModel(id, num, pending, user.UserName);
 
             return model;
         }
@@ -199,7 +199,7 @@ namespace BusinessLogicLayer
         {
             User user = await GetUserByIdAsync(UserToMessageId);
             List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
-            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(LoggedInUser.Id,user.Id, Messages);
+            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUser.Id,user.Id, Messages, LoggedInUser.UserName, user.UserName);
             return viewModel;
         }
 
@@ -209,7 +209,7 @@ namespace BusinessLogicLayer
             await  _repository.SaveMessage(UserToMessageId, fromUserId, content);
             User user = await GetUserByIdAsync(UserToMessageId);
             List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
-            MessagingViewModel viewModel = await _mapperClass.GetMessagingViewModel(LoggedInUser.Id, user.Id, Messages);
+            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUser.Id, user.Id, Messages, LoggedInUser.UserName, user.UserName);
             return viewModel;
         }
 
