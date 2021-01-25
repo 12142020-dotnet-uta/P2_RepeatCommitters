@@ -22,7 +22,7 @@ namespace ModelLayer.Models
         [Required]
         [DataType(DataType.Password)]
         [Display(Name="Password")]
-        public string Password { get { return password; } set { this.password = HashPassword(value); } }
+        public string Password { get { return password; } set { this.password = value; } }
         [Display(Name="First Name")]
         public string FirstName { get; set; }
         [Display(Name="Last Name")]
