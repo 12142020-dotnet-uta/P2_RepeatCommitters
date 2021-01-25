@@ -34,7 +34,7 @@ namespace RepositoryLayer
             this.genres = _applicationDbContext.Genres;
             this.friendList = _applicationDbContext.FriendList;
             this.favoriteLists = _applicationDbContext.FavoriteLists;
-            populateDb();
+            //populateDb();
         }
 
 
@@ -58,7 +58,7 @@ namespace RepositoryLayer
                 SongToAdd.UserId = loggedInUserId;
                 SongToAdd.SongId = songid;
                 await favoriteLists.AddAsync(SongToAdd);
-                _applicationDbContext.SaveChanges();
+                await _applicationDbContext.SaveChangesAsync();
             }
         }
 
@@ -72,15 +72,15 @@ namespace RepositoryLayer
             return await songs.FirstOrDefaultAsync(item => item.Id == id);
         }
 
-        public void populateDb()
-        {
-            if (users == null)
-            {
-                User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
-                users.Add(user);
-                _applicationDbContext.SaveChanges();
-            }
-        }
+        //public void populateDb()
+        //{
+        //    if (users == null)
+        //    {
+        //        User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
+        //        users.Add(user);
+        //        _applicationDbContext.SaveChanges();
+        //    }
+        //}
 
         public async Task<string> HasPendingFrinedRequest(int id)
         {
@@ -156,7 +156,7 @@ namespace RepositoryLayer
         {
             Song songToIncrement = await GetSongById(songId);
             songToIncrement.NumberOfPlays += 1;
-            _applicationDbContext.SaveChanges();
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task<List<Song>> getAllSongs()
@@ -202,7 +202,7 @@ namespace RepositoryLayer
         {
             User UserInDb = userToEdit;
 
-            _applicationDbContext.SaveChanges();
+            await _applicationDbContext.SaveChangesAsync();
             return UserInDb;
 
             users.Update(UserInDb);
@@ -242,7 +242,7 @@ namespace RepositoryLayer
         public async Task SaveNewUser(User user)
         {
              users.Add(user);
-             _applicationDbContext.SaveChanges();
+             await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task DeletFriend(int id1, int id2)
@@ -253,12 +253,12 @@ namespace RepositoryLayer
                 if(item.RequestedFriendId == id1 && item.FriendId == id2)
                 {
                     friendList.Remove(item);
-                    _applicationDbContext.SaveChanges();
+                    await _applicationDbContext.SaveChangesAsync();
                 }
                 else if (item.RequestedFriendId == id2 && item.FriendId == id1)
                 {
                     friendList.Remove(item);
-                    _applicationDbContext.SaveChanges();
+                    await _applicationDbContext.SaveChangesAsync();
                 }
             }
             
@@ -279,16 +279,16 @@ namespace RepositoryLayer
         public async void RequestFreind(int userId, int RerequestedFriendId)
         {
             FriendList request = new FriendList(userId, RerequestedFriendId);
-            friendList.Add(request);
-            _applicationDbContext.SaveChanges();
+            await friendList.AddAsync(request);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task SaveMessage(int userToMessageId, int loggedInId, string content)
         {
 
             Message message = new Message(userToMessageId, loggedInId, content);
-            messages.Add(message);
-            _applicationDbContext.SaveChanges();
+            await messages.AddAsync(message);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task<List<Message>> GetMessages2users(int id, int userToMessage)
