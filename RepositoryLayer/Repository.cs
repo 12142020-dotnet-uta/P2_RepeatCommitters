@@ -281,6 +281,7 @@ namespace RepositoryLayer
             FriendList request = new FriendList(userId, RerequestedFriendId);
             await friendList.AddAsync(request);
             await _applicationDbContext.SaveChangesAsync();
+
         }
 
         public async Task SaveMessage(int userToMessageId, int loggedInId, string content)
