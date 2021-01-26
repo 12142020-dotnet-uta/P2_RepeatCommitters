@@ -100,20 +100,26 @@ namespace WhatsThatSong.Controllers
         }
         [HttpGet]
         [Route("RequestFriend")]
-        public async Task<User> FriendRequest(int userId, int requestedFriendId)
+        public async Task FriendRequest(int userId, int requestedFriendId)
         {
             await _businessLogicClass.RequesFriend(userId, requestedFriendId);
-            User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
-            return LoggedInUser;
+           // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
         }
 
+
+        [HttpPut]
+        [Route("AcceptFriend")]
+        public async Task AcceptFriend(int LoggedInId, int pendingFriendId)
+        {
+            await _businessLogicClass.AcceptFriend(LoggedInId,pendingFriendId);
+        }
         /// <summary>
         /// sends a list of friends that have been accepted
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("RequestFriend")]
+        [Route("GetFriends")]
         public async Task<List<FriendList>> GetFriendsByUserId(int id)
         {
            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);

@@ -119,6 +119,11 @@ namespace BusinessLogicLayer
             return originalSongs;
         }
 
+        public async Task AcceptFriend(int loggedInId,int pendingFriendId)
+        {
+            await _repository.AcceptRequest(loggedInId,pendingFriendId);
+        }
+
         /// <summary>
         /// checks to see if the user exists and logs them in if they do. returns null if they dont exist
         /// </summary>

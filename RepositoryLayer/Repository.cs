@@ -84,15 +84,42 @@ namespace RepositoryLayer
 
         public async Task<string> HasPendingFrinedRequest(int id)
         {
-            string hasPendingRequest ="";
+            string hasPendind = "pending";
+            string noPendingRequest ="";
             await foreach(var item in friendList)
             {
-                if((item.FriendId == id || item.RequestedFriendId == id) && item.status == "Pending")
+                if((item.RequestedFriendId == id) && (item.status == hasPendind))
                 {
-                    hasPendingRequest = "Pending";
+                    return hasPendind; ;
                 }
             }
-            return hasPendingRequest;
+            return noPendingRequest;
+        }
+        public async Task AcceptRequest(int loggedInId, int pendingFriendId)
+        {
+            //FriendList f = friendList.FirstOrDefault(x => x.RequestedFriendId == loggedInId && x.FriendId == pendingFriendId && x.status == "pending");
+
+            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == loggedInId && x.FriendId == pendingFriendId && x.status == "pending");
+            if (fl != null)
+            {
+                // await _applicationDbContext.SaveChangesAsync();
+                fl.status = "accept";
+            }
+            else
+            {
+                // print error to logger
+            }
+
+            _applicationDbContext.Update(fl);
+            await _applicationDbContext.SaveChangesAsync();
+        }
+
+        public async Task RequestFreind(int userId, int RerequestedFriendId)
+        {
+            FriendList request = new FriendList(userId, RerequestedFriendId);
+            await friendList.AddAsync(request);
+            await _applicationDbContext.SaveChangesAsync();
+
         }
 
         public async Task<List<Song>> GetOriginalSongsByGenre(string genre)
@@ -120,6 +147,8 @@ namespace RepositoryLayer
             }
             return numOfFriends;
         }
+
+       
 
         /// <summary>
         /// returns the top 5 songs based on the number of plays
@@ -201,14 +230,8 @@ namespace RepositoryLayer
         public async Task<User> SaveUserToDb(User userToEdit)
         {
             User UserInDb = userToEdit;
-
             await _applicationDbContext.SaveChangesAsync();
             return UserInDb;
-
-            users.Update(UserInDb);
-            await _applicationDbContext.SaveChangesAsync();
-            return null;
-
         }
 
         /// <summary>
@@ -276,13 +299,7 @@ namespace RepositoryLayer
             return await messages.ToListAsync();
         }
 
-        public async Task RequestFreind(int userId, int RerequestedFriendId)
-        {
-            FriendList request = new FriendList(userId, RerequestedFriendId);
-            await friendList.AddAsync(request);
-            await _applicationDbContext.SaveChangesAsync();
-
-        }
+        
 
         public async Task SaveMessage(int userToMessageId, int loggedInId, string content)
         {
