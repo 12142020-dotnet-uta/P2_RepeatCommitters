@@ -491,30 +491,30 @@ namespace WhatsThatTest
         /// <summary>
         /// Checks that salted and hashed passwords don't return the same value.
         /// </summary>
-        [Fact]
-        public void HashPasswordTest()
-        {
-            // Create const string to test against
-            const string password = "Test1!";
+        //[Fact]
+        //public void HashPasswordTest()
+        //{
+        //    // Create const string to test against
+        //    const string password = "Test1!";
 
-            // Create a user with plain text password
-            var user = new User
-            {
-                Id = int.MaxValue,
-                UserName = "TestSubject-0143",
-                Email = "testSub_0143@email.com",
-                Password = "Test1!",
-                FirstName = "Johnny",
-                LastName = "Test"
-            };
+        //    // Create a user with plain text password
+        //    var user = new User
+        //    {
+        //        Id = int.MaxValue,
+        //        UserName = "TestSubject-0143",
+        //        Email = "testSub_0143@email.com",
+        //        Password = "Test1!",
+        //        FirstName = "Johnny",
+        //        LastName = "Test"
+        //    };
 
-            // Get the number of errors in the model. Expecting 0 errors.
-            var errorcount = ValidateModel(user).Count;
-            // No errors indicates that the model built without errors, and we like that.
-            Assert.Equal(0, errorcount);
+        //    // Get the number of errors in the model. Expecting 0 errors.
+        //    var errorcount = ValidateModel(user).Count;
+        //    // No errors indicates that the model built without errors, and we like that.
+        //    Assert.Equal(0, errorcount);
 
-            // Password salting and hashing gives different passwords.
-            Assert.NotEqual(user.Password, password);
-        }
+        //    // Password salting and hashing gives different passwords.
+        //    Assert.NotEqual(user.Password, password);
+        //}
     }
 }
