@@ -73,9 +73,9 @@ namespace BusinessLogicLayer
             return model;
         }
 
-        internal Task<List<Message>> GetMessages2users(int id, int userToMessageId)
+        public async Task<List<Message>> GetMessages2users(int id, int userToMessageId)
         {
-            return GetMessages2users(id, userToMessageId);
+            return await _repository.GetMessages2users(id, userToMessageId); 
         }
 
         public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
@@ -154,7 +154,7 @@ namespace BusinessLogicLayer
 
         public async Task RequesFriend(int userid, int RerequestedFriendId)
         {
-            _repository.RequestFreind(userid, RerequestedFriendId);
+            await _repository.RequestFreind(userid, RerequestedFriendId);
            
         }
 
@@ -172,7 +172,7 @@ namespace BusinessLogicLayer
         public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
         {
             List<FriendList> list = await _repository.GetListOfFriendsByUserId(id);
-            return list; ;
+            return list;
         }
 
         /// <summary>

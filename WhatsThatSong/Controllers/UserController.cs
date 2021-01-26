@@ -56,7 +56,7 @@ namespace WhatsThatSong.Controllers
         }
         [HttpGet]
         [Route("login")]
-        public async Task<UserProfileViewModel> loginUser(string userName, string password)
+        public async Task<UserProfileViewModel> login(string userName, string password)
         {
             User LoggedInUser = await _businessLogicClass.LoginUser(userName, password);
             UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(LoggedInUser.Id);

@@ -171,7 +171,7 @@ namespace RepositoryLayer
         public async Task<bool> DoesUserExist(string username, string passw)
         {
             User user = await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);
-            if (user!=null){
+            if (user==null){
                 return false;
             }
             else
@@ -276,7 +276,7 @@ namespace RepositoryLayer
             return await messages.ToListAsync();
         }
 
-        public async void RequestFreind(int userId, int RerequestedFriendId)
+        public async Task RequestFreind(int userId, int RerequestedFriendId)
         {
             FriendList request = new FriendList(userId, RerequestedFriendId);
             await friendList.AddAsync(request);
