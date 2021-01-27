@@ -95,7 +95,7 @@ namespace BusinessLogicLayer
         public async Task<User> CreatNewBC(string userName, string password, string email)
         {
             bool userExists = await _repository.DoesUserExist(userName, password);
-            if(!userExists)
+            if(userExists)
             {
                 return null;
             }
@@ -110,7 +110,7 @@ namespace BusinessLogicLayer
         public async Task<User> SaveUserToDb(User userToEdit)
         {
            await _repository.SaveUserToDb(userToEdit);
-            return null;
+           return null;
         }
 
         public async Task<List<Song>> GetSongsBySearhGenre(string genre)

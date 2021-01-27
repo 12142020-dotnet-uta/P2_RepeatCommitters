@@ -16,7 +16,7 @@ namespace WhatsThatTest
     public class BusinessLogicTests
     {
 
-        private readonly MapperClass _mapperClass;
+        private readonly MapperClass _mapperClass = new MapperClass();
         private readonly ILogger<Repository> _logger;
 
 
@@ -56,7 +56,7 @@ namespace WhatsThatTest
         // Make Async all the way down through all layers
         // Some where there is something that is Asnyc and has not gotten the data yet.
         [Fact]
-        public void GetUserProfileViewModelAsyncTest()
+        public async void GetUserProfileViewModelAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -79,8 +79,8 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                _repository.users.Add(user);
-                Task<UserProfileViewModel> upvm = businessLogicClass.GetUserProfileViewModel(user.Id);
+                await _repository.SaveNewUser(user);
+                UserProfileViewModel upvm = await businessLogicClass.GetUserProfileViewModel(user.Id);
                 Assert.NotNull(upvm);
             }
         }
@@ -339,7 +339,7 @@ namespace WhatsThatTest
                 FriendList fl = new FriendList(user1.Id, user2.Id);
                 _repository.friendList.Add(fl);
                 // revoke friendship
-                Task deleted = businessLogicClass.DeleteFriend(user2.Id);
+                Task deleted = businessLogicClass.DeleteFriend(user1.Id, user2.Id);
                 _repository.friendList.Remove(fl);
                 Assert.DoesNotContain<FriendList>(fl, _repository.friendList);
             }

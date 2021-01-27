@@ -18,8 +18,6 @@ namespace WhatsThatSong.Controllers
         private readonly BusinessLogicClass _businessLogicClass;
         private readonly ILogger<UserController> _logger;
 
-        
-
 
         public UserController(BusinessLogicClass businessLogicClass, ILogger<UserController> logger)
         {
@@ -88,8 +86,9 @@ namespace WhatsThatSong.Controllers
             userToEdit.UserName = userName; userToEdit.Password = password; userToEdit.Email = email; userToEdit.FirstName = firstName; userToEdit.LastName = lastName;
             await _businessLogicClass.SaveUserToDb(userToEdit);
             UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(userToEdit.Id);
-            return UPVM; 
+            return UPVM;
         }
+
         [HttpGet]
         [Route("SearchForUsers")]
         public async Task<List<User>> SearchForUsers(string searchString)
@@ -98,6 +97,7 @@ namespace WhatsThatSong.Controllers
             
             return listOfUsers;
         }
+
         [HttpGet]
         [Route("RequestFriend")]
         public async Task FriendRequest(int userId, int requestedFriendId)
