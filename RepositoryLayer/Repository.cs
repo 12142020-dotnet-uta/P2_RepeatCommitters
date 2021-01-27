@@ -72,6 +72,18 @@ namespace RepositoryLayer
             return await songs.FirstOrDefaultAsync(item => item.Id == id);
         }
 
+        public async Task SaveSongToDb(Song song)
+        {
+            Song s1 = await GetSongByTitle(song.Title);
+            if(s1 != null)
+            {
+                return;
+            }
+            Song s = song;
+            await songs.AddAsync(s);
+            await _applicationDbContext.SaveChangesAsync();
+        }
+
         //public void populateDb()
         //{
         //    if (users == null)
@@ -143,6 +155,7 @@ namespace RepositoryLayer
 
         public async Task<List<Song>> GetOriginalSongsByGenre(string genre)
         {
+            
             List<Song> OriginalSongs = new List<Song>();
            await foreach(var item in songs)
             {
@@ -152,6 +165,12 @@ namespace RepositoryLayer
                 }
             }
             return OriginalSongs;
+        }
+
+        public async Task<Song> GetSongByTitle(string title)
+        {
+            Song s = await songs.FirstOrDefaultAsync(x => x.Title == title);
+            return s;
         }
 
         public async Task<int> GetNumOfFriendsByUserId(int id)
