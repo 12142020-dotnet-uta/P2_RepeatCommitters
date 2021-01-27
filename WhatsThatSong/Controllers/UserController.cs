@@ -100,20 +100,26 @@ namespace WhatsThatSong.Controllers
         }
         [HttpGet]
         [Route("RequestFriend")]
-        public async Task<User> FriendRequest(int userId, int requestedFriendId)
+        public async Task FriendRequest(int userId, int requestedFriendId)
         {
             await _businessLogicClass.RequesFriend(userId, requestedFriendId);
-            User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
-            return LoggedInUser;
+           // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
         }
 
+
+        [HttpPut]
+        [Route("AcceptFriend")]
+        public async Task AcceptFriend(int LoggedInId, int pendingFriendId)
+        {
+            await _businessLogicClass.AcceptFriend(LoggedInId,pendingFriendId);
+        }
         /// <summary>
         /// sends a list of friends that have been accepted
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("RequestFriend")]
+        [Route("GetFriends")]
         public async Task<List<FriendList>> GetFriendsByUserId(int id)
         {
            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
@@ -126,11 +132,20 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("DeleteFriend")]
-        public async Task<List<FriendList>> DeleteFriend(int id)
+        public async Task<List<FriendList>> DeleteFriend(int LoggedInUserId, int friendToDeleteId)
         {
-            await _businessLogicClass.DeleteFriend(id);
-            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
+            await _businessLogicClass.DeleteFriend(LoggedInUserId, friendToDeleteId);
+            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(LoggedInUserId);
             return friendList;
+        }
+
+        [HttpPost]
+        [Route("sendMessage")]
+        public async Task<MessagingViewModel> SendMessage(int LoggedInUserIdint,int UserToMessageId, string content)
+        {
+            await _businessLogicClass.sendMessage(LoggedInUserIdint, UserToMessageId, content);
+            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
+            return viewModel;
         }
 
         /// <summary>
@@ -145,14 +160,7 @@ namespace WhatsThatSong.Controllers
             return viewModel;
         }
 
-        [HttpGet]
-        [Route("sendMessage")]
-        public async Task<MessagingViewModel> SendMessage(int UserToMessageId, string content)
-        {
-            await _businessLogicClass.sendMessage(UserToMessageId, content);
-            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
-            return viewModel;
-        }
+        
 
         [HttpGet]
         [Route("BakToProfile")]
