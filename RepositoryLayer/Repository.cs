@@ -122,6 +122,25 @@ namespace RepositoryLayer
 
         }
 
+        public async Task DeletFriend(int LoggedInId, int FriendToDeleteId)
+        {
+            FriendList f1 = friendList.FirstOrDefault(x => x.FriendId == LoggedInId && x.RequestedFriendId == FriendToDeleteId);
+            if (f1 != null)
+            {
+                friendList.Remove(f1);
+                await _applicationDbContext.SaveChangesAsync();
+            }
+            else
+            {
+                f1 = friendList.FirstOrDefault(x => x.FriendId == FriendToDeleteId && x.RequestedFriendId == LoggedInId);
+                if (f1 != null)
+                {
+                    friendList.Remove(f1);
+                    await _applicationDbContext.SaveChangesAsync();
+                }
+            }
+        }
+
         public async Task<List<Song>> GetOriginalSongsByGenre(string genre)
         {
             List<Song> OriginalSongs = new List<Song>();
@@ -268,26 +287,7 @@ namespace RepositoryLayer
              await _applicationDbContext.SaveChangesAsync();
         }
 
-        public async Task DeletFriend(int id1, int id2)
-        {
-            List<FriendList> listToDelete = new List<FriendList>();
-            foreach(var item in friendList)
-            {
-                if(item.RequestedFriendId == id1 && item.FriendId == id2)
-                {
-                    friendList.Remove(item);
-                    await _applicationDbContext.SaveChangesAsync();
-                }
-                else if (item.RequestedFriendId == id2 && item.FriendId == id1)
-                {
-                    friendList.Remove(item);
-                    await _applicationDbContext.SaveChangesAsync();
-                }
-            }
-            
-            //List<FriendList> listToDelete = friendList.Where(item => item.RequestedFriendId == id1 && item.FriendId == id2 ||
-            //item.RequestedFriendId == id2 && item.FriendId == id1);
-        }
+       
 
 
         /// <summary>

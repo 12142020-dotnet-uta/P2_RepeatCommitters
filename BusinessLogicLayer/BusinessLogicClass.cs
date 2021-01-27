@@ -191,9 +191,9 @@ namespace BusinessLogicLayer
             return await _repository.GetUserByIdAsync(id);
         }
 
-        public async Task DeleteFriend(int id)
+        public async Task DeleteFriend(int LoggedInUserId, int friendToDeleteId)
         {
-            await _repository.DeletFriend(LoggedInUser.Id, id);
+            await _repository.DeletFriend(LoggedInUserId, friendToDeleteId);
         }
 
         /// <summary>
