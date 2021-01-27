@@ -469,7 +469,7 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                //businessLogicClass.SaveNewUser(user).Wait();
+                businessLogicClass.SaveNewUser(user).Wait();
                 Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
                 Assert.Equal(loggedInUser.Result.UserName, user.UserName);
             }
