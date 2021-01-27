@@ -320,10 +320,10 @@ namespace RepositoryLayer
 
         
 
-        public async Task SaveMessage(int userToMessageId, int loggedInId, string content)
+        public async Task SaveMessage(string FromUserName, int userToMessageId, int loggedInId, string content)
         {
 
-            Message message = new Message(userToMessageId, loggedInId, content);
+            Message message = new Message(FromUserName, userToMessageId, loggedInId, content);
             await messages.AddAsync(message);
             await _applicationDbContext.SaveChangesAsync();
         }
