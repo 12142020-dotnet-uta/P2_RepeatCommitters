@@ -13,16 +13,18 @@ namespace ModelLayer.Models
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Only positive numbers are allowed.")]
         public int FromUserId { get; set; }
+        public string FromUserName { get; set; }
         [Required]
         public string Content { get; set; }
         public DateTime dateTime { get; set; } = DateTime.Now;
 
         public Message() { }
-        public Message(int toUser, int fromUser, string content) 
+        public Message(string FromUserName, int toUser, int fromUser, string content) 
         {
             this.ToUserId = toUser;
             this.FromUserId = fromUser;
             this.Content = content;
+            this.FromUserName = FromUserName;
         }
     }
 }

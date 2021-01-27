@@ -141,9 +141,9 @@ namespace WhatsThatSong.Controllers
 
         [HttpPost]
         [Route("sendMessage")]
-        public async Task<MessagingViewModel> SendMessage(int LoggedInUserIdint,int UserToMessageId, string content)
+        public async Task<MessagingViewModel> SendMessage(string FromUserName, int LoggedInUserIdint,int UserToMessageId, string content)
         {
-            MessagingViewModel viewModel = await _businessLogicClass.sendMessage(LoggedInUserIdint, UserToMessageId, content);
+            MessagingViewModel viewModel = await _businessLogicClass.sendMessage(FromUserName, LoggedInUserIdint, UserToMessageId, content);
             //MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
             return viewModel;
         }

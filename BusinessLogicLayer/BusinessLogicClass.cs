@@ -215,9 +215,9 @@ namespace BusinessLogicLayer
             return viewModel;
         }
 
-        public async Task<MessagingViewModel> sendMessage(int LoggedInUserIdint, int UserToMessageId, string content)
+        public async Task<MessagingViewModel> sendMessage(string FromUserName, int LoggedInUserIdint, int UserToMessageId, string content)
         {
-            await  _repository.SaveMessage(UserToMessageId, LoggedInUserIdint, content);
+            await  _repository.SaveMessage(FromUserName, UserToMessageId, LoggedInUserIdint, content);
             User LoginUser = await GetUserByIdAsync(LoggedInUserIdint);
             User user = await GetUserByIdAsync(UserToMessageId);
             List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUserIdint);
