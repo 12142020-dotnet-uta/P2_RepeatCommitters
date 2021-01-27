@@ -139,6 +139,15 @@ namespace WhatsThatSong.Controllers
             return friendList;
         }
 
+        [HttpPost]
+        [Route("sendMessage")]
+        public async Task<MessagingViewModel> SendMessage(int LoggedInUserIdint,int UserToMessageId, string content)
+        {
+            await _businessLogicClass.sendMessage(LoggedInUserIdint, UserToMessageId, content);
+            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
+            return viewModel;
+        }
+
         /// <summary>
         /// RETURNS A MESSAGEVIEWMODEL WITH ALL OF THE MESSAGES BETWEEN 2 USERS
         /// </summary>
@@ -151,14 +160,7 @@ namespace WhatsThatSong.Controllers
             return viewModel;
         }
 
-        [HttpGet]
-        [Route("sendMessage")]
-        public async Task<MessagingViewModel> SendMessage(int UserToMessageId, string content)
-        {
-            await _businessLogicClass.sendMessage(UserToMessageId, content);
-            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
-            return viewModel;
-        }
+        
 
         [HttpGet]
         [Route("BakToProfile")]
