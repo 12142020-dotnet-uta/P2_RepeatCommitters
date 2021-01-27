@@ -67,24 +67,38 @@ namespace WhatsThatSong.Controllers
             return favs;
         }
 
+        //[HttpPost]
+        //[Route("uploadSong")]
+        //public async void  UploadSong(IFormFile file, int userid, string artist, 
+        //    string genre, string title, string lyrics, string urlPath, bool isOriginal)
+        //{
+        //    string path = @"\wwwroot\Songs\"+title;
+        //    if (file != null)
+        //    {
+        //        var dir = _env.ContentRootPath;
+        //        using (var fileStream = new FileStream(Path.Combine(dir, path), FileMode.Create, FileAccess.Write))
+        //        {
+        //            //string path = Path.Combine(dir, file.FileName);
+        //            await file.CopyToAsync(fileStream);
+        //            Song song = new Song(artist,genre,title,lyrics, path, isOriginal);
+        //            await _businessLogicClass.sendSongToRepCLass(song);
+        //        }
+
+        //        //file.CopyToAsync(path + file.FileName);
+                
+        //    }
+        //}
+
         [HttpPost]
         [Route("uploadSong")]
-        public async void  UploadSong(IFormFile file, int userid, string artist, string lyrics)
+        public async Task UploadSong(int userid, string userName,
+            string genre, string title, string lyrics, string urlPath, bool isOriginal)
         {
-            //string path = @"\WhatsThatSong\wwwroot\Songs\";
-            if (file != null)
-            {
-                var dir = _env.ContentRootPath;
-                using (var fileStream = new FileStream(Path.Combine(dir, file.FileName), FileMode.Create, FileAccess.Write))
-                {
-                    file.CopyTo(fileStream);
-                }
+            Song s = new Song(userName, genre, title, lyrics, urlPath, isOriginal);
+            await _businessLogicClass.sendSongToRepCLass(s);
 
-                //file.CopyToAsync(path + file.FileName);
-                
-            }
         }
-        
+
         /// <summary>
         /// return a list of original songs searched by genre
         /// </summary>

@@ -85,6 +85,11 @@ namespace BusinessLogicLayer
             return favs; 
         }
 
+        public async Task sendSongToRepCLass(Song song)
+        {
+            await _repository.SaveSongToDb(song);
+        }
+
         /// <summary>
         /// checks to see if a user with that info already exists and returns null if the user already exist. creates a new user if the ures does not already exist.
         /// </summary>

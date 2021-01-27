@@ -27,5 +27,20 @@ namespace ModelLayer.Models
         public string UrlPath { get; set; }
         [Display(Name = "Original")]
         public Boolean isOriginal { get; set; } = true;
+
+
+        public Song(string artist, string genre, string title, string lyrics, string urlPath, bool isOriginal)
+        {
+            this.ArtistName = artist;
+            this.Genre = genre;
+            this.Title = title;
+            this.Lyrics = lyrics;
+            this.UrlPath = urlPath;
+            this.isOriginal = isOriginal;
+        }
+
+        public Song()
+        {
+        }
     }
 }
