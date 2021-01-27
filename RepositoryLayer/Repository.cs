@@ -102,7 +102,7 @@ namespace RepositoryLayer
             {
                 if((item.RequestedFriendId == id) && (item.status == hasPendind))
                 {
-                    return hasPendind; ;
+                    return hasPendind;
                 }
             }
             return noPendingRequest;

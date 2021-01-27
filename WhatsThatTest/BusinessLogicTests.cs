@@ -16,7 +16,7 @@ namespace WhatsThatTest
     public class BusinessLogicTests
     {
 
-        private readonly MapperClass _mapperClass;
+        private readonly MapperClass _mapperClass = new MapperClass();
         private readonly ILogger<Repository> _logger;
 
 
@@ -56,7 +56,7 @@ namespace WhatsThatTest
         // Make Async all the way down through all layers
         // Some where there is something that is Asnyc and has not gotten the data yet.
         [Fact]
-        public void GetUserProfileViewModelAsyncTest()
+        public async void GetUserProfileViewModelAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -79,8 +79,8 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                _repository.users.Add(user);
-                Task<UserProfileViewModel> upvm = businessLogicClass.GetUserProfileViewModel(user.Id);
+                await _repository.SaveNewUser(user);
+                UserProfileViewModel upvm = await businessLogicClass.GetUserProfileViewModel(user.Id);
                 Assert.NotNull(upvm);
             }
         }
@@ -339,7 +339,7 @@ namespace WhatsThatTest
                 FriendList fl = new FriendList(user1.Id, user2.Id);
                 _repository.friendList.Add(fl);
                 // revoke friendship
-                Task deleted = businessLogicClass.DeleteFriend(user2.Id);
+                Task deleted = businessLogicClass.DeleteFriend(user1.Id, user2.Id);
                 _repository.friendList.Remove(fl);
                 Assert.DoesNotContain<FriendList>(fl, _repository.friendList);
             }
@@ -445,7 +445,7 @@ namespace WhatsThatTest
             }
         }
 
-        /*[Fact]
+        [Fact]
         public void GetLoggedInUserTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -469,10 +469,105 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                Task<User> usee = businessLogicClass.SaveUserToDb(user);
+                businessLogicClass.SaveNewUser(user).Wait();
                 Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
                 Assert.Equal(loggedInUser.Result, user);
             }
-        }*/
+        }
+
+        [Fact]
+        public void GetSongByIdTest()
+        {
+            const string lyrics = "lorem ips subsciat boom bap da ting go skrrrrra ka ka pa pa pa";
+
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+                var song = new Song
+                {
+                    Id = int.MaxValue,
+                    ArtistName = "Bad Posture",
+                    Genre = "Pop Punk",
+                    Title = "Yellow",
+                    Duration = TimeSpan.MaxValue,
+                    NumberOfPlays = int.MaxValue,
+                    Lyrics = lyrics,
+                    isOriginal = true
+                };
+
+                Task<Song> songById = businessLogicClass.GetSongById(int.MaxValue);
+                Assert.NotNull(songById);
+            }
+        }
+
+        [Fact]
+        public void AddSongToFavoritesTest()
+        {
+            const string lyrics = "lorem ips subsciat boom bap da ting go skrrrrra ka ka pa pa pa";
+
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+                // create a user
+                var user = new User
+                {
+                    Id = int.MaxValue,
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
+                // create a song
+                var song = new Song
+                {
+                    Id = int.MaxValue,
+                    ArtistName = "Bad Posture",
+                    Genre = "Pop Punk",
+                    Title = "Yellow",
+                    Duration = TimeSpan.MaxValue,
+                    NumberOfPlays = int.MaxValue,
+                    Lyrics = lyrics,
+                    isOriginal = true
+                };
+
+                businessLogicClass.CreatNewBC(user.UserName, user.Password, user.Email).Wait();
+
+                // log the user in
+                businessLogicClass.LoginUser(user.UserName, user.Password).Wait();
+
+                // add the song to the user's favorite list
+                businessLogicClass.AddSongToFavorites(song.Id).Wait();
+                Assert.NotNull(_repository.GetUsersFavorites(user.Id));
+            }
+        }
+
+        [Fact]
+        public void PopulateDbTest()
+        {
+
+        }
+
+        [Fact]
+        public void GetNumOfFriendsByUserIdTest()
+        {
+
+        }
     }
 }

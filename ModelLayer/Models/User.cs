@@ -35,7 +35,7 @@ namespace ModelLayer.Models
         /// </summary>
         /// <param name="password"></param>
         /// <returns></returns>
-        private static string HashPassword(string password)
+        public static string HashPassword(string password)
         {
             int SaltByteSize = 24;
             int HashByteSize = 24;
