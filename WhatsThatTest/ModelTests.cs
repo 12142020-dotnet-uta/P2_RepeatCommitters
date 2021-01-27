@@ -514,7 +514,7 @@ namespace WhatsThatTest
             Assert.Equal(0, errorcount);
 
             // Password salting and hashing gives different passwords.
-            Assert.NotEqual(user.Password, password);
+            Assert.NotEqual(User.HashPassword(user.Password), password);
         }
     }
 }
