@@ -143,20 +143,20 @@ namespace WhatsThatSong.Controllers
         [Route("sendMessage")]
         public async Task<MessagingViewModel> SendMessage(int LoggedInUserIdint,int UserToMessageId, string content)
         {
-            await _businessLogicClass.sendMessage(LoggedInUserIdint, UserToMessageId, content);
-            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
+            MessagingViewModel viewModel = await _businessLogicClass.sendMessage(LoggedInUserIdint, UserToMessageId, content);
+            //MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
             return viewModel;
         }
 
         /// <summary>
-        /// RETURNS A MESSAGEVIEWMODEL WITH ALL OF THE MESSAGES BETWEEN 2 USERS
+        /// RETURNS A MESSAGEVIEWMODEL WITH ALL OF THE MESSAGES BETWEEN 2 USERS based in both user id
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Route("GoToChat")]
-        public async Task<MessagingViewModel> GetMessagesBetween2Users(int UserToMessageId)
+        public async Task<MessagingViewModel> GetMessagesBetween2Users(int loggedInUser, int UserToMessageId)
         {
-            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
+            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(loggedInUser, UserToMessageId);
             return viewModel;
         }
 
@@ -164,10 +164,10 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("BakToProfile")]
-        public async Task<MessagingViewModel> BackToProfile(int LoggedInUser)
+        public async Task<UserProfileViewModel> BackToProfile(int LoggedInUserid)
         {
-            User user = await _businessLogicClass.GetUserByIdAsync(LoggedInUser);
-            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(user.Id);
+            User user = await _businessLogicClass.GetUserByIdAsync(LoggedInUserid);
+            UserProfileViewModel viewModel = await _businessLogicClass.GetUserProfileViewModel(LoggedInUserid);
             return viewModel;
         }
 

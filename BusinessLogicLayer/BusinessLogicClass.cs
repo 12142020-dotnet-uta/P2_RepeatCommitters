@@ -201,20 +201,22 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="UserToMessageId"></param>
         /// <returns></returns>
-        public async Task<MessagingViewModel> GetMessagesViewModel(int UserToMessageId)
+        public async Task<MessagingViewModel> GetMessagesViewModel(int LoggedInUserIdint, int UserToMessageId)
         {
+            User LoginUser = await GetUserByIdAsync(LoggedInUserIdint);
             User user = await GetUserByIdAsync(UserToMessageId);
-            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
-            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUser.Id,user.Id, Messages, LoggedInUser.UserName, user.UserName);
+            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUserIdint);
+            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUserIdint, user.Id, Messages, LoginUser.UserName, user.UserName);
             return viewModel;
         }
 
         public async Task<MessagingViewModel> sendMessage(int LoggedInUserIdint, int UserToMessageId, string content)
         {
             await  _repository.SaveMessage(UserToMessageId, LoggedInUserIdint, content);
+            User LoginUser = await GetUserByIdAsync(LoggedInUserIdint);
             User user = await GetUserByIdAsync(UserToMessageId);
-            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
-            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUser.Id, user.Id, Messages, LoggedInUser.UserName, user.UserName);
+            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUserIdint);
+            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUserIdint, user.Id, Messages, LoginUser.UserName, user.UserName);
             return viewModel;
         }
 
