@@ -10,7 +10,7 @@ using RepositoryLayer;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210128154328_initial")]
+    [Migration("20210128220346_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -111,6 +111,9 @@ namespace RepositoryLayer.Migrations
 
                     b.Property<int>("FromUserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("FromUserName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ToUserId")
                         .HasColumnType("int");
