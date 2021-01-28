@@ -343,12 +343,16 @@ namespace WhatsThatTest
 
                     // instantiate friend list
                     FriendList fl = new FriendList(user1.Id, user2.Id);
+                    _repository.friendList.Add(fl);
+                    context.SaveChanges();
+                    
 
-                    // request friends
+                    /*// request friends
                     businessLogicClass.RequestFriend(user2.Id, user1.Id).Wait();
 
                     // accept friendship
                     businessLogicClass.AcceptFriend(user1.Id, user2.Id).Wait();
+                    */
 
                     // revoke friendship
                     businessLogicClass.DeleteFriend(user1.Id, user2.Id).Wait();

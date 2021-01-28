@@ -109,6 +109,7 @@ namespace WhatsThatTest
                 };
 
                 repository.users.Add(user);
+                context.SaveChanges();
                 var userExists = await repository.DoesUserExist("jtest", "Test1!");
                 Assert.True(userExists);
             }
