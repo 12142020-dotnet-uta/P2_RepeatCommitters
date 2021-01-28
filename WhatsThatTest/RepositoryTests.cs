@@ -266,8 +266,9 @@ namespace WhatsThatTest
                         isOriginal = true
                     };
 
-                    repository.SaveNewUser(user).Wait();
-                    repository.SaveSongToDb(song).Wait();
+                    repository.users.Add(user);
+                    repository.songs.Add(song);
+                    context.SaveChanges();
 
                 // attempt to add song to favorite list
                 repository.AddSongToFavorites(song.Id, user.Id).Wait();
