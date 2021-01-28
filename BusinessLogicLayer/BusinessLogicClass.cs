@@ -58,10 +58,10 @@ namespace BusinessLogicLayer
             return await _repository.GetNumOfFriendsByUserId(id);
         }
 
-        internal async Task<string> HasPendingFrinedRequest(int id)
-        {
-            return await _repository.HasPendingFrinedRequest(id);
-        }
+        //internal async Task<string> HasPendingFrinedRequest(int id)
+        //{
+        //    return await _repository.HasPendingFrinedRequest(id);
+        //}
 
         /// <summary>
         /// Returns a list of all users.
@@ -234,9 +234,24 @@ namespace BusinessLogicLayer
             return await _repository.GetUserByIdAsync(id);
         }
 
-        public async Task DeleteFriend(int LoggedInUserId, int friendToDeleteId)
+        public async Task DeleteFriend(int UserId, int friendToDeleteId)
         {
-            await _repository.DeleteFriend(LoggedInUserId, friendToDeleteId);
+            FriendList FreindListItemToDelete = new FriendList();
+            List<FriendList> list = await _repository.GetFriendListFriendByUserId(UserId);
+            foreach(var item in list)
+            {
+                if(item.FriendId == friendToDeleteId && item.RequestedFriendId == UserId)
+                {
+                    FreindListItemToDelete = item;
+                    await _repository.DeleteFriendByFreindListId(FreindListItemToDelete.Id);
+                }
+                else if(item.FriendId == UserId && item.RequestedFriendId == friendToDeleteId)
+                {
+                    FreindListItemToDelete = item;
+                    await _repository.DeleteFriendByFreindListId(FreindListItemToDelete.Id);
+                }
+            }
+
         }
 
         /// <summary>

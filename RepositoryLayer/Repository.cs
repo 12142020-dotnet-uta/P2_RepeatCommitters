@@ -34,7 +34,6 @@ namespace RepositoryLayer
             this.genres = _applicationDbContext.Genres;
             this.friendList = _applicationDbContext.FriendList;
             this.favoriteLists = _applicationDbContext.FavoriteLists;
-            //populateDb();
         }
 
 
@@ -69,20 +68,17 @@ namespace RepositoryLayer
             await _applicationDbContext.SaveChangesAsync();
         }
 
-        //public void populateDb()
-        //{
-        //    if (users == null)
-        //    {
-        //        User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
-        //        users.Add(user);
-        //        _applicationDbContext.SaveChanges();
-        //    }
-        //}
+        
 
         public async Task<FriendList> HasPendingFrinedRequest(int id)
         {
             return await friendList.FirstOrDefaultAsync(x => x.status == "pending");
             
+        }
+
+        public async Task<List<FriendList>> GetFriendListFriendByUserId(int UserId)
+        {
+            return await friendList.Where(x => x.Id == UserId || x.FriendId == UserId).ToListAsync();
         }
 
         public async Task<FriendList> GetFriendListFriend(int UserId, int pendingFriendId)
@@ -105,23 +101,11 @@ namespace RepositoryLayer
             return request;
         }
 
-        public async Task DeleteFriend(int LoggedInId, int FriendToDeleteId)
+        public async Task DeleteFriendByFreindListId(int friendListId)
         {
-            FriendList f1 = friendList.FirstOrDefault(x => x.FriendId == LoggedInId && x.RequestedFriendId == FriendToDeleteId);
-            if (f1 != null)
-            {
+                FriendList f1 = friendList.FirstOrDefault(x => x.Id == friendListId);
                 friendList.Remove(f1);
                 await _applicationDbContext.SaveChangesAsync();
-            }
-            else
-            {
-                f1 = friendList.FirstOrDefault(x => x.FriendId == FriendToDeleteId && x.RequestedFriendId == LoggedInId);
-                if (f1 != null)
-                {
-                    friendList.Remove(f1);
-                    await _applicationDbContext.SaveChangesAsync();
-                }
-            }
         }
 
         public async Task<List<Song>> GetOriginalSongsByGenre(string genre)
