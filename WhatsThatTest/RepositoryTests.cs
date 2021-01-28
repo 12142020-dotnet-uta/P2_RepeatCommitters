@@ -21,7 +21,7 @@ namespace WhatsThatTest
         public async Task GetAllUsersAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             await Task.Run(() =>
@@ -55,7 +55,7 @@ namespace WhatsThatTest
         public async Task GetUserByIdAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             await Task.Run(() =>
@@ -90,7 +90,7 @@ namespace WhatsThatTest
         public async Task DoesUserExistTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -123,7 +123,7 @@ namespace WhatsThatTest
         public async Task GetUserByNameAndPassTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             await Task.Run(() =>
@@ -157,7 +157,7 @@ namespace WhatsThatTest
         public async Task SaveUserToDbTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             await Task.Run(() =>
@@ -169,8 +169,8 @@ namespace WhatsThatTest
 
                     Repository repository = new Repository(context, _logger);
 
-                // initial user
-                var user = new User
+                    // initial user
+                    var user = new User
                     {
                         UserName = "jtest",
                         Password = "Test1!",
@@ -182,8 +182,8 @@ namespace WhatsThatTest
                     repository.users.Add(user);
                     repository.GetUserByIdAsync(user.Id).Wait();
 
-                // edited user
-                var editedUser = new User
+                    // edited user
+                    var editedUser = new User
                     {
                         UserName = "jtest",
                         Password = "Test1!",
@@ -205,7 +205,7 @@ namespace WhatsThatTest
         public async Task CreateNewUserTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             await Task.Run(() =>
@@ -234,7 +234,7 @@ namespace WhatsThatTest
         public async Task AddSongToFavoritesTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             await Task.Run(() =>
@@ -245,8 +245,8 @@ namespace WhatsThatTest
                     context.Database.EnsureCreated();
 
                     Repository repository = new Repository(context, _logger);
-                // Create a new user
-                var user = new User
+                    // Create a new user
+                    var user = new User
                     {
                         UserName = "jtest",
                         Password = "Test1!",
@@ -254,8 +254,8 @@ namespace WhatsThatTest
                         LastName = "Test",
                         Email = "johnnytest123@email.com"
                     };
-                // Create a song to favorite
-                var song = new Song
+                    // Create a song to favorite
+                    var song = new Song
                     {
                         ArtistName = "Bad Posture",
                         Genre = "Pop Punk",
@@ -266,13 +266,16 @@ namespace WhatsThatTest
                         isOriginal = true
                     };
 
-                    repository.SaveNewUser(user).Wait();
-                    repository.SaveSongToDb(song).Wait();
+                    repository.users.Add(user);
+                    repository.songs.Add(song);
+                    context.SaveChanges();
 
-                // attempt to add song to favorite list
-                repository.AddSongToFavorites(song.Id, user.Id).Wait();
-                // get list of users favorite songs
-                Assert.NotNull(repository.GetUsersFavorites(user.Id));
+                    FavoriteList fl = new FavoriteList{SongId = song.Id, UserId = user.Id};
+
+                    // attempt to add song to favorite list
+                    repository.AddSongToFavorites(fl).Wait();
+                    // get list of users favorite songs
+                    Assert.NotNull(repository.GetUsersFavorites(user.Id));
                 }
             });
         }
@@ -284,7 +287,7 @@ namespace WhatsThatTest
         public async Task GetSongByIdTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             await Task.Run(() =>
@@ -295,8 +298,8 @@ namespace WhatsThatTest
                     context.Database.EnsureCreated();
 
                     Repository repository = new Repository(context, _logger);
-                // Create a song
-                var song = new Song
+                    // Create a song
+                    var song = new Song
                     {
                         ArtistName = "Bad Posture",
                         Genre = "Pop Punk",
@@ -325,7 +328,7 @@ namespace WhatsThatTest
         public async Task GetTop5OriginalsTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             await Task.Run(() =>
@@ -336,8 +339,8 @@ namespace WhatsThatTest
                     context.Database.EnsureCreated();
 
                     Repository repository = new Repository(context, _logger);
-                // create 5 songs
-                for (int i = 0; i < 5; i++)
+                    // create 5 songs
+                    for (int i = 0; i < 5; i++)
                     {
                         var song = new Song
                         {
@@ -364,7 +367,7 @@ namespace WhatsThatTest
         public async Task IncrementNumPlaysTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -402,7 +405,7 @@ namespace WhatsThatTest
         public async Task GetAllSongsTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -433,7 +436,7 @@ namespace WhatsThatTest
         public async Task GetListOfFriendsByUserIdTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -459,8 +462,9 @@ namespace WhatsThatTest
                 }
 
                 // make user1 friends with everyone
-                for (int i = 2; i < 11; i++) {
-                    FriendList friendList = new FriendList() { FriendId = 1, RequestedFriendId = i};
+                for (int i = 2; i < 11; i++)
+                {
+                    FriendList friendList = new FriendList() { FriendId = 1, RequestedFriendId = i };
                     repository.friendList.Add(friendList);
                     context.SaveChanges();
                 }

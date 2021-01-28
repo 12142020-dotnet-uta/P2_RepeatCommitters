@@ -27,7 +27,7 @@ namespace WhatsThatTest
         public async Task GetAllUsersAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -58,7 +58,7 @@ namespace WhatsThatTest
         public async Task GetUserProfileViewModelAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -90,7 +90,7 @@ namespace WhatsThatTest
         public async Task CreateNewBCTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -110,7 +110,7 @@ namespace WhatsThatTest
         public async Task SaveUserToDbTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -139,7 +139,7 @@ namespace WhatsThatTest
         public async Task LoginUserTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -173,7 +173,7 @@ namespace WhatsThatTest
             const string lyrics = "lorem ips subsciat boom bap da ting go skrrrrra ka ka pa pa pa";
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -203,7 +203,7 @@ namespace WhatsThatTest
         public async Task RequestFriendTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -245,7 +245,7 @@ namespace WhatsThatTest
             const string username = "LoremIpsSubsciat";
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -278,7 +278,7 @@ namespace WhatsThatTest
         public async Task GetUserByIdAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -310,7 +310,7 @@ namespace WhatsThatTest
         public async Task DeleteFriendTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -362,7 +362,7 @@ namespace WhatsThatTest
         //public async void GetMessagesViewModelTest()
         //{
         //    var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
         //    .Options;
 
         //    using (var context = new ApplicationDbContext(options))
@@ -391,7 +391,7 @@ namespace WhatsThatTest
         //public void SendMessageTest()
         //{
         //    var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
         //    .Options;
 
         //    using (var context = new ApplicationDbContext(options))
@@ -433,7 +433,7 @@ namespace WhatsThatTest
         public async Task GetAllMessageAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -462,7 +462,7 @@ namespace WhatsThatTest
         public async Task GetLoggedInUserTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -498,7 +498,7 @@ namespace WhatsThatTest
             const string lyrics = "lorem ips subsciat boom bap da ting go skrrrrra ka ka pa pa pa";
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -535,7 +535,7 @@ namespace WhatsThatTest
             const string lyrics = "lorem ips subsciat boom bap da ting go skrrrrra ka ka pa pa pa";
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))

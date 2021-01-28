@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
 
 namespace ModelLayer.Models
@@ -28,7 +29,7 @@ namespace ModelLayer.Models
         public string UrlPath { get; set; }
         [Display(Name = "Original")]
         public Boolean isOriginal { get; set; } = true;
-
+        [NotMapped]
         public IFormFile file { get; set; }
         public string JpgStringSong { get; set; } = null;
         public byte[] ByteArrayImage { get; set; } = null;
