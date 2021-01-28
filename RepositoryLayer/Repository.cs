@@ -13,15 +13,14 @@ namespace RepositoryLayer
         private ApplicationDbContext _applicationDbContext;
         readonly ILogger _logger;
 
-        private DbSet<User> users;
-        private DbSet<Song> songs;
-        private DbSet<Message> messages;
-        private DbSet<Artist> artists;
-        private DbSet<Genre> genres;
-        private DbSet<FriendList> friendList;
-        private DbSet<FavoriteList> favoriteLists;
+        public DbSet<User> users;
+        public DbSet<Song> songs;
+        public DbSet<Message> messages;
+        public DbSet<Artist> artists;
+        public DbSet<Genre> genres;
+        public DbSet<FriendList> friendList;
+        public DbSet<FavoriteList> favoriteLists;
        
-        //public DbSet<>
 
         public Repository(ApplicationDbContext applicationDbContext, ILogger<Repository> logger)
         {
@@ -206,6 +205,11 @@ namespace RepositoryLayer
         public async Task<User> GetUserByNameAndPass(string username, string passw)
         {
             return await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);
+        }
+
+        public async Task<List<FriendList>> GetAllFRiendRequestsByUserId(int userId)
+        {
+            return await friendList.Where(x => x.RequestedFriendId == userId && x.status == "pending").ToListAsync();
         }
 
         public async Task<User> SaveUserToDb(User userToEdit)

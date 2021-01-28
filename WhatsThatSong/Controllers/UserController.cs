@@ -181,5 +181,13 @@ namespace WhatsThatSong.Controllers
         {
             return await _businessLogicClass.GetAllMessagesAsync();
         }
+
+        [HttpGet]
+        [Route("DisplayAllFriendRequests")]
+        public async Task<List<FriendList>> DisplayAllFriendRequests(int UserId)
+        {
+            List<FriendList> list = await _businessLogicClass.GetAllFriendRequestsOUserId(UserId);
+            return list;
+        }
     }
 }
