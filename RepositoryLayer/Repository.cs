@@ -21,7 +21,6 @@ namespace RepositoryLayer
         public DbSet<FriendList> friendList;
         public DbSet<FavoriteList> favoriteLists;
        
-        //public DbSet<>
 
         public Repository(ApplicationDbContext applicationDbContext, ILogger<Repository> logger)
         {
@@ -144,7 +143,6 @@ namespace RepositoryLayer
             int count = 0;
             List<Song> allSongs = await getAllSongs();
             List<Song> fiveSongs = new List<Song>();
-
             do
             {
                 Song highest = new Song();
@@ -160,9 +158,6 @@ namespace RepositoryLayer
                 count++;
             }
             while (fiveSongs.Count < 5);
-            {
-
-            }
             return fiveSongs; 
         }
 
@@ -212,6 +207,11 @@ namespace RepositoryLayer
             return await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);
         }
 
+        public async Task<List<FriendList>> GetAllFRiendRequestsByUserId(int userId)
+        {
+            return await friendList.Where(x => x.RequestedFriendId == userId && x.status == "pending").ToListAsync();
+        }
+
         public async Task<User> SaveUserToDb(User userToEdit)
         {
             User UserInDb = userToEdit;
@@ -236,17 +236,14 @@ namespace RepositoryLayer
 
         public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
         {
-            //List<FriendList> list = new List<FriendList>();
-            //foreach(var item in friendList)
-            //{
-            //    if((item.FriendId == id || item.RequestedFriendId == id))
-            //    {
-            //        list.Add(item);
-            //    }
-            //}
             return await friendList.Where(item => item.FriendId == id || item.RequestedFriendId == id && item.status == "accept").ToListAsync();
         }
 
+        /// <summary>
+        /// Saves a new user to the database. takes in a user as a perameter
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task SaveNewUser(User user)
         {
              users.Add(user);
