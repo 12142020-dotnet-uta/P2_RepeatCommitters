@@ -215,6 +215,21 @@ namespace BusinessLogicLayer
             return list;
         }
 
+        public async Task<bool> AreWeFriends(int userId, int friendId)
+        {
+            FriendList f = await _repository.GetFriendByBothIds(userId, friendId);
+            FriendList fReverseIds = await _repository.GetFriendByBothIds(friendId, userId);
+
+            if (f != null || fReverseIds != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
         {
             List<FriendList> list = await _repository.GetListOfFriendsByUserId(id);

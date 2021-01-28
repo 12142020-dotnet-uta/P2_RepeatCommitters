@@ -212,6 +212,11 @@ namespace RepositoryLayer
             return await friendList.Where(x => x.RequestedFriendId == userId && x.status == "pending").ToListAsync();
         }
 
+        public async Task<FriendList> GetFriendByBothIds(int id1, int id2)
+        {
+            return await friendList.FirstOrDefaultAsync(x => x.FriendId == id1 && x.RequestedFriendId == id2);
+        }
+
         public async Task<User> SaveUserToDb(User userToEdit)
         {
             User UserInDb = userToEdit;
