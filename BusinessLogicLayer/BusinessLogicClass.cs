@@ -37,6 +37,7 @@ namespace BusinessLogicLayer
             {
                 if (item.SongId == songid)
                 {
+                    return;
                 }
                 else
                 {
@@ -46,22 +47,12 @@ namespace BusinessLogicLayer
             }
         }
 
-        public void PopulateDb()
-        {
-
-            //_repository.populateDb();
-
-        }
 
         internal async Task<int> GetNumOfFriendsByUserId(int id)
         {
             return await _repository.GetNumOfFriendsByUserId(id);
         }
 
-        //internal async Task<string> HasPendingFrinedRequest(int id)
-        //{
-        //    return await _repository.HasPendingFrinedRequest(id);
-        //}
 
         /// <summary>
         /// Returns a list of all users.
@@ -242,13 +233,11 @@ namespace BusinessLogicLayer
             {
                 if(item.FriendId == friendToDeleteId && item.RequestedFriendId == UserId)
                 {
-                    FreindListItemToDelete = item;
-                    await _repository.DeleteFriendByFreindListId(FreindListItemToDelete.Id);
+                    await _repository.DeleteFriendByFreindListId(item.Id);
                 }
                 else if(item.FriendId == UserId && item.RequestedFriendId == friendToDeleteId)
                 {
-                    FreindListItemToDelete = item;
-                    await _repository.DeleteFriendByFreindListId(FreindListItemToDelete.Id);
+                    await _repository.DeleteFriendByFreindListId(item.Id);
                 }
             }
 
