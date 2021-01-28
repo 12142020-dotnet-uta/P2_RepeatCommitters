@@ -51,9 +51,9 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("addSongToFavorites")]
-        public async Task addSongToFavorites(int songid)
+        public async Task addSongToFavorites(int songid, int userId)
         {
-            await _businessLogicClass.AddSongToFavorites(songid);
+            await _businessLogicClass.AddSongToFavorites(songid, userId);
         }
 
         /// <summary>
@@ -68,42 +68,42 @@ namespace WhatsThatSong.Controllers
             return favs;
         }
 
-        [HttpPost]
-        [Route("uploadSongWithFile")]
-        public async void UploadSongWithFile(IFormFile file, int userid, string artist,
-            string genre, string title, string lyrics, string urlPath, bool isOriginal)
-        {
-            Song NewSong = new Song(artist, genre,title, lyrics, urlPath, isOriginal);
-            byte[] songByte = _businessLogicClass.ConvertIformFileToByteArray(file);
-            NewSong.ByteArrayImage = songByte;
-            await _businessLogicClass.ConvertFileToBitArray(NewSong);
-
-            //string path = @"\wwwroot\Songs\" + title;
-            //if (file != null)
-            //{
-            //    var dir = _env.ContentRootPath;
-            //    using (var fileStream = new FileStream(Path.Combine(dir, path), FileMode.Create, FileAccess.Write))
-            //    {
-            //        //string path = Path.Combine(dir, file.FileName);
-            //        await file.CopyToAsync(fileStream);
-            //        Song song = new Song(artist, genre, title, lyrics, path, isOriginal);
-            //        await _businessLogicClass.sendSongToRepCLass(song);
-            //    }
-
-                //file.CopyToAsync(path + file.FileName);
-
-            //}
-        }
-
         //[HttpPost]
-        //[Route("uploadSong")]
-        //public async Task UploadSong(int userid, string userName,
+        //[Route("uploadSongWithFile")]
+        //public async void UploadSongWithFile(IFormFile file, int userid, string artist,
         //    string genre, string title, string lyrics, string urlPath, bool isOriginal)
         //{
-        //    Song s = new Song(userName, genre, title, lyrics, urlPath, isOriginal);
-        //    await _businessLogicClass.sendSongToRepCLass(s);
+        //    Song NewSong = new Song(artist, genre,title, lyrics, urlPath, isOriginal);
+        //    byte[] songByte = _businessLogicClass.ConvertIformFileToByteArray(file);
+        //    NewSong.ByteArrayImage = songByte;
+        //    await _businessLogicClass.ConvertFileToBitArray(NewSong);
+
+        //string path = @"\wwwroot\Songs\" + title;
+        //if (file != null)
+        //{
+        //    var dir = _env.ContentRootPath;
+        //    using (var fileStream = new FileStream(Path.Combine(dir, path), FileMode.Create, FileAccess.Write))
+        //    {
+        //        //string path = Path.Combine(dir, file.FileName);
+        //        await file.CopyToAsync(fileStream);
+        //        Song song = new Song(artist, genre, title, lyrics, path, isOriginal);
+        //        await _businessLogicClass.sendSongToRepCLass(song);
+        //    }
+
+        //file.CopyToAsync(path + file.FileName);
 
         //}
+        //}
+
+        [HttpPost]
+        [Route("uploadSong")]
+        public async Task UploadSong(int userid, string userName,
+            string genre, string title, string lyrics, string urlPath, bool isOriginal)
+        {
+            Song s = new Song(userName, genre, title, lyrics, urlPath, isOriginal);
+            await _businessLogicClass.sendSongToRepCLass(s);
+
+        }
 
         /// <summary>
         /// return a list of original songs searched by genre

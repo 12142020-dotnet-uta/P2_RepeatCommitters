@@ -1,16 +1,16 @@
 ﻿@model ModelLayer.ViewModels.SongViewModel
 
 @{
-    ViewData["Title"] = "SongEdit";
+    ViewData["Title"] = "SongEditHC";
 }
 
-<h1>SongEdit</h1>
+<h1>SongEditHC
 
 <h4>SongViewModel</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="SongEdit">
+        <form asp-action="SongEditHC" asp-controller="Home">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Id" class="control-label"></label>

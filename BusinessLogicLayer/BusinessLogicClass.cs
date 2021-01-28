@@ -32,10 +32,10 @@ namespace BusinessLogicLayer
             return song;
         }
 
-        public async Task AddSongToFavorites(int sogid)
+        public async Task AddSongToFavorites(int sogid, int userId)
         {
 
-            await _repository.AddSongToFavorites(sogid, LoggedInUser.Id);
+            await _repository.AddSongToFavorites(sogid, userId);
         }
 
         public void PopulateDb()

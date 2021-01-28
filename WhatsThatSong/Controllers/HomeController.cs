@@ -9,6 +9,7 @@ using WhatsThatSong.Models;
 using BusinessLogicLayer;
 using ModelLayer.Models;
 using Microsoft.AspNetCore.Hosting;
+using ModelLayer.ViewModels;
 
 namespace WhatsThatSong.Controllers
 {
@@ -31,6 +32,7 @@ namespace WhatsThatSong.Controllers
        // BusinessLogicClass _businessLogicClass = new BusinessLogicClass();
 
         [HttpGet]
+        [Route("Index")]
         public IActionResult Index()
         {
            //_businessLogicClass.PopulateDb();
@@ -39,17 +41,27 @@ namespace WhatsThatSong.Controllers
             return View("login");
         }
 
-
-        public IActionResult GotoUsercontroller(string userName, string email, string password)
+        [HttpPost]
+        [Route("SongEditHC")]
+        public IActionResult SongEditHC(int Id, string ArtistName)
         {
-            User user = new User(userName, password, email);
-            return RedirectToAction("User", user);
+            //_businessLogicClass.PopulateDb();
+            //_businessLogicClass.CreatNewBC("ronald", "mcdonald", "ronald@mcdonald.com");
+
+            return RedirectToAction("UploadSongWithFile","Song");
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+
+        //public IActionResult GotoUsercontroller(string userName, string email, string password)
+        //{
+        //    User user = new User(userName, password, email);
+        //    return RedirectToAction("User", user);
+        //}
+
+        //[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        //public IActionResult Error()
+        //{
+        //    return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        //}
     }
 }
