@@ -5,7 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ModelLayer.ViewModels;
-
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace BusinessLogicLayer
 {
@@ -83,6 +84,30 @@ namespace BusinessLogicLayer
         {
             List<FavoriteList> favs = await _repository.GetUsersFavorites(userId);
             return favs; 
+        }
+
+        public async Task ConvertFileToBitArray(Song newSong)
+        {
+            Song song = newSong;
+            await _repository.SaveSongToDb(song);
+        }
+        public byte[] ConvertIformFileToByteArray(IFormFile iformFile)
+        {
+            using (var ms = new MemoryStream())
+            {
+                // convert the IFormFile into a byte[]
+                iformFile.CopyTo(ms);
+
+                if (ms.Length > 2097152)// if it's bigger that 2 MB
+                {
+                    return null;
+                }
+                else
+                {
+                    byte[] a = ms.ToArray(); // put the string into the Image property
+                    return a;
+                }
+            }
         }
 
         public async Task sendSongToRepCLass(Song song)
