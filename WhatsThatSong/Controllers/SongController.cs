@@ -101,7 +101,7 @@ namespace WhatsThatSong.Controllers
             string genre, string title, string lyrics, string urlPath, bool isOriginal)
         {
             Song s = new Song(userName, genre, title, lyrics, urlPath, isOriginal);
-            await _businessLogicClass.sendSongToRepCLass(s);
+            await _businessLogicClass.SaveSong(s);
 
         }
 

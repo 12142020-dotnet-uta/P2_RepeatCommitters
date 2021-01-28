@@ -118,9 +118,13 @@ namespace BusinessLogicLayer
             }
         }
 
-        public async Task sendSongToRepCLass(Song song)
+        public async Task SaveSong(Song song)
         {
-            await _repository.SaveSongToDb(song);
+            Song s = await _repository.GetSongById(song.Id);
+            if(s == null)
+            {
+                await _repository.SaveSongToDb(song);
+            }
         }
 
         /// <summary>

@@ -45,8 +45,7 @@ namespace RepositoryLayer
         /// <returns></returns>
         public async Task AddSongToFavorites(FavoriteList favoriteSong)
         {
-            // This line instantiates a favorite list with all properties set to 0.
-            FavoriteList SongToAdd = favoriteSong;
+                FavoriteList SongToAdd = favoriteSong;
                 // Add to database -- this will auto assign the SongToAdd.Id
                 await favoriteLists.AddAsync(SongToAdd);
                 // Finally, save the changes to our database
@@ -63,17 +62,11 @@ namespace RepositoryLayer
             return await songs.FirstOrDefaultAsync(item => item.Id == id);
         }
 
-        public async Task<Song> SaveSongToDb(Song song)
+        public async Task SaveSongToDb(Song song)
         {
-            Song s1 = await songs.FirstOrDefaultAsync(item=> item.Id == song.Id);
-            if(s1 != null)
-            {
-               return song;
-            }
             Song s = song;
             await songs.AddAsync(s);
             await _applicationDbContext.SaveChangesAsync();
-            return song;
         }
 
         //public void populateDb()
