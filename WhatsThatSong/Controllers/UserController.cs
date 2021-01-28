@@ -189,5 +189,12 @@ namespace WhatsThatSong.Controllers
             List<FriendList> list = await _businessLogicClass.GetAllFriendRequestsOUserId(UserId);
             return list;
         }
+        [HttpGet]
+        [Route("AreWeFriends")]
+        public async Task<bool> AreWeFriends(int userId, int FriendId)
+        {
+             bool AreFriends = await _businessLogicClass.AreWeFriends(userId, FriendId);
+            return AreFriends;
+        }
     }
 }
