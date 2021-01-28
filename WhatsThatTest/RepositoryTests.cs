@@ -460,8 +460,8 @@ namespace WhatsThatTest
 
                 // make user1 friends with everyone
                 for (int i = 2; i < 11; i++) {
-                    await repository.RequestFriend(1, i);
-                    await repository.AcceptRequest(i, 1);
+                    FriendList friendList = new FriendList() { FriendId = 1, RequestedFriendId = i};
+                    repository.friendList.Add(friendList);
                     context.SaveChanges();
                 }
 
