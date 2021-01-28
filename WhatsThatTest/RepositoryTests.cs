@@ -5,6 +5,7 @@ using RepositoryLayer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace WhatsThatTest
@@ -17,7 +18,7 @@ namespace WhatsThatTest
         /// 
         /// </summary>
         [Fact]
-        public void GetAllUsersAsyncTest()
+        public async Task GetAllUsersAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -31,7 +32,6 @@ namespace WhatsThatTest
                 Repository repository = new Repository(context, _logger);
                 var user = new User
                 {
-                    Id = int.MaxValue,
                     UserName = "jtest",
                     Password = "Test1!",
                     FirstName = "Johnny",
@@ -39,8 +39,8 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                repository.users.Add(user);
-                var listOfUsers = repository.GetAllUsersAsync();
+                await repository.SaveNewUser(user);
+                var listOfUsers = await repository.GetAllUsersAsync();
                 Assert.NotNull(listOfUsers);
             }
         }
@@ -49,7 +49,7 @@ namespace WhatsThatTest
         /// 
         /// </summary>
         [Fact]
-        public void GetUserByIdAsyncTest()
+        public async Task GetUserByIdAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -63,7 +63,7 @@ namespace WhatsThatTest
                 Repository repository = new Repository(context, _logger);
                 var user = new User
                 {
-                    Id = int.MaxValue,
+                    Id = int.MaxValue-50,
                     UserName = "jtest",
                     Password = "Test1!",
                     FirstName = "Johnny",
@@ -71,8 +71,8 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                repository.users.Add(user);
-                var userById = repository.GetUserByIdAsync(int.MaxValue);
+                await repository.SaveNewUser(user);
+                var userById = await repository.GetUserByIdAsync(user.Id);
                 Assert.NotNull(userById);
             }
         }
@@ -81,7 +81,7 @@ namespace WhatsThatTest
         /// 
         /// </summary>
         [Fact]
-        public void DoesUserExistTest()
+        public async Task DoesUserExistTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -95,7 +95,6 @@ namespace WhatsThatTest
                 Repository repository = new Repository(context, _logger);
                 var user = new User
                 {
-                    Id = int.MaxValue,
                     UserName = "jtest",
                     Password = "Test1!",
                     FirstName = "Johnny",
@@ -103,9 +102,9 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                repository.users.Add(user);
-                var userExists = repository.DoesUserExist("jtest", "Test1!");
-                Assert.NotNull(userExists);
+                await repository.SaveNewUser(user);
+                var userExists = await repository.DoesUserExist("jtest", "Test1!");
+                Assert.True(userExists);
             }
         }
 
@@ -113,7 +112,7 @@ namespace WhatsThatTest
         /// 
         /// </summary>
         [Fact]
-        public void GetUserByNameAndPassTest()
+        public async Task GetUserByNameAndPassTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -127,7 +126,6 @@ namespace WhatsThatTest
                 Repository repository = new Repository(context, _logger);
                 var user = new User
                 {
-                    Id = int.MaxValue,
                     UserName = "jtest",
                     Password = "Test1!",
                     FirstName = "Johnny",
@@ -135,8 +133,8 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                repository.users.Add(user);
-                var userByNameAndPass = repository.GetUserByNameAndPass("jtest", "Test1!");
+                await repository.SaveNewUser(user);
+                var userByNameAndPass = await repository.GetUserByNameAndPass("jtest", "Test1!");
                 Assert.NotNull(userByNameAndPass);
             }
         }
@@ -145,7 +143,7 @@ namespace WhatsThatTest
         /// 
         /// </summary>
         [Fact]
-        public async void SaveUserToDbTest()
+        public async Task SaveUserToDbTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -161,7 +159,7 @@ namespace WhatsThatTest
                 // initial user
                 var user = new User
                 {
-                    Id = int.MaxValue,
+                    Id=int.MaxValue,
                     UserName = "jtest",
                     Password = "Test1!",
                     FirstName = "Johnny",
@@ -169,9 +167,8 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                repository.users.Add(user);
                 await repository.SaveNewUser(user);
-                await repository.GetUserByIdAsync(int.MaxValue);
+                await repository.GetUserByIdAsync(user.Id);
 
                 // edited user
                 var editedUser = new User
@@ -181,7 +178,8 @@ namespace WhatsThatTest
                     Password = "Test1!",
                     FirstName = "Johnny",
                     LastName = "Test",
-                    Email = "johnnytest123@email.com"
+                    Email = "johnnytest123@email.com",
+                    ProfilePicture = null
                 };
 
                 Assert.NotNull(await repository.SaveUserToDb(editedUser));
@@ -192,133 +190,61 @@ namespace WhatsThatTest
         /// 
         /// </summary>
         [Fact]
-        public async void CreateNewUserTest()
+        public async Task CreateNewUserTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
             .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            await Task.Run(() =>
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                Repository repository = new Repository(context, _logger);
-                var user = new User
+                using (var context = new ApplicationDbContext(options))
                 {
-                    Id = int.MaxValue,
-                    UserName = "jtest",
-                    Password = "Test1!",
-                    FirstName = "Johnny",
-                    LastName = "Test",
-                    Email = "johnnytest123@email.com"
-                };
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
 
-                Assert.NotNull(await repository.CreateNewUser(user.UserName, user.Password, user.Email));
-            }
+                    Repository repository = new Repository(context, _logger);
+                    var user = new User
+                    {
+                        UserName = "jtest",
+                        Password = "Test1!",
+                        FirstName = "Johnny",
+                        LastName = "Test",
+                        Email = "johnnytest123@email.com"
+                    };
+
+                    Assert.NotNull(repository.CreateNewUser(user.UserName, user.Password, user.Email));
+                }
+            });
         }
 
         [Fact]
-        public async void AddSongToFavoritesTest()
+        public async Task AddSongToFavoritesTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
             .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            await Task.Run(() =>
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                Repository repository = new Repository(context, _logger);
-                // Create a new user
-                var user = new User
+                using (var context = new ApplicationDbContext(options))
                 {
-                    Id = int.MaxValue,
-                    UserName = "jtest",
-                    Password = "Test1!",
-                    FirstName = "Johnny",
-                    LastName = "Test",
-                    Email = "johnnytest123@email.com"
-                };
-                // Create a song to favorite
-                var song = new Song
-                {
-                    Id = int.MaxValue,
-                    ArtistName = "Bad Posture",
-                    Genre = "Pop Punk",
-                    Title = "Yellow",
-                    Duration = TimeSpan.MaxValue,
-                    NumberOfPlays = int.MaxValue,
-                    Lyrics = "Lorem ips subsciat",
-                    isOriginal = true
-                };
-                // attempt to add song to favorite list
-                await repository.AddSongToFavorites(song.Id, user.Id);
-                // get list of users favorite songs
-                Assert.NotNull(await repository.GetUsersFavorites(user.Id));
-            }
-        }
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
 
-        //[Fact]
-        //public void GetUsersFavoritesTest() { }
-
-        /*[Fact]
-        public async void GetSongByIdTest()
-        {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
-            .Options;
-
-            using (var context = new ApplicationDbContext(options))
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                Repository repository = new Repository(context, _logger);
-                // Create a song
-                var song = new Song
-                {
-                    Id = int.MaxValue,
-                    ArtistName = "Bad Posture",
-                    Genre = "Pop Punk",
-                    Title = "Yellow",
-                    Duration = TimeSpan.MaxValue,
-                    NumberOfPlays = int.MaxValue,
-                    Lyrics = "Lorem ips subsciat",
-                    isOriginal = true
-                };
-
-                repository.songs.Add(song);
-                Assert.NotNull(await repository.GetSongById(song.Id));
-            }
-        }*/
-
-        [Fact]
-        public void GetMessagesToUsersTest() { }
-
-        [Fact]
-        public void GetSongsBySearchGenreTest() { }
-
-        [Fact]
-        public async void GetTop5OriginalsTest()
-        {
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
-            .Options;
-
-            using (var context = new ApplicationDbContext(options))
-            {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                Repository repository = new Repository(context, _logger);
-                // create 5 songs
-                for (int i = 0; i < 5; i++)
-                {
+                    Repository repository = new Repository(context, _logger);
+                    // Create a new user
+                    var user = new User
+                    {
+                        UserName = "jtest",
+                        Password = "Test1!",
+                        FirstName = "Johnny",
+                        LastName = "Test",
+                        Email = "johnnytest123@email.com"
+                    };
+                    // Create a song to favorite
                     var song = new Song
                     {
-                        Id = int.MaxValue - i,
                         ArtistName = "Bad Posture",
                         Genre = "Pop Punk",
                         Title = "Yellow",
@@ -328,48 +254,136 @@ namespace WhatsThatTest
                         isOriginal = true
                     };
 
-                    repository.songs.Add(song);
-                }
+                    repository.SaveNewUser(user).Wait();
+                    repository.SaveSongToDb(song).Wait();
 
-                List<Song> listOf5Songs = await repository.GetTop5Originals();
-                Assert.Equal(5, listOf5Songs.Count);
-            }
+                    // attempt to add song to favorite list
+                    repository.AddSongToFavorites(song.Id, user.Id).Wait();
+                    // get list of users favorite songs
+                    Assert.NotNull(repository.GetUsersFavorites(user.Id));
+                }
+            });
         }
 
-        /*[Fact]
-        public async void IncrementNumPlaysTest()
+        //[Fact]
+        //public async Task GetUsersFavoritesTest() { }
+
+        [Fact]
+        public async Task GetSongByIdTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
             .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            await Task.Run(() =>
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                Repository repository = new Repository(context, _logger);
-                // Create a song with 1 less than max value number of plays
-                var song = new Song
+                using (var context = new ApplicationDbContext(options))
                 {
-                    Id = int.MaxValue,
-                    ArtistName = "Bad Posture",
-                    Genre = "Pop Punk",
-                    Title = "Yellow",
-                    Duration = TimeSpan.MaxValue,
-                    NumberOfPlays = int.MaxValue - 1,
-                    Lyrics = "Lorem ips subsciat",
-                    isOriginal = true
-                };
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
 
-                repository.songs.Add(song);
-                await repository.IncrementNumPlays(song.Id);
-                Assert.Equal(int.MaxValue, song.NumberOfPlays);
-            }
-        }*/
+                    Repository repository = new Repository(context, _logger);
+                    // Create a song
+                    var song = new Song
+                    {
+                        ArtistName = "Bad Posture",
+                        Genre = "Pop Punk",
+                        Title = "Yellow",
+                        Duration = TimeSpan.MaxValue,
+                        NumberOfPlays = int.MaxValue,
+                        Lyrics = "Lorem ips subsciat",
+                        isOriginal = true
+                    };
+
+                    repository.SaveSongToDb(song).Wait();
+                    Task<Song> s = repository.GetSongById(song.Id);
+
+                    Assert.NotNull(s);
+                }
+            });
+        }
+
+        [Fact]
+        public void GetMessagesToUsersTest() { }
+
+        [Fact]
+        public void GetSongsBySearchGenreTest() { }
+
+        [Fact]
+        public async Task GetTop5OriginalsTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
+
+            await Task.Run(() =>
+            {
+                using (var context = new ApplicationDbContext(options))
+                {
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
+
+                    Repository repository = new Repository(context, _logger);
+                    // create 5 songs
+                    for (int i = 0; i < 5; i++)
+                    {
+                        var song = new Song
+                        {
+                            Id = int.MaxValue-i,
+                            ArtistName = "Bad Posture",
+                            Genre = "Pop Punk",
+                            Title = "Yellow",
+                            Duration = TimeSpan.MaxValue,
+                            NumberOfPlays = int.MaxValue,
+                            Lyrics = "Lorem ips subsciat",
+                            isOriginal = true
+                        };
+
+                        repository.SaveSongToDb(song).Wait();
+                    }
+
+                    Task<List<Song>> listOf5Songs = repository.GetTop5Originals();
+                    Assert.Equal(5, listOf5Songs.Result.Count);
+                }
+            });
+        }
+
+        [Fact]
+        public async Task IncrementNumPlaysTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .Options;
+
+            await Task.Run(() =>
+            {
+                using (var context = new ApplicationDbContext(options))
+                {
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
+
+                    Repository repository = new Repository(context, _logger);
+                    // Create a song with 1 less than max value number of plays
+                    var song = new Song
+                    {
+                        ArtistName = "Bad Posture",
+                        Genre = "Pop Punk",
+                        Title = "Yellow",
+                        Duration = TimeSpan.MaxValue,
+                        NumberOfPlays = int.MaxValue - 1,
+                        Lyrics = "Lorem ips subsciat",
+                        isOriginal = true
+                    };
+
+                    repository.SaveSongToDb(song).Wait();
+                    repository.IncrementNumPlays(song.Id).Wait();
+                    Assert.Equal(int.MaxValue, song.NumberOfPlays);
+                }
+            });
+        }
 
         /*[Fact]
-        public async void GetAllSongsTest()
+        public void GetAllSongsTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -384,7 +398,6 @@ namespace WhatsThatTest
                 // Create a song
                 var song = new Song
                 {
-                    Id = int.MaxValue,
                     ArtistName = "Bad Posture",
                     Genre = "Pop Punk",
                     Title = "Yellow",
@@ -395,7 +408,7 @@ namespace WhatsThatTest
                 };
 
                 repository.songs.Add(song);
-                Assert.NotEmpty(await repository.getAllSongs());
+                Assert.NotEmpty(repository.getAllSongs());
             }
         }*/
 
@@ -436,9 +449,9 @@ namespace WhatsThatTest
         }*/
 
         [Fact]
-        public void GetMessagesViewModelTest() { }
+        public async Task GetMessagesViewModelTest() { }
 
         [Fact]
-        public void GetLoggedInUserTest() { }
+        public async Task GetLoggedInUserTest() { }
     }
 }

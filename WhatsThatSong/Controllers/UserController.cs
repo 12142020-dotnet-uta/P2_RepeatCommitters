@@ -25,21 +25,10 @@ namespace WhatsThatSong.Controllers
             _logger = logger;
         }
 
-        //temp method to figure out whats going on
-        [HttpGet]
-        [Route("makeNewuser")]
-        public async Task<User> makeNewUser()
-        {
-            User user = new User("Jimmy", "john", "jimmy@john.com");
-            //await _businessLogicClass.SaveNewUser(user);
-            return user;
-        }
-
         [HttpPost]
         [Route("CreateUser")]
         public async Task<UserProfileViewModel> CreateUser(string userName, string password, string email)
         {
-            //User user = await _businessLogicClass.CreatNewBC("ronald", "mcdonald", "ronald@mcdonald.com");
             User newUser = await _businessLogicClass.CreatNewBC(userName, password, email);
             UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
             if(newUser != null)
@@ -50,8 +39,8 @@ namespace WhatsThatSong.Controllers
             {
                 return null;
             }
-            
         }
+
         [HttpGet]
         [Route("login")]
         public async Task<UserProfileViewModel> login(string userName, string password)
@@ -65,6 +54,7 @@ namespace WhatsThatSong.Controllers
             }
                 return null;
         }
+
         /// <summary>
         /// Gets the user to edit
         /// </summary>
@@ -102,7 +92,7 @@ namespace WhatsThatSong.Controllers
         [Route("RequestFriend")]
         public async Task FriendRequest(int userId, int requestedFriendId)
         {
-            await _businessLogicClass.RequesFriend(userId, requestedFriendId);
+            await _businessLogicClass.RequestFriend(userId, requestedFriendId);
            // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
         }
 

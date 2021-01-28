@@ -10,6 +10,7 @@ using System.IO;
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 //using System.Web.Abstractions;
 
 
@@ -20,11 +21,11 @@ namespace WhatsThatSong.Controllers
     [Route("Song")]
     public class SongController : ControllerBase
     {
-        private IHostingEnvironment _env;
+        private HostingEnvironment _env;
         private readonly BusinessLogicClass _businessLogicClass;
         private readonly ILogger<SongController> _logger;
 
-        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger, IHostingEnvironment env)
+        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger, HostingEnvironment env)
         {
             _businessLogicClass = businessLogicClass;
             _logger = logger;
