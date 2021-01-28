@@ -51,9 +51,9 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("addSongToFavorites")]
-        public async Task addSongToFavorites(int songid)
+        public async Task addSongToFavorites(int songid, int userId)
         {
-            await _businessLogicClass.AddSongToFavorites(songid);
+            await _businessLogicClass.AddSongToFavorites(songid, userId);
         }
 
         /// <summary>
@@ -69,25 +69,30 @@ namespace WhatsThatSong.Controllers
         }
 
         //[HttpPost]
-        //[Route("uploadSong")]
-        //public async void  UploadSong(IFormFile file, int userid, string artist, 
+        //[Route("uploadSongWithFile")]
+        //public async void UploadSongWithFile(IFormFile file, int userid, string artist,
         //    string genre, string title, string lyrics, string urlPath, bool isOriginal)
         //{
-        //    string path = @"\wwwroot\Songs\"+title;
-        //    if (file != null)
-        //    {
-        //        var dir = _env.ContentRootPath;
-        //        using (var fileStream = new FileStream(Path.Combine(dir, path), FileMode.Create, FileAccess.Write))
-        //        {
-        //            //string path = Path.Combine(dir, file.FileName);
-        //            await file.CopyToAsync(fileStream);
-        //            Song song = new Song(artist,genre,title,lyrics, path, isOriginal);
-        //            await _businessLogicClass.sendSongToRepCLass(song);
-        //        }
+        //    Song NewSong = new Song(artist, genre,title, lyrics, urlPath, isOriginal);
+        //    byte[] songByte = _businessLogicClass.ConvertIformFileToByteArray(file);
+        //    NewSong.ByteArrayImage = songByte;
+        //    await _businessLogicClass.ConvertFileToBitArray(NewSong);
 
-        //        //file.CopyToAsync(path + file.FileName);
-                
+        //string path = @"\wwwroot\Songs\" + title;
+        //if (file != null)
+        //{
+        //    var dir = _env.ContentRootPath;
+        //    using (var fileStream = new FileStream(Path.Combine(dir, path), FileMode.Create, FileAccess.Write))
+        //    {
+        //        //string path = Path.Combine(dir, file.FileName);
+        //        await file.CopyToAsync(fileStream);
+        //        Song song = new Song(artist, genre, title, lyrics, path, isOriginal);
+        //        await _businessLogicClass.sendSongToRepCLass(song);
         //    }
+
+        //file.CopyToAsync(path + file.FileName);
+
+        //}
         //}
 
         [HttpPost]
