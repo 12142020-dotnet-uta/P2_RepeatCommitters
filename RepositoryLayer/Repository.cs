@@ -72,7 +72,7 @@ namespace RepositoryLayer
 
         public async Task<FriendList> HasPendingFrinedRequest(int id)
         {
-            return await friendList.FirstOrDefaultAsync(x => x.status == "pending");
+            return await friendList.FirstOrDefaultAsync(x => x.status == "pending" && x.FriendId == id);
             
         }
 
