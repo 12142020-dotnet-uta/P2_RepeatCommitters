@@ -5,7 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ModelLayer.ViewModels;
-
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace BusinessLogicLayer
 {
@@ -23,36 +24,35 @@ namespace BusinessLogicLayer
         }
        
 
-        public User LoggedInUser = new User();
-
         public async Task<Song> GetSongById(int id)
         {
             Song song = await _repository.GetSongById(id);
             return song;
         }
 
-        public async Task AddSongToFavorites(int sogid)
+        public async Task AddSongToFavorites(int songid, int userId)
         {
-
-            await _repository.AddSongToFavorites(sogid, LoggedInUser.Id);
+            List<FavoriteList> AllUsersIdfavoriteLists = await _repository.GetUsersFavorites(userId);
+            foreach (var item in AllUsersIdfavoriteLists)
+            {
+                if (item.SongId == songid)
+                {
+                    return;
+                }
+                else
+                {
+                    FavoriteList fSong = new FavoriteList(songid, userId);
+                    await _repository.AddSongToFavorites(fSong);
+                }
+            }
         }
 
-        public void PopulateDb()
-        {
-
-            //_repository.populateDb();
-
-        }
 
         internal async Task<int> GetNumOfFriendsByUserId(int id)
         {
             return await _repository.GetNumOfFriendsByUserId(id);
         }
 
-        internal async Task<string> HasPendingFrinedRequest(int id)
-        {
-            return await _repository.HasPendingFrinedRequest(id);
-        }
 
         /// <summary>
         /// Returns a list of all users.
@@ -68,9 +68,13 @@ namespace BusinessLogicLayer
         {
             User user = await _repository.GetUserByIdAsync(id);
             int num = await _repository.GetNumOfFriendsByUserId(id);
-            string pending = await _repository.HasPendingFrinedRequest(id);
+            FriendList friendsWithPending = await _repository.HasPendingFrinedRequest(id);
+            string pending = null;
+            if (friendsWithPending != null)
+            {
+                pending = "pending";
+            }
             UserProfileViewModel model = _mapperClass.BuildUserProfileViewModel(id, num, pending, user.UserName);
-
             return model;
         }
 
@@ -85,9 +89,37 @@ namespace BusinessLogicLayer
             return favs; 
         }
 
-        public async Task sendSongToRepCLass(Song song)
+        public async Task ConvertFileToBitArray(Song newSong)
         {
+            Song song = newSong;
             await _repository.SaveSongToDb(song);
+        }
+        public byte[] ConvertIformFileToByteArray(IFormFile iformFile)
+        {
+            using (var ms = new MemoryStream())
+            {
+                // convert the IFormFile into a byte[]
+                iformFile.CopyTo(ms);
+
+                if (ms.Length > 2097152)// if it's bigger that 2 MB
+                {
+                    return null;
+                }
+                else
+                {
+                    byte[] a = ms.ToArray(); // put the string into the Image property
+                    return a;
+                }
+            }
+        }
+
+        public async Task SaveSong(Song song)
+        {
+            Song s = await _repository.GetSongById(song.Id);
+            if(s == null)
+            {
+                await _repository.SaveSongToDb(song);
+            }
         }
 
         /// <summary>
@@ -107,7 +139,6 @@ namespace BusinessLogicLayer
             else 
             {
                 User newUser = await _repository.CreateNewUser(userName, password,email);
-                LoggedInUser = newUser;
                 return newUser;
             }
         }
@@ -123,9 +154,11 @@ namespace BusinessLogicLayer
             return originalSongs;
         }
 
-        public async Task AcceptFriend(int loggedInId,int pendingFriendId)
+        public async Task AcceptFriend(int UserId,int pendingFriendId)
         {
-            await _repository.AcceptRequest(loggedInId,pendingFriendId);
+            FriendList friendToAccept = await _repository.GetFriendListFriend(UserId, pendingFriendId);
+            friendToAccept.status = "accept";
+            await _repository.AcceptRequest(friendToAccept);
         }
 
         /// <summary>
@@ -141,7 +174,6 @@ namespace BusinessLogicLayer
             if(userExists)
             {
                 User user = await _repository.GetUserByNameAndPass(userName, password);
-                LoggedInUser = user;
                 return user;
             }
             else
@@ -193,9 +225,22 @@ namespace BusinessLogicLayer
             return await _repository.GetUserByIdAsync(id);
         }
 
-        public async Task DeleteFriend(int LoggedInUserId, int friendToDeleteId)
+        public async Task DeleteFriend(int UserId, int friendToDeleteId)
         {
-            await _repository.DeleteFriend(LoggedInUserId, friendToDeleteId);
+            FriendList FreindListItemToDelete = new FriendList();
+            List<FriendList> list = await _repository.GetFriendListFriendByUserId(UserId);
+            foreach(var item in list)
+            {
+                if(item.FriendId == friendToDeleteId && item.RequestedFriendId == UserId)
+                {
+                    await _repository.DeleteFriendByFreindListId(item.Id);
+                }
+                else if(item.FriendId == UserId && item.RequestedFriendId == friendToDeleteId)
+                {
+                    await _repository.DeleteFriendByFreindListId(item.Id);
+                }
+            }
+
         }
 
         /// <summary>
@@ -230,11 +275,6 @@ namespace BusinessLogicLayer
         public async Task<IEnumerable<Message>> GetAllMessagesAsync()
         {
             return await _repository.GetAllMessagesAsync();
-        }
-
-        public async Task<User> GetLoggedInUser()
-        {
-            return LoggedInUser;
         }
 
         public async Task SaveNewUser(User user)

@@ -31,7 +31,7 @@ namespace WhatsThatSong.Controllers
         {
             User newUser = await _businessLogicClass.CreatNewBC(userName, password, email);
             UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
-            if(newUser != null)
+            if(newUser.UserName==null)
             {
                 return UPVM;
             }
@@ -99,9 +99,9 @@ namespace WhatsThatSong.Controllers
 
         [HttpPut]
         [Route("AcceptFriend")]
-        public async Task AcceptFriend(int LoggedInId, int pendingFriendId)
+        public async Task AcceptFriend(int UserId, int pendingFriendId)
         {
-            await _businessLogicClass.AcceptFriend(LoggedInId,pendingFriendId);
+            await _businessLogicClass.AcceptFriend(UserId,pendingFriendId);
         }
         /// <summary>
         /// sends a list of friends that have been accepted
@@ -122,10 +122,10 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("DeleteFriend")]
-        public async Task<List<FriendList>> DeleteFriend(int LoggedInUserId, int friendToDeleteId)
+        public async Task<List<FriendList>> DeleteFriend(int UserId, int friendToDeleteId)
         {
-            await _businessLogicClass.DeleteFriend(LoggedInUserId, friendToDeleteId);
-            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(LoggedInUserId);
+            await _businessLogicClass.DeleteFriend(UserId, friendToDeleteId);
+            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(UserId);
             return friendList;
         }
 

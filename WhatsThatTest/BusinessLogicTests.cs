@@ -27,7 +27,7 @@ namespace WhatsThatTest
         public async Task GetAllUsersAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -58,7 +58,7 @@ namespace WhatsThatTest
         public async Task GetUserProfileViewModelAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -90,7 +90,7 @@ namespace WhatsThatTest
         public async Task CreateNewBCTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -110,7 +110,7 @@ namespace WhatsThatTest
         public async Task SaveUserToDbTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -139,7 +139,7 @@ namespace WhatsThatTest
         public async Task LoginUserTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -160,7 +160,7 @@ namespace WhatsThatTest
                         Email = "johnnytest123@email.com"
                     };
 
-                    businessLogicClass.SaveNewUser(user).Wait();
+                    _repository.users.Add(user);
                     Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
                     Assert.NotNull(loggedInUser);
                 }
@@ -173,7 +173,7 @@ namespace WhatsThatTest
             const string lyrics = "lorem ips subsciat boom bap da ting go skrrrrra ka ka pa pa pa";
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -203,7 +203,7 @@ namespace WhatsThatTest
         public async Task RequestFriendTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -245,7 +245,7 @@ namespace WhatsThatTest
             const string username = "LoremIpsSubsciat";
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -266,7 +266,8 @@ namespace WhatsThatTest
                         Email = "johnnytest123@email.com"
                     };
 
-                    businessLogicClass.SaveNewUser(user).Wait();
+                    _repository.users.Add(user);
+                    context.SaveChanges();
                     Task<List<User>> listOfUsers = businessLogicClass.SearchForUsersByPartialN(username);
                     Assert.NotNull(listOfUsers);
                 }
@@ -277,7 +278,7 @@ namespace WhatsThatTest
         public async Task GetUserByIdAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -298,7 +299,7 @@ namespace WhatsThatTest
                         Email = "johnnytest123@email.com"
                     };
 
-                    businessLogicClass.SaveNewUser(user).Wait();
+                    _repository.users.Add(user);
                     Task<User> userById = businessLogicClass.GetUserByIdAsync(user.Id);
                     Assert.NotNull(userById);
                 }
@@ -309,7 +310,7 @@ namespace WhatsThatTest
         public async Task DeleteFriendTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -343,12 +344,11 @@ namespace WhatsThatTest
 
                     // instantiate friend list
                     FriendList fl = new FriendList(user1.Id, user2.Id);
+                    _repository.friendList.Add(fl);
+                    context.SaveChanges();
 
-                    // request friends
-                    businessLogicClass.RequestFriend(user2.Id, user1.Id).Wait();
-
-                    // accept friendship
-                    businessLogicClass.AcceptFriend(user1.Id, user2.Id).Wait();
+                    // make sure they're friends
+                    Assert.Contains<FriendList>(fl, _repository.friendList);
 
                     // revoke friendship
                     businessLogicClass.DeleteFriend(user1.Id, user2.Id).Wait();
@@ -362,7 +362,7 @@ namespace WhatsThatTest
         //public async void GetMessagesViewModelTest()
         //{
         //    var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
         //    .Options;
 
         //    using (var context = new ApplicationDbContext(options))
@@ -391,7 +391,7 @@ namespace WhatsThatTest
         //public void SendMessageTest()
         //{
         //    var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
         //    .Options;
 
         //    using (var context = new ApplicationDbContext(options))
@@ -433,7 +433,7 @@ namespace WhatsThatTest
         public async Task GetAllMessageAsyncTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -462,7 +462,7 @@ namespace WhatsThatTest
         public async Task GetLoggedInUserTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -498,7 +498,7 @@ namespace WhatsThatTest
             const string lyrics = "lorem ips subsciat boom bap da ting go skrrrrra ka ka pa pa pa";
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             await Task.Run(() =>
@@ -522,7 +522,8 @@ namespace WhatsThatTest
                         isOriginal = true
                     };
 
-                    _repository.SaveSongToDb(song).Wait();
+                    _repository.songs.Add(song);
+                    context.SaveChanges();
                     Assert.NotNull(businessLogicClass.GetSongById(song.Id));
                 }
             });
@@ -534,7 +535,7 @@ namespace WhatsThatTest
             const string lyrics = "lorem ips subsciat boom bap da ting go skrrrrra ka ka pa pa pa";
 
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -565,14 +566,10 @@ namespace WhatsThatTest
                     isOriginal = true
                 };
 
-                await businessLogicClass.CreatNewBC(user.UserName, user.Password, user.Email);
-
-                // log the user in
-                await businessLogicClass.LoginUser(user.UserName, user.Password);
-
                 // add the song to the user's favorite list
-                await businessLogicClass.AddSongToFavorites(song.Id);
-                Assert.NotNull(await _repository.GetUsersFavorites(user.Id));
+                await businessLogicClass.AddSongToFavorites(song.Id, user.Id);
+
+                Assert.NotNull(_repository.favoriteLists);
             }
         }
 

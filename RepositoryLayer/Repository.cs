@@ -13,13 +13,13 @@ namespace RepositoryLayer
         private ApplicationDbContext _applicationDbContext;
         readonly ILogger _logger;
 
-        public DbSet<User> users;
-        public DbSet<Song> songs;
-        public DbSet<Message> messages;
-        public DbSet<Artist> artists;
-        public DbSet<Genre> genres;
-        public DbSet<FriendList> friendList;
-        public DbSet<FavoriteList> favoriteLists;
+        private DbSet<User> users;
+        private DbSet<Song> songs;
+        private DbSet<Message> messages;
+        private DbSet<Artist> artists;
+        private DbSet<Genre> genres;
+        private DbSet<FriendList> friendList;
+        private DbSet<FavoriteList> favoriteLists;
        
         //public DbSet<>
 
@@ -34,7 +34,6 @@ namespace RepositoryLayer
             this.genres = _applicationDbContext.Genres;
             this.friendList = _applicationDbContext.FriendList;
             this.favoriteLists = _applicationDbContext.FavoriteLists;
-            //populateDb();
         }
 
 
@@ -43,30 +42,13 @@ namespace RepositoryLayer
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task AddSongToFavorites(int songid, int loggedInUserId)
+        public async Task AddSongToFavorites(FavoriteList favoriteSong)
         {
-            // This line instantiates a favorite list with all properties set to 0.
-            FavoriteList SongToAdd = new FavoriteList();
-            // Search through favorite list to see if it exists
-            foreach(var item in favoriteLists)
-            {
-                if(item.SongId == songid && item.UserId == loggedInUserId)
-                {
-                    SongToAdd = item; 
-                }
-            }
-            // If song is not on their favorite list, SongToAdd.Id will still be 0
-            if(SongToAdd.Id == 0)
-            {
-                // Set the user id
-                SongToAdd.UserId = loggedInUserId;
-                // Set the song id
-                SongToAdd.SongId = songid;
+                FavoriteList SongToAdd = favoriteSong;
                 // Add to database -- this will auto assign the SongToAdd.Id
                 await favoriteLists.AddAsync(SongToAdd);
                 // Finally, save the changes to our database
                 await _applicationDbContext.SaveChangesAsync();
-            }
         }
 
         public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
@@ -79,57 +61,34 @@ namespace RepositoryLayer
             return await songs.FirstOrDefaultAsync(item => item.Id == id);
         }
 
-        public async Task<Song> SaveSongToDb(Song song)
+        public async Task SaveSongToDb(Song song)
         {
-            Song s1 = await songs.FirstOrDefaultAsync(item=> item.Id == song.Id);
-            if(s1 != null)
-            {
-               return song;
-            }
             Song s = song;
             await songs.AddAsync(s);
             await _applicationDbContext.SaveChangesAsync();
-            return song;
         }
 
-        //public void populateDb()
-        //{
-        //    if (users == null)
-        //    {
-        //        User user = new User("Ronald", "Mcdonald", "ronald@Mcdonald.com");
-        //        users.Add(user);
-        //        _applicationDbContext.SaveChanges();
-        //    }
-        //}
+        
 
-        public async Task<string> HasPendingFrinedRequest(int id)
+        public async Task<FriendList> HasPendingFrinedRequest(int id)
         {
-            string hasPendind = "pending";
-            string noPendingRequest ="";
-            await foreach(var item in friendList)
-            {
-                if((item.RequestedFriendId == id) && (item.status == hasPendind))
-                {
-                    return hasPendind;
-                }
-            }
-            return noPendingRequest;
+            return await friendList.FirstOrDefaultAsync(x => x.status == "pending" && x.RequestedFriendId == id);
+            
         }
-        public async Task AcceptRequest(int loggedInId, int pendingFriendId)
+
+        public async Task<List<FriendList>> GetFriendListFriendByUserId(int UserId)
         {
-            //FriendList f = friendList.FirstOrDefault(x => x.RequestedFriendId == loggedInId && x.FriendId == pendingFriendId && x.status == "pending");
+            return await friendList.Where(x => x.Id == UserId || x.FriendId == UserId).ToListAsync();
+        }
 
-            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == loggedInId && x.FriendId == pendingFriendId && x.status == "pending");
-            if (fl != null)
-            {
-                // await _applicationDbContext.SaveChangesAsync();
-                fl.status = "accept";
-            }
-            else
-            {
-                // print error to logger
-            }
-
+        public async Task<FriendList> GetFriendListFriend(int UserId, int pendingFriendId)
+        {
+            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == UserId && x.FriendId == pendingFriendId && x.status == "pending");
+            return fl;
+        }
+        public async Task AcceptRequest(FriendList pendingFriendId)
+        {
+            FriendList fl = pendingFriendId;
             _applicationDbContext.Update(fl);
             await _applicationDbContext.SaveChangesAsync();
         }
@@ -142,36 +101,16 @@ namespace RepositoryLayer
             return request;
         }
 
-        public async Task DeleteFriend(int LoggedInId, int FriendToDeleteId)
+        public async Task DeleteFriendByFreindListId(int friendListId)
         {
-            FriendList f1 = friendList.FirstOrDefault(x => x.FriendId == LoggedInId && x.RequestedFriendId == FriendToDeleteId);
-            if (f1 != null)
-            {
+                FriendList f1 = friendList.FirstOrDefault(x => x.Id == friendListId);
                 friendList.Remove(f1);
                 await _applicationDbContext.SaveChangesAsync();
-            }
-            else
-            {
-                f1 = friendList.FirstOrDefault(x => x.FriendId == FriendToDeleteId && x.RequestedFriendId == LoggedInId);
-                if (f1 != null)
-                {
-                    friendList.Remove(f1);
-                    await _applicationDbContext.SaveChangesAsync();
-                }
-            }
         }
 
         public async Task<List<Song>> GetOriginalSongsByGenre(string genre)
         {
-            
-            List<Song> OriginalSongs = new List<Song>();
-           await foreach(var item in songs)
-            {
-                if(item.isOriginal == true)
-                {
-                    OriginalSongs.Add(item);
-                }
-            }
+            List<Song> OriginalSongs = await songs.Where(x => x.Genre == genre).ToListAsync();
             return OriginalSongs;
         }
 
@@ -205,7 +144,6 @@ namespace RepositoryLayer
             int count = 0;
             List<Song> allSongs = await getAllSongs();
             List<Song> fiveSongs = new List<Song>();
-
             do
             {
                 Song highest = new Song();
@@ -221,9 +159,6 @@ namespace RepositoryLayer
                 count++;
             }
             while (fiveSongs.Count < 5);
-            {
-
-            }
             return fiveSongs; 
         }
 
@@ -297,17 +232,14 @@ namespace RepositoryLayer
 
         public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
         {
-            //List<FriendList> list = new List<FriendList>();
-            //foreach(var item in friendList)
-            //{
-            //    if((item.FriendId == id || item.RequestedFriendId == id))
-            //    {
-            //        list.Add(item);
-            //    }
-            //}
             return await friendList.Where(item => item.FriendId == id || item.RequestedFriendId == id && item.status == "accept").ToListAsync();
         }
 
+        /// <summary>
+        /// Saves a new user to the database. takes in a user as a perameter
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task SaveNewUser(User user)
         {
              users.Add(user);
