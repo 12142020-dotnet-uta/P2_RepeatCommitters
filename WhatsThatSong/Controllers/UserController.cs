@@ -18,8 +18,6 @@ namespace WhatsThatSong.Controllers
         private readonly BusinessLogicClass _businessLogicClass;
         private readonly ILogger<UserController> _logger;
 
-        
-
 
         public UserController(BusinessLogicClass businessLogicClass, ILogger<UserController> logger)
         {
@@ -27,21 +25,10 @@ namespace WhatsThatSong.Controllers
             _logger = logger;
         }
 
-        //temp method to figure out whats going on
-        [HttpGet]
-        [Route("makeNewuser")]
-        public async Task<User> makeNewUser()
-        {
-            User user = new User("Jimmy", "john", "jimmy@john.com");
-            //await _businessLogicClass.SaveNewUser(user);
-            return user;
-        }
-
         [HttpPost]
         [Route("CreateUser")]
         public async Task<UserProfileViewModel> CreateUser(string userName, string password, string email)
         {
-            //User user = await _businessLogicClass.CreatNewBC("ronald", "mcdonald", "ronald@mcdonald.com");
             User newUser = await _businessLogicClass.CreatNewBC(userName, password, email);
             UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
             if(newUser != null)
@@ -52,8 +39,8 @@ namespace WhatsThatSong.Controllers
             {
                 return null;
             }
-            
         }
+
         [HttpGet]
         [Route("login")]
         public async Task<UserProfileViewModel> login(string userName, string password)
@@ -67,6 +54,7 @@ namespace WhatsThatSong.Controllers
             }
                 return null;
         }
+
         /// <summary>
         /// Gets the user to edit
         /// </summary>
@@ -88,8 +76,9 @@ namespace WhatsThatSong.Controllers
             userToEdit.UserName = userName; userToEdit.Password = password; userToEdit.Email = email; userToEdit.FirstName = firstName; userToEdit.LastName = lastName;
             await _businessLogicClass.SaveUserToDb(userToEdit);
             UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(userToEdit.Id);
-            return UPVM; 
+            return UPVM;
         }
+
         [HttpGet]
         [Route("SearchForUsers")]
         public async Task<List<User>> SearchForUsers(string searchString)
@@ -98,22 +87,29 @@ namespace WhatsThatSong.Controllers
             
             return listOfUsers;
         }
+
         [HttpGet]
         [Route("RequestFriend")]
-        public async Task<User> FriendRequest(int userId, int requestedFriendId)
+        public async Task FriendRequest(int userId, int requestedFriendId)
         {
-            await _businessLogicClass.RequesFriend(userId, requestedFriendId);
-            User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
-            return LoggedInUser;
+            await _businessLogicClass.RequestFriend(userId, requestedFriendId);
+           // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
         }
 
+
+        [HttpPut]
+        [Route("AcceptFriend")]
+        public async Task AcceptFriend(int LoggedInId, int pendingFriendId)
+        {
+            await _businessLogicClass.AcceptFriend(LoggedInId,pendingFriendId);
+        }
         /// <summary>
         /// sends a list of friends that have been accepted
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet]
-        [Route("RequestFriend")]
+        [Route("GetFriends")]
         public async Task<List<FriendList>> GetFriendsByUserId(int id)
         {
            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
@@ -126,40 +122,42 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("DeleteFriend")]
-        public async Task<List<FriendList>> DeleteFriend(int id)
+        public async Task<List<FriendList>> DeleteFriend(int LoggedInUserId, int friendToDeleteId)
         {
-            await _businessLogicClass.DeleteFriend(id);
-            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
+            await _businessLogicClass.DeleteFriend(LoggedInUserId, friendToDeleteId);
+            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(LoggedInUserId);
             return friendList;
         }
 
+        [HttpPost]
+        [Route("sendMessage")]
+        public async Task<MessagingViewModel> SendMessage(string FromUserName, int LoggedInUserIdint,int UserToMessageId, string content)
+        {
+            MessagingViewModel viewModel = await _businessLogicClass.sendMessage(FromUserName, LoggedInUserIdint, UserToMessageId, content);
+            //MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
+            return viewModel;
+        }
+
         /// <summary>
-        /// RETURNS A MESSAGEVIEWMODEL WITH ALL OF THE MESSAGES BETWEEN 2 USERS
+        /// RETURNS A MESSAGEVIEWMODEL WITH ALL OF THE MESSAGES BETWEEN 2 USERS based in both user id
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         [Route("GoToChat")]
-        public async Task<MessagingViewModel> GetMessagesBetween2Users(int UserToMessageId)
+        public async Task<MessagingViewModel> GetMessagesBetween2Users(int loggedInUser, int UserToMessageId)
         {
-            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
+            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(loggedInUser, UserToMessageId);
             return viewModel;
         }
 
-        [HttpGet]
-        [Route("sendMessage")]
-        public async Task<MessagingViewModel> SendMessage(int UserToMessageId, string content)
-        {
-            await _businessLogicClass.sendMessage(UserToMessageId, content);
-            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(UserToMessageId);
-            return viewModel;
-        }
+        
 
         [HttpGet]
         [Route("BakToProfile")]
-        public async Task<MessagingViewModel> BackToProfile(int LoggedInUser)
+        public async Task<UserProfileViewModel> BackToProfile(int LoggedInUserid)
         {
-            User user = await _businessLogicClass.GetUserByIdAsync(LoggedInUser);
-            MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(user.Id);
+            User user = await _businessLogicClass.GetUserByIdAsync(LoggedInUserid);
+            UserProfileViewModel viewModel = await _businessLogicClass.GetUserProfileViewModel(LoggedInUserid);
             return viewModel;
         }
 

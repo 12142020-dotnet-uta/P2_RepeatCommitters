@@ -10,6 +10,7 @@ using System.IO;
 using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 //using System.Web.Abstractions;
 
 
@@ -20,11 +21,11 @@ namespace WhatsThatSong.Controllers
     [Route("Song")]
     public class SongController : ControllerBase
     {
-        private IHostingEnvironment _env;
+        private HostingEnvironment _env;
         private readonly BusinessLogicClass _businessLogicClass;
         private readonly ILogger<SongController> _logger;
 
-        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger, IHostingEnvironment env)
+        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger, HostingEnvironment env)
         {
             _businessLogicClass = businessLogicClass;
             _logger = logger;
@@ -67,24 +68,38 @@ namespace WhatsThatSong.Controllers
             return favs;
         }
 
+        //[HttpPost]
+        //[Route("uploadSong")]
+        //public async void  UploadSong(IFormFile file, int userid, string artist, 
+        //    string genre, string title, string lyrics, string urlPath, bool isOriginal)
+        //{
+        //    string path = @"\wwwroot\Songs\"+title;
+        //    if (file != null)
+        //    {
+        //        var dir = _env.ContentRootPath;
+        //        using (var fileStream = new FileStream(Path.Combine(dir, path), FileMode.Create, FileAccess.Write))
+        //        {
+        //            //string path = Path.Combine(dir, file.FileName);
+        //            await file.CopyToAsync(fileStream);
+        //            Song song = new Song(artist,genre,title,lyrics, path, isOriginal);
+        //            await _businessLogicClass.sendSongToRepCLass(song);
+        //        }
+
+        //        //file.CopyToAsync(path + file.FileName);
+                
+        //    }
+        //}
+
         [HttpPost]
         [Route("uploadSong")]
-        public async void  UploadSong(IFormFile file, int userid, string artist, string lyrics)
+        public async Task UploadSong(int userid, string userName,
+            string genre, string title, string lyrics, string urlPath, bool isOriginal)
         {
-            //string path = @"\WhatsThatSong\wwwroot\Songs\";
-            if (file != null)
-            {
-                var dir = _env.ContentRootPath;
-                using (var fileStream = new FileStream(Path.Combine(dir, file.FileName), FileMode.Create, FileAccess.Write))
-                {
-                    file.CopyTo(fileStream);
-                }
+            Song s = new Song(userName, genre, title, lyrics, urlPath, isOriginal);
+            await _businessLogicClass.sendSongToRepCLass(s);
 
-                //file.CopyToAsync(path + file.FileName);
-                
-            }
         }
-        
+
         /// <summary>
         /// return a list of original songs searched by genre
         /// </summary>

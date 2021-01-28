@@ -44,14 +44,14 @@ namespace BusinessLogicLayer
 
         }
 
-        internal Task<int> GetNumOfFriendsByUserId(int id)
+        internal async Task<int> GetNumOfFriendsByUserId(int id)
         {
-            return _repository.GetNumOfFriendsByUserId(id);
+            return await _repository.GetNumOfFriendsByUserId(id);
         }
 
-        internal Task<string> HasPendingFrinedRequest(int id)
+        internal async Task<string> HasPendingFrinedRequest(int id)
         {
-            return _repository.HasPendingFrinedRequest(id);
+            return await _repository.HasPendingFrinedRequest(id);
         }
 
         /// <summary>
@@ -85,6 +85,11 @@ namespace BusinessLogicLayer
             return favs; 
         }
 
+        public async Task sendSongToRepCLass(Song song)
+        {
+            await _repository.SaveSongToDb(song);
+        }
+
         /// <summary>
         /// checks to see if a user with that info already exists and returns null if the user already exist. creates a new user if the ures does not already exist.
         /// </summary>
@@ -95,7 +100,7 @@ namespace BusinessLogicLayer
         public async Task<User> CreatNewBC(string userName, string password, string email)
         {
             bool userExists = await _repository.DoesUserExist(userName, password);
-            if(!userExists)
+            if(userExists)
             {
                 return null;
             }
@@ -109,14 +114,18 @@ namespace BusinessLogicLayer
 
         public async Task<User> SaveUserToDb(User userToEdit)
         {
-           await _repository.SaveUserToDb(userToEdit);
-            return null;
+           return await _repository.SaveUserToDb(userToEdit);
         }
 
         public async Task<List<Song>> GetSongsBySearhGenre(string genre)
         {
             List<Song> originalSongs = await _repository.GetOriginalSongsByGenre(genre);
             return originalSongs;
+        }
+
+        public async Task AcceptFriend(int loggedInId,int pendingFriendId)
+        {
+            await _repository.AcceptRequest(loggedInId,pendingFriendId);
         }
 
         /// <summary>
@@ -130,7 +139,6 @@ namespace BusinessLogicLayer
             bool userExists = await _repository.DoesUserExist(userName, password);
 
             if(userExists)
-
             {
                 User user = await _repository.GetUserByNameAndPass(userName, password);
                 LoggedInUser = user;
@@ -153,10 +161,9 @@ namespace BusinessLogicLayer
             return await _repository.GetOriginalSongByLyrics(phrase);
         }
 
-        public async Task RequesFriend(int userid, int RerequestedFriendId)
+        public async Task<FriendList> RequestFriend(int userid, int RerequestedFriendId)
         {
-            await _repository.RequestFreind(userid, RerequestedFriendId);
-           
+            return await _repository.RequestFriend(userid, RerequestedFriendId);
         }
 
         public async Task IncrementNUmPlays(int songId)
@@ -186,9 +193,9 @@ namespace BusinessLogicLayer
             return await _repository.GetUserByIdAsync(id);
         }
 
-        public async Task DeleteFriend(int id)
+        public async Task DeleteFriend(int LoggedInUserId, int friendToDeleteId)
         {
-            await _repository.DeletFriend(LoggedInUser.Id, id);
+            await _repository.DeleteFriend(LoggedInUserId, friendToDeleteId);
         }
 
         /// <summary>
@@ -196,24 +203,24 @@ namespace BusinessLogicLayer
         /// </summary>
         /// <param name="UserToMessageId"></param>
         /// <returns></returns>
-        public async Task<MessagingViewModel> GetMessagesViewModel(int UserToMessageId)
+        public async Task<MessagingViewModel> GetMessagesViewModel(int LoggedInUserIdint, int UserToMessageId)
         {
+            User LoginUser = await GetUserByIdAsync(LoggedInUserIdint);
             User user = await GetUserByIdAsync(UserToMessageId);
-            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
-            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUser.Id,user.Id, Messages, LoggedInUser.UserName, user.UserName);
+            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUserIdint);
+            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUserIdint, user.Id, Messages, LoginUser.UserName, user.UserName);
             return viewModel;
         }
 
-        public async Task<MessagingViewModel> sendMessage(int UserToMessageId, string content)
+        public async Task<MessagingViewModel> sendMessage(string FromUserName, int LoggedInUserIdint, int UserToMessageId, string content)
         {
-            int fromUserId = LoggedInUser.Id;
-            await  _repository.SaveMessage(UserToMessageId, fromUserId, content);
+            await  _repository.SaveMessage(FromUserName, UserToMessageId, LoggedInUserIdint, content);
+            User LoginUser = await GetUserByIdAsync(LoggedInUserIdint);
             User user = await GetUserByIdAsync(UserToMessageId);
-            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUser.Id);
-            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUser.Id, user.Id, Messages, LoggedInUser.UserName, user.UserName);
+            List<Message> Messages = await GetMessages2users(UserToMessageId, LoggedInUserIdint);
+            MessagingViewModel viewModel = _mapperClass.GetMessagingViewModel(LoggedInUserIdint, user.Id, Messages, LoginUser.UserName, user.UserName);
             return viewModel;
         }
-
 
 
         /// <summary>
@@ -224,10 +231,12 @@ namespace BusinessLogicLayer
         {
             return await _repository.GetAllMessagesAsync();
         }
+
         public async Task<User> GetLoggedInUser()
         {
             return LoggedInUser;
         }
+
         public async Task SaveNewUser(User user)
         {
             await _repository.SaveNewUser(user);
