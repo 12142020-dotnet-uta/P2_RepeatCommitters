@@ -63,6 +63,7 @@ namespace WhatsThatTest
                 Repository repository = new Repository(context, _logger);
                 var user = new User
                 {
+                    Id = int.MaxValue-50,
                     UserName = "jtest",
                     Password = "Test1!",
                     FirstName = "Johnny",
@@ -172,12 +173,13 @@ namespace WhatsThatTest
                 // edited user
                 var editedUser = new User
                 {
-                    Id=int.MaxValue,
+                    Id = int.MaxValue,
                     UserName = "jtest",
                     Password = "Test1!",
                     FirstName = "Johnny",
                     LastName = "Test",
-                    Email = "johnnytest123@email.com"
+                    Email = "johnnytest123@email.com",
+                    ProfilePicture = null
                 };
 
                 Assert.NotNull(await repository.SaveUserToDb(editedUser));
@@ -346,36 +348,39 @@ namespace WhatsThatTest
             });
         }
 
-        /*[Fact]
+        [Fact]
         public async Task IncrementNumPlaysTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
             .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            await Task.Run(() =>
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                Repository repository = new Repository(context, _logger);
-                // Create a song with 1 less than max value number of plays
-                var song = new Song
+                using (var context = new ApplicationDbContext(options))
                 {
-                    ArtistName = "Bad Posture",
-                    Genre = "Pop Punk",
-                    Title = "Yellow",
-                    Duration = TimeSpan.MaxValue,
-                    NumberOfPlays = int.MaxValue - 1,
-                    Lyrics = "Lorem ips subsciat",
-                    isOriginal = true
-                };
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
 
-                repository.SaveSongToDb(song).Wait();
-                repository.IncrementNumPlays(song.Id).Wait();
-                Assert.Equal(int.MaxValue, song.NumberOfPlays);
-            }
-        }*/
+                    Repository repository = new Repository(context, _logger);
+                    // Create a song with 1 less than max value number of plays
+                    var song = new Song
+                    {
+                        ArtistName = "Bad Posture",
+                        Genre = "Pop Punk",
+                        Title = "Yellow",
+                        Duration = TimeSpan.MaxValue,
+                        NumberOfPlays = int.MaxValue - 1,
+                        Lyrics = "Lorem ips subsciat",
+                        isOriginal = true
+                    };
+
+                    repository.SaveSongToDb(song).Wait();
+                    repository.IncrementNumPlays(song.Id).Wait();
+                    Assert.Equal(int.MaxValue, song.NumberOfPlays);
+                }
+            });
+        }
 
         /*[Fact]
         public void GetAllSongsTest()
