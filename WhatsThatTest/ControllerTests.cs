@@ -100,7 +100,6 @@ namespace WhatsThatTest
                 UserController userController = new UserController(logic, _userControllerLogger);
                 var user = new User
                 {
-                    Id = int.MaxValue,
                     UserName = "jtest",
                     Password = "Test1!",
                     FirstName = "Johnny",
@@ -110,7 +109,7 @@ namespace WhatsThatTest
 
                 repository.SaveNewUser(user).Wait();
 
-                Task<User> u = userController.GetUserToEdit(int.MaxValue);
+                Task<User> u = userController.GetUserToEdit(user.Id);
                 Assert.NotNull(u);
             }
         }
