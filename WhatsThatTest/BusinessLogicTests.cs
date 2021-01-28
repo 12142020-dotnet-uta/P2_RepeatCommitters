@@ -266,7 +266,8 @@ namespace WhatsThatTest
                         Email = "johnnytest123@email.com"
                     };
 
-                    businessLogicClass.SaveNewUser(user).Wait();
+                    _repository.users.Add(user);
+                    context.SaveChanges();
                     Task<List<User>> listOfUsers = businessLogicClass.SearchForUsersByPartialN(username);
                     Assert.NotNull(listOfUsers);
                 }
@@ -565,14 +566,10 @@ namespace WhatsThatTest
                     isOriginal = true
                 };
 
-                await businessLogicClass.CreatNewBC(user.UserName, user.Password, user.Email);
-
-                // log the user in
-                await businessLogicClass.LoginUser(user.UserName, user.Password);
-
                 // add the song to the user's favorite list
-                await businessLogicClass.AddSongToFavorites(song.Id);
-                Assert.NotNull(await _repository.GetUsersFavorites(user.Id));
+                await businessLogicClass.AddSongToFavorites(song.Id, user.Id);
+
+                Assert.NotNull(_repository.favoriteLists);
             }
         }
 

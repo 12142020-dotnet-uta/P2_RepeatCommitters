@@ -470,10 +470,5 @@ namespace WhatsThatTest
             }
         }
 
-        [Fact]
-        public async Task GetMessagesViewModelTest() { }
-
-        [Fact]
-        public async Task GetLoggedInUserTest() { }
     }
 }
