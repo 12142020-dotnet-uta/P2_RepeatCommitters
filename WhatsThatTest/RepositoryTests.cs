@@ -24,25 +24,28 @@ namespace WhatsThatTest
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
             .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            await Task.Run(() =>
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                Repository repository = new Repository(context, _logger);
-                var user = new User
+                using (var context = new ApplicationDbContext(options))
                 {
-                    UserName = "jtest",
-                    Password = "Test1!",
-                    FirstName = "Johnny",
-                    LastName = "Test",
-                    Email = "johnnytest123@email.com"
-                };
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
 
-                await repository.SaveNewUser(user);
-                var listOfUsers = await repository.GetAllUsersAsync();
-                Assert.NotNull(listOfUsers);
-            }
+                    Repository repository = new Repository(context, _logger);
+                    var user = new User
+                    {
+                        UserName = "jtest",
+                        Password = "Test1!",
+                        FirstName = "Johnny",
+                        LastName = "Test",
+                        Email = "johnnytest123@email.com"
+                    };
+
+                    repository.SaveNewUser(user).Wait();
+                    var listOfUsers = repository.GetAllUsersAsync();
+                    Assert.NotNull(listOfUsers);
+                }
+            });
         }
 
         /// <summary>
@@ -55,26 +58,29 @@ namespace WhatsThatTest
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
             .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            await Task.Run(() =>
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                Repository repository = new Repository(context, _logger);
-                var user = new User
+                using (var context = new ApplicationDbContext(options))
                 {
-                    Id = int.MaxValue-50,
-                    UserName = "jtest",
-                    Password = "Test1!",
-                    FirstName = "Johnny",
-                    LastName = "Test",
-                    Email = "johnnytest123@email.com"
-                };
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
 
-                await repository.SaveNewUser(user);
-                var userById = await repository.GetUserByIdAsync(user.Id);
-                Assert.NotNull(userById);
-            }
+                    Repository repository = new Repository(context, _logger);
+                    var user = new User
+                    {
+                        Id = int.MaxValue - 50,
+                        UserName = "jtest",
+                        Password = "Test1!",
+                        FirstName = "Johnny",
+                        LastName = "Test",
+                        Email = "johnnytest123@email.com"
+                    };
+
+                    repository.SaveNewUser(user).Wait();
+                    var userById = repository.GetUserByIdAsync(user.Id);
+                    Assert.NotNull(userById);
+                }
+            });
         }
 
         /// <summary>
@@ -102,11 +108,12 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                await repository.SaveNewUser(user);
+                repository.users.Add(user);
                 var userExists = await repository.DoesUserExist("jtest", "Test1!");
                 Assert.True(userExists);
             }
         }
+
 
         /// <summary>
         /// 
@@ -118,25 +125,28 @@ namespace WhatsThatTest
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
             .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            await Task.Run(() =>
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
-
-                Repository repository = new Repository(context, _logger);
-                var user = new User
+                using (var context = new ApplicationDbContext(options))
                 {
-                    UserName = "jtest",
-                    Password = "Test1!",
-                    FirstName = "Johnny",
-                    LastName = "Test",
-                    Email = "johnnytest123@email.com"
-                };
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
 
-                await repository.SaveNewUser(user);
-                var userByNameAndPass = await repository.GetUserByNameAndPass("jtest", "Test1!");
-                Assert.NotNull(userByNameAndPass);
-            }
+                    Repository repository = new Repository(context, _logger);
+                    var user = new User
+                    {
+                        UserName = "jtest",
+                        Password = "Test1!",
+                        FirstName = "Johnny",
+                        LastName = "Test",
+                        Email = "johnnytest123@email.com"
+                    };
+
+                    repository.users.Add(user);
+                    var userByNameAndPass = repository.GetUserByNameAndPass("jtest", "Test1!");
+                    Assert.NotNull(userByNameAndPass);
+                }
+            });
         }
 
         /// <summary>
@@ -149,41 +159,42 @@ namespace WhatsThatTest
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
             .Options;
 
-            using (var context = new ApplicationDbContext(options))
+            await Task.Run(() =>
             {
-                context.Database.EnsureDeleted();
-                context.Database.EnsureCreated();
+                using (var context = new ApplicationDbContext(options))
+                {
+                    context.Database.EnsureDeleted();
+                    context.Database.EnsureCreated();
 
-                Repository repository = new Repository(context, _logger);
+                    Repository repository = new Repository(context, _logger);
 
                 // initial user
                 var user = new User
-                {
-                    Id=int.MaxValue,
-                    UserName = "jtest",
-                    Password = "Test1!",
-                    FirstName = "Johnny",
-                    LastName = "Test",
-                    Email = "johnnytest123@email.com"
-                };
+                    {
+                        UserName = "jtest",
+                        Password = "Test1!",
+                        FirstName = "Johnny",
+                        LastName = "Test",
+                        Email = "johnnytest123@email.com"
+                    };
 
-                await repository.SaveNewUser(user);
-                await repository.GetUserByIdAsync(user.Id);
+                    repository.users.Add(user);
+                    repository.GetUserByIdAsync(user.Id).Wait();
 
                 // edited user
                 var editedUser = new User
-                {
-                    Id = int.MaxValue,
-                    UserName = "jtest",
-                    Password = "Test1!",
-                    FirstName = "Johnny",
-                    LastName = "Test",
-                    Email = "johnnytest123@email.com",
-                    ProfilePicture = null
-                };
+                    {
+                        UserName = "jtest",
+                        Password = "Test1!",
+                        FirstName = "Johnny",
+                        LastName = "Test",
+                        Email = "johnnytest123@email.com",
+                        ProfilePicture = null
+                    };
 
-                Assert.NotNull(await repository.SaveUserToDb(editedUser));
-            }
+                    Assert.NotNull(repository.SaveUserToDb(editedUser));
+                }
+            });
         }
 
         /// <summary>
@@ -233,8 +244,8 @@ namespace WhatsThatTest
                     context.Database.EnsureCreated();
 
                     Repository repository = new Repository(context, _logger);
-                    // Create a new user
-                    var user = new User
+                // Create a new user
+                var user = new User
                     {
                         UserName = "jtest",
                         Password = "Test1!",
@@ -242,8 +253,8 @@ namespace WhatsThatTest
                         LastName = "Test",
                         Email = "johnnytest123@email.com"
                     };
-                    // Create a song to favorite
-                    var song = new Song
+                // Create a song to favorite
+                var song = new Song
                     {
                         ArtistName = "Bad Posture",
                         Genre = "Pop Punk",
@@ -257,10 +268,10 @@ namespace WhatsThatTest
                     repository.SaveNewUser(user).Wait();
                     repository.SaveSongToDb(song).Wait();
 
-                    // attempt to add song to favorite list
-                    repository.AddSongToFavorites(song.Id, user.Id).Wait();
-                    // get list of users favorite songs
-                    Assert.NotNull(repository.GetUsersFavorites(user.Id));
+                // attempt to add song to favorite list
+                repository.AddSongToFavorites(song.Id, user.Id).Wait();
+                // get list of users favorite songs
+                Assert.NotNull(repository.GetUsersFavorites(user.Id));
                 }
             });
         }
@@ -283,8 +294,8 @@ namespace WhatsThatTest
                     context.Database.EnsureCreated();
 
                     Repository repository = new Repository(context, _logger);
-                    // Create a song
-                    var song = new Song
+                // Create a song
+                var song = new Song
                     {
                         ArtistName = "Bad Posture",
                         Genre = "Pop Punk",
@@ -324,12 +335,12 @@ namespace WhatsThatTest
                     context.Database.EnsureCreated();
 
                     Repository repository = new Repository(context, _logger);
-                    // create 5 songs
-                    for (int i = 0; i < 5; i++)
+                // create 5 songs
+                for (int i = 0; i < 5; i++)
                     {
                         var song = new Song
                         {
-                            Id = int.MaxValue-i,
+                            Id = int.MaxValue - i,
                             ArtistName = "Bad Posture",
                             Genre = "Pop Punk",
                             Title = "Yellow",
@@ -355,35 +366,39 @@ namespace WhatsThatTest
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
             .Options;
 
-            await Task.Run(() =>
+            using (var context = new ApplicationDbContext(options))
             {
-                using (var context = new ApplicationDbContext(options))
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _logger);
+                // Create a song
+                var song = new Song
                 {
-                    context.Database.EnsureDeleted();
-                    context.Database.EnsureCreated();
+                    ArtistName = "Bad Posture",
+                    Genre = "Pop Punk",
+                    Title = "Yellow",
+                    Duration = TimeSpan.MaxValue,
+                    NumberOfPlays = 0,
+                    Lyrics = "Lorem ips subsciat",
+                    isOriginal = true
+                };
 
-                    Repository repository = new Repository(context, _logger);
-                    // Create a song with 1 less than max value number of plays
-                    var song = new Song
-                    {
-                        ArtistName = "Bad Posture",
-                        Genre = "Pop Punk",
-                        Title = "Yellow",
-                        Duration = TimeSpan.MaxValue,
-                        NumberOfPlays = int.MaxValue - 1,
-                        Lyrics = "Lorem ips subsciat",
-                        isOriginal = true
-                    };
+                // Arrange
+                repository.songs.Add(song);
+                context.SaveChanges();
 
-                    repository.SaveSongToDb(song).Wait();
-                    repository.IncrementNumPlays(song.Id).Wait();
-                    Assert.Equal(int.MaxValue, song.NumberOfPlays);
-                }
-            });
+                // Act
+                await repository.IncrementNumPlays(song.Id);
+
+                // Assert
+                Assert.Equal(1, song.NumberOfPlays);
+            }
+
         }
 
-        /*[Fact]
-        public void GetAllSongsTest()
+        [Fact]
+        public async Task GetAllSongsTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -408,12 +423,13 @@ namespace WhatsThatTest
                 };
 
                 repository.songs.Add(song);
-                Assert.NotEmpty(repository.getAllSongs());
+                context.SaveChanges();
+                Assert.NotEmpty(await repository.getAllSongs());
             }
-        }*/
+        }
 
-        /*[Fact]
-        public async void GetListOfFriendsByUserIdTest()
+        [Fact]
+        public async Task GetListOfFriendsByUserIdTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
@@ -431,7 +447,6 @@ namespace WhatsThatTest
                 {
                     var user = new User
                     {
-                        Id = int.MaxValue,
                         UserName = "jtest" + i,
                         Password = "Test1!",
                         FirstName = "Johnny",
@@ -439,14 +454,20 @@ namespace WhatsThatTest
                         Email = "johnnytest123[" + i + "]@email.com"
                     };
                     repository.users.Add(user);
+                    context.SaveChanges();
                 }
 
-                // make them friends
-                await repository.
+                // make user1 friends with everyone
+                for (int i = 2; i < 11; i++) {
+                    await repository.RequestFriend(1, i);
+                    await repository.AcceptRequest(i, 1);
+                    context.SaveChanges();
+                }
 
-                Assert.NotNull(await repository.CreateNewUser(user.UserName, user.Password, user.Email));
+                var fl = await repository.GetListOfFriendsByUserId(1);
+                Assert.Equal(9, fl.Count);
             }
-        }*/
+        }
 
         [Fact]
         public async Task GetMessagesViewModelTest() { }

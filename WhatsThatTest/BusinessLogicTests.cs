@@ -160,7 +160,7 @@ namespace WhatsThatTest
                         Email = "johnnytest123@email.com"
                     };
 
-                    businessLogicClass.SaveNewUser(user).Wait();
+                    _repository.users.Add(user);
                     Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
                     Assert.NotNull(loggedInUser);
                 }
@@ -298,7 +298,7 @@ namespace WhatsThatTest
                         Email = "johnnytest123@email.com"
                     };
 
-                    businessLogicClass.SaveNewUser(user).Wait();
+                    _repository.users.Add(user);
                     Task<User> userById = businessLogicClass.GetUserByIdAsync(user.Id);
                     Assert.NotNull(userById);
                 }
@@ -522,7 +522,8 @@ namespace WhatsThatTest
                         isOriginal = true
                     };
 
-                    _repository.SaveSongToDb(song).Wait();
+                    _repository.songs.Add(song);
+                    context.SaveChanges();
                     Assert.NotNull(businessLogicClass.GetSongById(song.Id));
                 }
             });
