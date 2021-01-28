@@ -18,5 +18,11 @@ namespace ModelLayer.Models
         [Range(1,int.MaxValue, ErrorMessage ="Only positive numbers are allowed.")]
         public int SongId { get; set; }
         public int UserId { get; set; }
+        public FavoriteList (int sId, int uId)
+        {
+            this.SongId = sId;
+            this.UserId = uId;
+        }
     }
+    
 }

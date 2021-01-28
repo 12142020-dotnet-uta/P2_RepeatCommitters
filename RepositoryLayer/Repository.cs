@@ -43,30 +43,14 @@ namespace RepositoryLayer
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public async Task AddSongToFavorites(int songid, int loggedInUserId)
+        public async Task AddSongToFavorites(FavoriteList favoriteSong)
         {
             // This line instantiates a favorite list with all properties set to 0.
-            FavoriteList SongToAdd = new FavoriteList();
-            // Search through favorite list to see if it exists
-            foreach(var item in favoriteLists)
-            {
-                if(item.SongId == songid && item.UserId == loggedInUserId)
-                {
-                    SongToAdd = item; 
-                }
-            }
-            // If song is not on their favorite list, SongToAdd.Id will still be 0
-            if(SongToAdd.Id == 0)
-            {
-                // Set the user id
-                SongToAdd.UserId = loggedInUserId;
-                // Set the song id
-                SongToAdd.SongId = songid;
+            FavoriteList SongToAdd = favoriteSong;
                 // Add to database -- this will auto assign the SongToAdd.Id
                 await favoriteLists.AddAsync(SongToAdd);
                 // Finally, save the changes to our database
                 await _applicationDbContext.SaveChangesAsync();
-            }
         }
 
         public async Task<List<FavoriteList>> GetUsersFavorites(int userId)

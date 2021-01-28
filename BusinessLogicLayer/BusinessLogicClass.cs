@@ -24,18 +24,26 @@ namespace BusinessLogicLayer
         }
        
 
-        public User LoggedInUser = new User();
-
         public async Task<Song> GetSongById(int id)
         {
             Song song = await _repository.GetSongById(id);
             return song;
         }
 
-        public async Task AddSongToFavorites(int sogid, int userId)
+        public async Task AddSongToFavorites(int songid, int userId)
         {
-
-            await _repository.AddSongToFavorites(sogid, userId);
+            List<FavoriteList> AllUsersIdfavoriteLists = await _repository.GetUsersFavorites(userId);
+            foreach (var item in AllUsersIdfavoriteLists)
+            {
+                if (item.SongId == songid)
+                {
+                }
+                else
+                {
+                    FavoriteList fSong = new FavoriteList(songid, userId);
+                    await _repository.AddSongToFavorites(fSong);
+                }
+            }
         }
 
         public void PopulateDb()
@@ -132,7 +140,6 @@ namespace BusinessLogicLayer
             else 
             {
                 User newUser = await _repository.CreateNewUser(userName, password,email);
-                LoggedInUser = newUser;
                 return newUser;
             }
         }
@@ -166,7 +173,6 @@ namespace BusinessLogicLayer
             if(userExists)
             {
                 User user = await _repository.GetUserByNameAndPass(userName, password);
-                LoggedInUser = user;
                 return user;
             }
             else
@@ -255,11 +261,6 @@ namespace BusinessLogicLayer
         public async Task<IEnumerable<Message>> GetAllMessagesAsync()
         {
             return await _repository.GetAllMessagesAsync();
-        }
-
-        public async Task<User> GetLoggedInUser()
-        {
-            return LoggedInUser;
         }
 
         public async Task SaveNewUser(User user)
