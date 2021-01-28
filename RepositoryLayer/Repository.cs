@@ -13,13 +13,13 @@ namespace RepositoryLayer
         private ApplicationDbContext _applicationDbContext;
         readonly ILogger _logger;
 
-        public DbSet<User> users;
-        public DbSet<Song> songs;
-        public DbSet<Message> messages;
-        public DbSet<Artist> artists;
-        public DbSet<Genre> genres;
-        public DbSet<FriendList> friendList;
-        public DbSet<FavoriteList> favoriteLists;
+        private DbSet<User> users;
+        private DbSet<Song> songs;
+        private DbSet<Message> messages;
+        private DbSet<Artist> artists;
+        private DbSet<Genre> genres;
+        private DbSet<FriendList> friendList;
+        private DbSet<FavoriteList> favoriteLists;
        
         //public DbSet<>
 
@@ -144,7 +144,6 @@ namespace RepositoryLayer
             int count = 0;
             List<Song> allSongs = await getAllSongs();
             List<Song> fiveSongs = new List<Song>();
-
             do
             {
                 Song highest = new Song();
@@ -160,9 +159,6 @@ namespace RepositoryLayer
                 count++;
             }
             while (fiveSongs.Count < 5);
-            {
-
-            }
             return fiveSongs; 
         }
 
@@ -236,17 +232,14 @@ namespace RepositoryLayer
 
         public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
         {
-            //List<FriendList> list = new List<FriendList>();
-            //foreach(var item in friendList)
-            //{
-            //    if((item.FriendId == id || item.RequestedFriendId == id))
-            //    {
-            //        list.Add(item);
-            //    }
-            //}
             return await friendList.Where(item => item.FriendId == id || item.RequestedFriendId == id && item.status == "accept").ToListAsync();
         }
 
+        /// <summary>
+        /// Saves a new user to the database. takes in a user as a perameter
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public async Task SaveNewUser(User user)
         {
              users.Add(user);
