@@ -99,9 +99,9 @@ namespace WhatsThatSong.Controllers
 
         [HttpPut]
         [Route("AcceptFriend")]
-        public async Task AcceptFriend(int LoggedInId, int pendingFriendId)
+        public async Task AcceptFriend(int UserId, int pendingFriendId)
         {
-            await _businessLogicClass.AcceptFriend(LoggedInId,pendingFriendId);
+            await _businessLogicClass.AcceptFriend(UserId,pendingFriendId);
         }
         /// <summary>
         /// sends a list of friends that have been accepted

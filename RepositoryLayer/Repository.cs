@@ -79,34 +79,20 @@ namespace RepositoryLayer
         //    }
         //}
 
-        public async Task<string> HasPendingFrinedRequest(int id)
+        public async Task<FriendList> HasPendingFrinedRequest(int id)
         {
-            string hasPendind = "pending";
-            string noPendingRequest ="";
-            await foreach(var item in friendList)
-            {
-                if((item.RequestedFriendId == id) && (item.status == hasPendind))
-                {
-                    return hasPendind;
-                }
-            }
-            return noPendingRequest;
+            return await friendList.FirstOrDefaultAsync(x => x.status == "pending");
+            
         }
-        public async Task AcceptRequest(int loggedInId, int pendingFriendId)
+
+        public async Task<FriendList> GetFriendListFriend(int UserId, int pendingFriendId)
         {
-            //FriendList f = friendList.FirstOrDefault(x => x.RequestedFriendId == loggedInId && x.FriendId == pendingFriendId && x.status == "pending");
-
-            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == loggedInId && x.FriendId == pendingFriendId && x.status == "pending");
-            if (fl != null)
-            {
-                // await _applicationDbContext.SaveChangesAsync();
-                fl.status = "accept";
-            }
-            else
-            {
-                // print error to logger
-            }
-
+            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == UserId && x.FriendId == pendingFriendId && x.status == "pending");
+            return fl;
+        }
+        public async Task AcceptRequest(FriendList pendingFriendId)
+        {
+            FriendList fl = pendingFriendId;
             _applicationDbContext.Update(fl);
             await _applicationDbContext.SaveChangesAsync();
         }
