@@ -209,6 +209,12 @@ namespace BusinessLogicLayer
             return ListOfUsers;
         }
 
+        public async Task<List<FriendList>> GetAllFriendRequestsOUserId(int userId)
+        {
+            List<FriendList> list = await _repository.GetAllFRiendRequestsByUserId(userId);
+            return list;
+        }
+
         public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
         {
             List<FriendList> list = await _repository.GetListOfFriendsByUserId(id);
