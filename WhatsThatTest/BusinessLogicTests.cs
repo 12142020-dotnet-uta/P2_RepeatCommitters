@@ -160,7 +160,7 @@ namespace WhatsThatTest
                         Email = "johnnytest123@email.com"
                     };
 
-                    businessLogicClass.SaveNewUser(user).Wait();
+                    _repository.users.Add(user);
                     Task<User> loggedInUser = businessLogicClass.LoginUser(user.UserName, user.Password);
                     Assert.NotNull(loggedInUser);
                 }
@@ -298,7 +298,7 @@ namespace WhatsThatTest
                         Email = "johnnytest123@email.com"
                     };
 
-                    businessLogicClass.SaveNewUser(user).Wait();
+                    _repository.users.Add(user);
                     Task<User> userById = businessLogicClass.GetUserByIdAsync(user.Id);
                     Assert.NotNull(userById);
                 }
@@ -343,12 +343,11 @@ namespace WhatsThatTest
 
                     // instantiate friend list
                     FriendList fl = new FriendList(user1.Id, user2.Id);
+                    _repository.friendList.Add(fl);
+                    context.SaveChanges();
 
-                    // request friends
-                    businessLogicClass.RequestFriend(user2.Id, user1.Id).Wait();
-
-                    // accept friendship
-                    businessLogicClass.AcceptFriend(user1.Id, user2.Id).Wait();
+                    // make sure they're friends
+                    Assert.Contains<FriendList>(fl, _repository.friendList);
 
                     // revoke friendship
                     businessLogicClass.DeleteFriend(user1.Id, user2.Id).Wait();
@@ -522,7 +521,8 @@ namespace WhatsThatTest
                         isOriginal = true
                     };
 
-                    _repository.SaveSongToDb(song).Wait();
+                    _repository.songs.Add(song);
+                    context.SaveChanges();
                     Assert.NotNull(businessLogicClass.GetSongById(song.Id));
                 }
             });

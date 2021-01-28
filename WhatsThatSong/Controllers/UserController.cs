@@ -31,7 +31,7 @@ namespace WhatsThatSong.Controllers
         {
             User newUser = await _businessLogicClass.CreatNewBC(userName, password, email);
             UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
-            if(newUser != null)
+            if(newUser.UserName==null)
             {
                 return UPVM;
             }
