@@ -96,12 +96,16 @@ namespace WhatsThatSong.Controllers
            // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
         }
 
-
+        /// <summary>
+        /// this method changes the status of a freintlist item. takes in a FriendList object
+        /// </summary>
+        /// <param name="friendList"></param>
+        /// <returns></returns>
         [HttpPut]
         [Route("AcceptFriend")]
-        public async Task AcceptFriend(int UserId, int pendingFriendId)
+        public async Task AcceptFriend(FriendList friendList)
         {
-            await _businessLogicClass.AcceptFriend(UserId,pendingFriendId);
+            await _businessLogicClass.AcceptFriend(friendList);
         }
         /// <summary>
         /// sends a list of friends that have been accepted
