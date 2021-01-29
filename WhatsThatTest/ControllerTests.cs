@@ -744,11 +744,11 @@ namespace WhatsThatTest
                 repository.SaveNewUser(user).Wait();
                 repository.SaveNewUser(user2).Wait();
 
-                var fl = new FriendList { FriendId = user.Id, RequestedFriendId = user2.Id, status = "accept" };
+                var fl = new FriendList { FriendId = user.Id, RequestedFriendId = user2.Id };
                 repository.friendList.Add(fl);
                 context.SaveChanges();
 
-                Assert.NotEmpty(userController.DisplayAllFriendRequests(user.Id).Result);
+                Assert.NotEmpty(userController.DisplayAllFriendRequests(user2.Id).Result);
             }
         }
 
