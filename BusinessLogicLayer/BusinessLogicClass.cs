@@ -122,6 +122,26 @@ namespace BusinessLogicLayer
             }
         }
 
+        public async Task<List<User>> GetFriendsToUserList(int id)
+        {
+            List<User> u = new List<User>();
+            List<FriendList> friends = await _repository.GetListOfFriendsByUserId(id);
+            foreach(var item in friends)
+            {
+                if(item.FriendId == id)
+                {
+                    User x = await _repository.GetUserByIdAsync(item.RequestedFriendId);
+                    u.Add(x);
+                }
+                else if(item.RequestedFriendId == id)
+                {
+                    User x = await _repository.GetUserByIdAsync(item.FriendId);
+                    u.Add(x);
+                }
+            }
+            return u;
+        }
+
         /// <summary>
         /// checks to see if a user with that info already exists and returns null if the user already exist. creates a new user if the ures does not already exist.
         /// </summary>

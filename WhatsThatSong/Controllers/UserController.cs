@@ -115,6 +115,19 @@ namespace WhatsThatSong.Controllers
            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
             return  friendList;
         }
+
+        /// <summary>
+        /// return a list of users that they are friends with
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetFriendsAsUsers")]
+        public async Task<List<User>> GetFriendsAsUsers(int id)
+        {
+            List<User> userFriends = await _businessLogicClass.GetFriendsToUserList(id);
+            return userFriends;
+        }
         /// <summary>
         /// deletes a friend from the friend list
         /// </summary>
