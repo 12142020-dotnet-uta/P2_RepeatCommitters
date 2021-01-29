@@ -2,6 +2,7 @@ using ModelLayer.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using WhatsThatSong.Models;
 using Xunit;
 
 namespace WhatsThatTest
@@ -515,6 +516,13 @@ namespace WhatsThatTest
 
             // Password salting and hashing gives different passwords.
             Assert.NotEqual(user.HashPassword(user.Password), password);
+        }
+
+        [Fact]
+        public void ErrorViewModelTest()
+        {
+            var evm = new ErrorViewModel();
+            Assert.NotNull(evm);
         }
     }
 }

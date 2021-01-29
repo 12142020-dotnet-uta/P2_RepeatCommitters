@@ -82,7 +82,7 @@ namespace RepositoryLayer
 
         public async Task<FriendList> GetFriendListFriend(int UserId, int pendingFriendId)
         {
-            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == UserId && x.FriendId == pendingFriendId && x.status == "pending");
+            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == pendingFriendId && x.FriendId == UserId && x.status == "pending");
             return fl;
         }
         public async Task AcceptRequest(FriendList pendingFriendId)
@@ -241,7 +241,7 @@ namespace RepositoryLayer
 
         public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
         {
-            return await friendList.Where(item => item.FriendId == id || item.RequestedFriendId == id && item.status == "accept").ToListAsync();
+            return await friendList.Where(item => (item.FriendId == id || item.RequestedFriendId == id) && item.status == "accept").ToListAsync();
         }
 
         /// <summary>
