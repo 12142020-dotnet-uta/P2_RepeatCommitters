@@ -81,6 +81,11 @@ export class HomeComponent implements OnInit
     {
         //this.homepageSong = songService.songs[0];
         //this.displaySong(Math.floor(Math.random() * 12));
+
+        //Test song
+        //this.homepageSong = new Song("Moonlight Sonata 3", "Viossy", "Viossy", "Rock", 2010, "https://soundcloud.com/xabcxyzx/drviossy-moonlight-sonata-beethoven-metal-version", false);
+        this.homepageSong = new Song("Joel's Song", "Joel", "Joel's Album", "Rock", 2000, "https://soundcloud.com/00joel/dgnj", true);
+        this.homepageSong.lyrics = "Instrumental";
     }
 
     search(): void

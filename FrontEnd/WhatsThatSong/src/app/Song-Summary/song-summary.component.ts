@@ -31,9 +31,9 @@ export class SongSummaryComponent implements OnInit
         this.checkFavourite();
     }
 
-    getYoutubeURL(): SafeResourceUrl
+    getURL(): SafeResourceUrl
     {
-        return this.sanitizer.bypassSecurityTrustResourceUrl(this.song.youtubeURL);
+        return this.sanitizer.bypassSecurityTrustResourceUrl("https://w.soundcloud.com/player/?url=" + this.song.urlPath);
     }
 
     showLyrics(): void
