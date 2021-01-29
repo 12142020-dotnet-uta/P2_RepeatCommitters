@@ -432,7 +432,7 @@ namespace WhatsThatTest
             }
         }
 
-        [Fact]
+        /*[Fact]
         public async Task GetListOfFriendsByUserIdTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -472,7 +472,7 @@ namespace WhatsThatTest
                 var fl = await repository.GetListOfFriendsByUserId(1);
                 Assert.Equal(9, fl.Count);
             }
-        }
+        }*/
 
     }
 }

@@ -101,7 +101,7 @@ namespace WhatsThatTest
                 Repository _repository = new Repository(context, _logger);
                 BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
 
-                User user = await businessLogicClass.CreatNewBC("username","password","email");
+                User user = await businessLogicClass.CreatNewBC("username", "password", "email");
                 Assert.NotNull(user);
             }
         }
@@ -364,7 +364,7 @@ namespace WhatsThatTest
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB2")
             .Options;
-            
+
             using (var context = new ApplicationDbContext(options))
             {
                 context.Database.EnsureDeleted();
@@ -383,7 +383,7 @@ namespace WhatsThatTest
                 };
                 var user2 = new User
                 {
-                    Id = int.MaxValue-1,
+                    Id = int.MaxValue - 1,
                     UserName = "jdawg",
                     Password = "Test1!",
                     FirstName = "Johnny",
@@ -441,7 +441,7 @@ namespace WhatsThatTest
                 context.SaveChanges();
 
                 // It's about sending a message
-                Task<MessagingViewModel> mvm = businessLogicClass.sendMessage(user1.UserName, user1.Id, user2.Id,"content of message");
+                Task<MessagingViewModel> mvm = businessLogicClass.sendMessage(user1.UserName, user1.Id, user2.Id, "content of message");
                 Assert.NotNull(mvm);
             }
         }
@@ -711,7 +711,7 @@ namespace WhatsThatTest
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
             .Options;
-            
+
             using (var context = new ApplicationDbContext(options))
             {
                 context.Database.EnsureDeleted();
@@ -821,6 +821,134 @@ namespace WhatsThatTest
                 var fl = new FriendList();
 
                 Assert.NotNull(businessLogicClass.AcceptFriend(fl));
+            }
+        }
+
+        [Fact]
+        public async Task IncrementNumPlaysTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                var song = new Song();
+
+                _repository.songs.Add(song);
+                context.SaveChanges();
+
+                await businessLogicClass.IncrementNUmPlays(song.Id);
+                Assert.Equal(1, song.NumberOfPlays);
+            }
+        }
+
+        [Fact]
+        public async Task GetAllFriendRequestsOUserIdTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                var user1 = new User();
+                var user2 = new User();
+
+                _repository.users.Add(user1);
+                _repository.users.Add(user2);
+                context.SaveChanges();
+
+                var fl = new FriendList(user1.Id, user2.Id);
+                _repository.friendList.Add(fl);
+                context.SaveChanges();
+
+                var list = await businessLogicClass.GetAllFriendRequestsOUserId(user2.Id);
+
+                Assert.NotEmpty(list);
+            }
+        }
+
+        [Fact]
+        public async Task AreWeFriendsTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                var user1 = new User();
+                var user2 = new User();
+
+                _repository.users.Add(user1);
+                _repository.users.Add(user2);
+                context.SaveChanges();
+
+                var fl = new FriendList { FriendId = user1.Id, RequestedFriendId = user2.Id, status="accept"};
+                _repository.friendList.Add(fl);
+                context.SaveChanges();
+
+                var awf = await businessLogicClass.AreWeFriends(user1.Id, user2.Id);
+
+                Assert.True(awf);
+
+                _repository.friendList.Remove(fl);
+                context.SaveChanges();
+
+                awf = await businessLogicClass.AreWeFriends(user1.Id, user2.Id);
+
+                Assert.False(awf);
+            }
+        }
+
+        [Fact]
+        public async Task GetListOfFriendsByUserIdTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                var user1 = new User();
+                var user2 = new User();
+
+                _repository.users.Add(user1);
+                _repository.users.Add(user2);
+                context.SaveChanges();
+
+                var fl = new FriendList { FriendId = user1.Id, RequestedFriendId = user2.Id, status="accept" };
+                _repository.friendList.Add(fl);
+                context.SaveChanges();
+
+                var list = await businessLogicClass.GetListOfFriendsByUserId(user2.Id);
+
+                Assert.NotEmpty(list);
             }
         }
     }

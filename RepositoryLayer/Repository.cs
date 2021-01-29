@@ -241,7 +241,7 @@ namespace RepositoryLayer
 
         public async Task<List<FriendList>> GetListOfFriendsByUserId(int id)
         {
-            return await friendList.Where(item => item.FriendId == id || item.RequestedFriendId == id && item.status == "accept").ToListAsync();
+            return await friendList.Where(item => (item.FriendId == id || item.RequestedFriendId == id) && item.status == "accept").ToListAsync();
         }
 
         /// <summary>
