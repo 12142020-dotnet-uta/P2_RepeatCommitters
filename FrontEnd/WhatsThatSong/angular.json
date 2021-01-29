@@ -120,6 +120,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "WhatsThatSong"
+    }
+  },
+  "defaultProject": "WhatsThatSong",
+  "cli": {
+    "analytics": false
+  }
 }

@@ -102,11 +102,24 @@ namespace WhatsThatSong.Controllers
 
         [HttpPost]
         [Route("uploadSong")]
-        public async Task UploadSong(int userid, string userName,
-            string genre, string title, string lyrics, string urlPath, bool isOriginal)
+        public async Task UploadSong(Song song)
         {
-            Song s = new Song(userName, genre, title, lyrics, urlPath, isOriginal);
+            Song s = new Song(song.ArtistName, song.Genre, song.Title, song.Lyrics, song.UrlPath, song.isOriginal);
             await _businessLogicClass.SaveSong(s);
+
+        }
+
+        /// <summary>
+        /// return a list of songs by a certain user.
+        /// </summary>
+        /// <param name="genre"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetAllSongsByACertainUser")]
+        public async Task<List<Song>> GetAllSongsByACertainUser(User user)
+        {
+            List<Song> alUserSongs = await _businessLogicClass.GetallSongsByAUser(user);
+            return alUserSongs;
 
         }
 

@@ -132,7 +132,12 @@ namespace RepositoryLayer
             return numOfFriends;
         }
 
-       
+        public async Task<List<Song>> GetAllSongsByUser(User user)
+        {
+            return await songs.Where(x => x.ArtistName == user.UserName).ToListAsync();
+        }
+
+
 
         /// <summary>
         /// returns the top 5 songs based on the number of plays
