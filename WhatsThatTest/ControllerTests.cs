@@ -26,7 +26,7 @@ namespace WhatsThatTest
         public void CreateUserTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -39,7 +39,6 @@ namespace WhatsThatTest
                 UserController userController = new UserController(logic, _userControllerLogger);
                 var user = new User
                 {
-                    Id = int.MaxValue,
                     UserName = "jtest",
                     Password = "Test1!",
                     FirstName = "Johnny",
@@ -56,7 +55,7 @@ namespace WhatsThatTest
         public void LoginTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -87,7 +86,7 @@ namespace WhatsThatTest
         public void GetUserToEditTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -114,12 +113,12 @@ namespace WhatsThatTest
             }
         }
 
-        /* TODO: Failing for multiple reasons. NullReferenceException, Assert evaluating to false, DatabaseUpdateConcurrency issue. Reason unknown, suspect async/await.
+        /* TODO: Failing for multiple reasons. NullReferenceException, Assert evaluating to false, DatabaseUpdateConcurrency issue. Reason unknown, suspect async/await.*/
         [Fact]
         public void EditUserTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -151,14 +150,14 @@ namespace WhatsThatTest
                 // check that user was edited
                 Assert.Equal("Test2", user.LastName);
             }
-        }*/
+        }
 
         /* TODO: Assert inconsistently evaluating to false. Reason unknown, suspect async/await.*/
         [Fact]
         public void SearchForUsersTest()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestDB")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -204,6 +203,100 @@ namespace WhatsThatTest
                 var userList2 = userController.SearchForUsers("g");
                 // we expect 5 users to return in the list
                 Assert.Equal(5, userList2.Result.Count);
+            }
+        }
+
+        [Fact]
+        public void FriendRequestTest()
+        {
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
+
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                UserController userController = new UserController(logic, _userControllerLogger);
+                // create a user
+                var user = new User
+                {
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
+
+                // create a second user
+                var user2 = new User
+                {
+                    UserName = "greg",
+                    Password = "Test1!",
+                    FirstName = "Greg",
+                    LastName = "Smeg",
+                    Email = "johnnytest123@zmail.com"
+                };
+
+                repository.SaveNewUser(user).Wait();
+                repository.SaveNewUser(user2).Wait();
+
+                userController.FriendRequest(user.Id, user2.Id).Wait();
+                Assert.NotNull(repository.friendList);
+            }
+        }
+
+        [Fact]
+        public void AcceptFriendTest()
+        {
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(6));
+
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                UserController userController = new UserController(logic, _userControllerLogger);
+                // create a user
+                var user = new User
+                {
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
+
+                // create a second user
+                var user2 = new User
+                {
+                    UserName = "greg",
+                    Password = "Test1!",
+                    FirstName = "Greg",
+                    LastName = "Smeg",
+                    Email = "johnnytest123@zmail.com"
+                };
+
+                repository.SaveNewUser(user).Wait();
+                repository.SaveNewUser(user2).Wait();
+
+                var fl = new FriendList { FriendId = user.Id, RequestedFriendId = user2.Id };
+                repository.friendList.Add(fl);
+                context.SaveChanges();
+
+                userController.AcceptFriend(fl).Wait();
+                Assert.NotNull(repository.friendList.FirstOrDefault(x=>x.status == "accept"));
             }
         }
     }
