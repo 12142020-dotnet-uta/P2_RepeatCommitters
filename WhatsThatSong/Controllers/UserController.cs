@@ -205,7 +205,6 @@ namespace WhatsThatSong.Controllers
         [Route("getAllUsers")]
         public async Task<List<User>> GetAllUsersAsync()
         {
-            _logger.LogDebug("I AM HERE!");
             return await _businessLogicClass.GetAllUsersAsync();
         }
 
