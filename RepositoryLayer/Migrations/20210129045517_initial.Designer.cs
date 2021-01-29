@@ -10,7 +10,7 @@ using RepositoryLayer;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210128220346_initial")]
+    [Migration("20210129045517_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -137,11 +137,17 @@ namespace RepositoryLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("ByteArrayImage")
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
                     b.Property<string>("Genre")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JpgStringSong")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Lyrics")

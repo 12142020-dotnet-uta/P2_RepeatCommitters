@@ -1,0 +1,33 @@
+TODO:
+    Features 0   -> (Do we want this???  Maybe a stretch goal?)
+        Allow you to view another user's friends
+		
+	Features 2		(On hold until we achieve backend integration)
+		My Songs Page
+		Search by Published / Unpublished songs
+		Edit Song
+		
+	Features 5	(Stretch)
+		Playlist Page
+		
+	Features 6	(Stretch)
+		Set Favourite Genre 
+        Find users with similar favourites
+		
+	Features 7 (Stretch)
+		Genre Stuff
+		
+		
+	Functionality 1 (in progress - mock complete)
+		Backend
+		
+	Functionality 2
+		Octa / Proper login
+		
+	Functionality 3
+		Switch from Youtube to whatever
+		
+		
+	Bugs 1 (stretch)
+		Stop page form reloading on lyrics press
+		

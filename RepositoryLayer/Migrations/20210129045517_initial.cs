@@ -94,7 +94,9 @@ namespace RepositoryLayer.Migrations
                     NumberOfPlays = table.Column<int>(type: "int", nullable: false),
                     Lyrics = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UrlPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    isOriginal = table.Column<bool>(type: "bit", nullable: false)
+                    isOriginal = table.Column<bool>(type: "bit", nullable: false),
+                    JpgStringSong = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ByteArrayImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
                 },
                 constraints: table =>
                 {
