@@ -827,8 +827,10 @@ namespace WhatsThatTest
         [Fact]
         public async Task IncrementNumPlaysTest()
         {
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(4));
+
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
             .Options;
 
             using (var context = new ApplicationDbContext(options))
@@ -923,6 +925,8 @@ namespace WhatsThatTest
         [Fact]
         public async Task GetListOfFriendsByUserIdTest()
         {
+            System.Threading.Thread.Sleep(TimeSpan.FromSeconds(2));
+
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
             .Options;
