@@ -184,7 +184,7 @@ namespace RepositoryLayer
         }
         public async Task<bool> DoesUserExist(string username, string passw)
         {
-            User user = await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);
+            User user = await users.FirstOrDefaultAsync(x => x.UserName == username);// && x.Password == passw);
             if (user==null){
                 return false;
             }
