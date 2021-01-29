@@ -818,7 +818,9 @@ namespace WhatsThatTest
                 _repository.users.Add(user2);
                 context.SaveChanges();
 
-                Assert.NotNull(businessLogicClass.AcceptFriend(user1.Id, user2.Id));
+                var fl = new FriendList();
+
+                Assert.NotNull(businessLogicClass.AcceptFriend(fl));
             }
         }
     }
