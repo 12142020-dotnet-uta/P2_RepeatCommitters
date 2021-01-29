@@ -17,7 +17,7 @@ namespace ModelLayer.Models
         public string Genre { get; set; }
         [Required]
         public string Title { get; set; }
-        [Required]
+        
         public TimeSpan Duration { get; set; }
         [Required]
         [Display(Name = "Number Of Plays")]

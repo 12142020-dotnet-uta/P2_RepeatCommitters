@@ -129,12 +129,12 @@ namespace WhatsThatSong.Controllers
         }
 
 
-        //[HttpGet]
-        //[Route("AcceptFriend")]
-        //public async Task AcceptFriend(int LoggedInId, int pendingFriendId)
-        //{
-        //    await _businessLogicClass.AcceptFriend(LoggedInId, pendingFriendId);
-        //}
+        [HttpGet]
+        [Route("EditFriendStatus")]
+        public async Task AcceptFriend(FriendList friend)
+        {
+            await _businessLogicClass.AcceptFriend(friend);
+        }
         /// <summary>
         /// sends a list of friends that have been accepted
         /// </summary>

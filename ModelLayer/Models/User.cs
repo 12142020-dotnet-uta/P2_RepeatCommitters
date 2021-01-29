@@ -29,6 +29,8 @@ namespace ModelLayer.Models
         public string LastName { get; set; }
         [Display(Name="Profile Picture")]
         public byte[] ProfilePicture { get; set; }
+
+        public string Description { get; set; }
         
         /// <summary>
         /// Takes a string, cryptographically secures the string through salting and hashing, and returns the secure string.
