@@ -22,16 +22,16 @@ namespace WhatsThatSong.Controllers
     [Route("Song")]
     public class SongController : ControllerBase
     {
-        private HostingEnvironment _env;
+        //private HostingEnvironment _env;
         private readonly BusinessLogicClass _businessLogicClass;
         private readonly ILogger<SongController> _logger;
 
 
-        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger, HostingEnvironment env)
+        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger)//, HostingEnvironment env)
         {
             _businessLogicClass = businessLogicClass;
             _logger = logger;
-            _env = env;
+            //_env = env;
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace WhatsThatSong.Controllers
         [Route("uploadSong")]
         public async Task UploadSong(Song song)
         {
-            Song s = new Song(song.ArtistName, song.Genre, song.Title, song.Lyrics, song.UrlPath, song.isOriginal);
+            Song s = new Song(song.ArtistName, song.Genre, song.Title, song.Lyrics, song.UrlPath, true);
             await _businessLogicClass.SaveSong(s);
 
         }
