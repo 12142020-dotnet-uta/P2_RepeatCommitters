@@ -46,9 +46,9 @@ namespace WhatsThatSong.Controllers
         public async Task<UserProfileViewModel> CreateUser(User u)
         {
             User newUser = await _businessLogicClass.CreatNewBC(u.UserName, u.Password, u.Email);
-            UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
             if (newUser != null)
             {
+                UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
                 return UPVM;
             }
             else
