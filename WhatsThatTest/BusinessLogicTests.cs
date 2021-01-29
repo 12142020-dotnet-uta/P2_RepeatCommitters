@@ -10,6 +10,8 @@ using RepositoryLayer;
 using ModelLayer.Models;
 using Microsoft.Extensions.Logging;
 using ModelLayer.ViewModels;
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace WhatsThatTest
 {
@@ -52,8 +54,6 @@ namespace WhatsThatTest
             }
         }
 
-        // Make Async all the way down through all layers
-        // Some where there is something that is Asnyc and has not gotten the data yet.
         [Fact]
         public async Task GetUserProfileViewModelAsyncTest()
         {
@@ -358,76 +358,93 @@ namespace WhatsThatTest
             });
         }
 
-        //[Fact]
-        //public async void GetMessagesViewModelTest()
-        //{
-        //    var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
-        //    .Options;
+        [Fact]
+        public async void GetMessagesViewModelTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB2")
+            .Options;
+            
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
 
-        //    using (var context = new ApplicationDbContext(options))
-        //    {
-        //        context.Database.EnsureDeleted();
-        //        context.Database.EnsureCreated();
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+                var user = new User
+                {
+                    Id = int.MaxValue,
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
+                var user2 = new User
+                {
+                    Id = int.MaxValue-1,
+                    UserName = "jdawg",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
 
-        //        Repository _repository = new Repository(context, _logger);
-        //        BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
-        //        var user = new User
-        //        {
-        //            Id = int.MaxValue,
-        //            UserName = "jtest",
-        //            Password = "Test1!",
-        //            FirstName = "Johnny",
-        //            LastName = "Test",
-        //            Email = "johnnytest123@email.com"
-        //        };
+                _repository.users.Add(user);
+                _repository.users.Add(user2);
+                context.SaveChanges();
 
-        //        MessagingViewModel mvm = await businessLogicClass.GetMessagesViewModel(user.Id);
-        //        Assert.NotNull(mvm);
-        //    }
-        //}
+                MessagingViewModel mvm = await businessLogicClass.GetMessagesViewModel(user.Id, user2.Id);
+                Assert.NotNull(mvm);
+            }
+        }
 
-        //[Fact]
-        //public void SendMessageTest()
-        //{
-        //    var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-        //    .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
-        //    .Options;
+        [Fact]
+        public void SendMessageTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
+            .Options;
 
-        //    using (var context = new ApplicationDbContext(options))
-        //    {
-        //        context.Database.EnsureDeleted();
-        //        context.Database.EnsureCreated();
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
 
-        //        Repository _repository = new Repository(context, _logger);
-        //        BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
-        //        // Create a user
-        //        var user1 = new User
-        //        {
-        //            Id = int.MaxValue,
-        //            UserName = "jtest",
-        //            Password = "Test1!",
-        //            FirstName = "Johnny",
-        //            LastName = "Test",
-        //            Email = "johnnytest123@email.com"
-        //        };
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+                // Create a user
+                var user1 = new User
+                {
+                    Id = int.MaxValue,
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
 
-        //        // Create a second user
-        //        var user2 = new User
-        //        {
-        //            Id = int.MaxValue - 1,
-        //            UserName = "jtest",
-        //            Password = "Test1!",
-        //            FirstName = "Johnny",
-        //            LastName = "Test",
-        //            Email = "johnnytest123@zmail.com"
-        //        };
+                // Create a second user
+                var user2 = new User
+                {
+                    Id = int.MaxValue - 1,
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@zmail.com"
+                };
 
-        //        // It's about sending a message
-        //        Task<MessagingViewModel> mvm = businessLogicClass.sendMessage(user2.Id,"content of message");
-        //        Assert.NotNull(mvm);
-        //    }
-        //}
+                _repository.users.Add(user1);
+                _repository.users.Add(user2);
+                context.SaveChanges();
+
+                // It's about sending a message
+                Task<MessagingViewModel> mvm = businessLogicClass.sendMessage(user1.UserName, user1.Id, user2.Id,"content of message");
+                Assert.NotNull(mvm);
+            }
+        }
 
         [Fact]
         public async Task GetAllMessageAsyncTest()
@@ -582,7 +599,227 @@ namespace WhatsThatTest
         [Fact]
         public async Task GetNumOfFriendsByUserIdTest()
         {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+           .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB")
+           .Options;
 
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+                // create a user
+                var user = new User
+                {
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
+
+                var x = await businessLogicClass.GetNumOfFriendsByUserId(user.Id);
+                Assert.Equal(0, x);
+            }
+        }
+
+        [Fact]
+        public async Task GetMessages2UsersTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+                // Create a user
+                var user1 = new User
+                {
+                    Id = int.MaxValue,
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
+
+                // Create a second user
+                var user2 = new User
+                {
+                    Id = int.MaxValue - 1,
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@zmail.com"
+                };
+
+                // Create a message
+                var message = new Message { };
+                _repository.users.Add(user1);
+                _repository.users.Add(user2);
+                _repository.messages.Add(message);
+                context.SaveChanges();
+
+                // It's about sending a message
+                List<Message> mvm = await businessLogicClass.GetMessages2users(user1.Id, user2.Id);
+                Assert.NotNull(mvm);
+            }
+        }
+
+        [Fact]
+        public async Task ConvertFileToBitArrayTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB4")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                var song = new Song
+                {
+                    ArtistName = "Bad Posture",
+                    Genre = "Pop Punk",
+                    Title = "Yellow",
+                    Duration = TimeSpan.MaxValue,
+                    NumberOfPlays = 0,
+                    isOriginal = true
+                };
+
+                _repository.songs.Add(song);
+                context.SaveChanges();
+                Assert.NotNull(businessLogicClass.ConvertFileToBitArray(song));
+            }
+        }
+
+        [Fact]
+        public void ConvertIformFileToByteArrayTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+            
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                var file = new FormFile(new MemoryStream(Encoding.UTF8.GetBytes("This is a dummy file")), 0, 0, "Data", "dummy.txt");
+
+                Assert.NotNull(businessLogicClass.ConvertIformFileToByteArray(file));
+            }
+        }
+
+        [Fact]
+        public void SaveSongTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                var song = new Song { };
+
+                Assert.NotNull(businessLogicClass.SaveSong(song));
+            }
+        }
+
+        [Fact]
+        public async Task GetFriendToUserListTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                var user = new User();
+
+                _repository.users.Add(user);
+                context.SaveChanges();
+
+                Assert.NotNull(await businessLogicClass.GetFriendsToUserList(user.Id));
+            }
+        }
+
+        [Fact]
+        public async Task GetSongsBySearchGenreTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                // create a song
+                var song = new Song();
+
+                _repository.songs.Add(song);
+                context.SaveChanges();
+
+                Assert.NotNull(await businessLogicClass.GetSongsBySearhGenre(song.Genre));
+            }
+        }
+
+        [Fact]
+        public void AcceptFriend()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestLogicDB3")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository _repository = new Repository(context, _logger);
+                BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
+
+                var user1 = new User();
+                var user2 = new User();
+
+                _repository.users.Add(user1);
+                _repository.users.Add(user2);
+                context.SaveChanges();
+
+                Assert.NotNull(businessLogicClass.AcceptFriend(user1.Id, user2.Id));
+            }
         }
     }
 }

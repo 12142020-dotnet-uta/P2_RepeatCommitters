@@ -153,7 +153,7 @@ namespace WhatsThatTest
             }
         }*/
 
-        /* TODO: Assert inconsistently evaluating to false. Reason unknown, suspect async/await.
+        /* TODO: Assert inconsistently evaluating to false. Reason unknown, suspect async/await.*/
         [Fact]
         public void SearchForUsersTest()
         {
@@ -205,6 +205,6 @@ namespace WhatsThatTest
                 // we expect 5 users to return in the list
                 Assert.Equal(5, userList2.Result.Count);
             }
-        }*/
+        }
     }
 }

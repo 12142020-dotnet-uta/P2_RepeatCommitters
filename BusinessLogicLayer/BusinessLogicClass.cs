@@ -48,7 +48,7 @@ namespace BusinessLogicLayer
         }
 
 
-        internal async Task<int> GetNumOfFriendsByUserId(int id)
+        public async Task<int> GetNumOfFriendsByUserId(int id)
         {
             return await _repository.GetNumOfFriendsByUserId(id);
         }
