@@ -174,10 +174,10 @@ namespace BusinessLogicLayer
             return originalSongs;
         }
 
-        public async Task AcceptFriend(int UserId,int pendingFriendId)
+        public async Task AcceptFriend(FriendList friend)
         {
-            FriendList friendToAccept = await _repository.GetFriendListFriend(UserId, pendingFriendId);
-            friendToAccept.status = "accept";
+            FriendList friendToAccept = await _repository.GetFriendListFriend(friend.FriendId, friend.RequestedFriendId);
+            friendToAccept.status = friend.status;
             await _repository.AcceptRequest(friendToAccept);
         }
 

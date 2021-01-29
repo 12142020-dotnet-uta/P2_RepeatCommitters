@@ -31,7 +31,7 @@ namespace WhatsThatSong
             //services.AddSingleton<IFileProvider>(
             //new PhysicalFileProvider(
             //    Path.Combine(Directory.GetCurrentDirectory(), "wwwroot")));
-
+            //services.AddHttpContextAccessor();
             services.AddMvc();
             services.AddControllersWithViews();
             services.AddControllers();
@@ -40,7 +40,7 @@ namespace WhatsThatSong
             services.AddScoped<ApplicationDbContext>();
             services.AddScoped<MapperClass>();
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("AzureDB")));
+               options.UseSqlServer(Configuration.GetConnectionString("AzureDB")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
