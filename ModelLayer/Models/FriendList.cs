@@ -20,6 +20,8 @@ namespace ModelLayer.Models
         [Required]
         public int RequestedFriendId { get; set; }
         public string status { get; set; } = "pending";
+        public string ToUsername { get; set; }
+        public string FromUsername { get; set; }
 
         public FriendList() { }
         public FriendList(int userid, int requestedFriendid)

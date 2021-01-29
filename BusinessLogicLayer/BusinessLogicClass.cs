@@ -176,9 +176,9 @@ namespace BusinessLogicLayer
 
         public async Task AcceptFriend(FriendList friend)
         {
-            FriendList friendToAccept = await _repository.GetFriendListFriend(friend.FriendId, friend.RequestedFriendId);
-            friendToAccept.status = "accept";
-            await _repository.AcceptRequest(friendToAccept);
+            FriendList friendToEdit = await _repository.GetFriendListFriend(friend.FriendId, friend.RequestedFriendId);
+            friendToEdit.status = friend.status;
+            await _repository.AcceptRequest(friendToEdit);
         }
 
         /// <summary>
