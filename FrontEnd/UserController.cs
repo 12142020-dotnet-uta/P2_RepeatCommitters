@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WhatsThatSong.Controllers
 {
-    
+
     [ApiController]
     [Route("user")]
     public class UserController : ControllerBase
@@ -46,9 +46,9 @@ namespace WhatsThatSong.Controllers
         public async Task<UserProfileViewModel> CreateUser(User u)
         {
             User newUser = await _businessLogicClass.CreatNewBC(u.UserName, u.Password, u.Email);
-            UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
-            if(newUser != null)
+            if (newUser != null)
             {
+                UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
                 return UPVM;
             }
             else
@@ -56,7 +56,7 @@ namespace WhatsThatSong.Controllers
                 return null;
             }
         }
-        
+
         [HttpGet]
         [Route("login")]
         //public async Task<UserProfileViewModel> login(string userName, string password)
@@ -65,27 +65,27 @@ namespace WhatsThatSong.Controllers
             //User LoggedInUser = await _businessLogicClass.LoginUser(userName, password);
             return await _businessLogicClass.LoginUser(userName, password);
             //if (LoggedInUser != null)
-                //return loggedInUser;
-               //return await _businessLogicClass.GetUserProfileViewModel(LoggedInUser.Id);
+            //return loggedInUser;
+            //return await _businessLogicClass.GetUserProfileViewModel(LoggedInUser.Id);
             //else
-                //return null;
+            //return null;
         }
-        
-     /*   
-        [HttpPost]
-        [Route("login")]
-        public async Task<UserProfileViewModel> login(User u)
-        {
-            User LoggedInUser = await _businessLogicClass.LoginUser(u.UserName, u.Password);
-            UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(LoggedInUser.Id);
 
-            if (LoggedInUser != null)
-            {
-                return UPVM;
-            }
-                return null;
-        }
-        */
+        /*   
+           [HttpPost]
+           [Route("login")]
+           public async Task<UserProfileViewModel> login(User u)
+           {
+               User LoggedInUser = await _businessLogicClass.LoginUser(u.UserName, u.Password);
+               UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(LoggedInUser.Id);
+
+               if (LoggedInUser != null)
+               {
+                   return UPVM;
+               }
+                   return null;
+           }
+           */
         /// <summary>
         /// Gets the user to edit
         /// </summary>
@@ -116,7 +116,7 @@ namespace WhatsThatSong.Controllers
         public async Task<List<User>> SearchForUsers(string searchString)
         {
             List<User> listOfUsers = await _businessLogicClass.SearchForUsersByPartialN(searchString);
-            
+
             return listOfUsers;
         }
 
@@ -125,15 +125,15 @@ namespace WhatsThatSong.Controllers
         public async Task FriendRequest(int userId, int requestedFriendId)
         {
             await _businessLogicClass.RequestFriend(userId, requestedFriendId);
-           // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
+            // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
         }
 
 
         [HttpGet]
-        [Route("AcceptFriend")]
-        public async Task AcceptFriend(int LoggedInId, int pendingFriendId)
+        [Route("EditFriendStatus")]
+        public async Task AcceptFriend(FriendList friend)
         {
-            await _businessLogicClass.AcceptFriend(LoggedInId,pendingFriendId);
+            await _businessLogicClass.AcceptFriend(friend);
         }
         /// <summary>
         /// sends a list of friends that have been accepted
@@ -145,9 +145,9 @@ namespace WhatsThatSong.Controllers
         public async Task<List<FriendList>> GetFriendsByUserId(int id)
         {
             List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
-            return  friendList;
+            return friendList;
         }
-		[HttpGet]
+        [HttpGet]
         [Route("GetFriendsAsUsers")]
         public async Task<List<User>> GetFriendsAsUsers(int id)
         {
@@ -190,7 +190,7 @@ namespace WhatsThatSong.Controllers
             return viewModel;
         }
 
-        
+
 
         [HttpGet]
         [Route("BakToProfile")]
@@ -205,7 +205,6 @@ namespace WhatsThatSong.Controllers
         [Route("getAllUsers")]
         public async Task<List<User>> GetAllUsersAsync()
         {
-            _logger.LogDebug("I AM HERE!");
             return await _businessLogicClass.GetAllUsersAsync();
         }
 
@@ -235,7 +234,7 @@ namespace WhatsThatSong.Controllers
         [Route("AreWeFriends")]
         public async Task<bool> AreWeFriends(int userId, int FriendId)
         {
-             bool AreFriends = await _businessLogicClass.AreWeFriends(userId, FriendId);
+            bool AreFriends = await _businessLogicClass.AreWeFriends(userId, FriendId);
             return AreFriends;
         }
     }

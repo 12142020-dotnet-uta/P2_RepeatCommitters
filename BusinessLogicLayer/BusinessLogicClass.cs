@@ -142,6 +142,12 @@ namespace BusinessLogicLayer
             return u;
         }
 
+        public async Task<List<Song>> GetallSongsByAUser(User user)
+        {
+            List<Song> allUsersSongs = await _repository.GetAllSongsByUser(user);
+            return allUsersSongs;
+        }
+
         /// <summary>
         /// checks to see if a user with that info already exists and returns null if the user already exist. creates a new user if the ures does not already exist.
         /// </summary>
