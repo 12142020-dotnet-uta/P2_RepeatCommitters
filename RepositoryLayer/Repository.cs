@@ -199,10 +199,11 @@ namespace RepositoryLayer
 
         public async Task<List<Song>> GetOriginalSongByLyrics(string phrase)
         {
+            string lowerCasePhrase = phrase.ToLower();
             List<Song> songlist = new List<Song>();
             await foreach (var item in songs)
             {
-                if(item.Lyrics != null && item.Lyrics.Contains(phrase))
+                if(item.Lyrics != null && item.Lyrics.ToLower().Contains(lowerCasePhrase))
                 {
                     songlist.Add(item);
                 }
