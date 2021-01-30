@@ -222,8 +222,7 @@ namespace WhatsThatTest
             // Create a new friend list with bad data.
             var friendList = new FriendList
             {
-                Id = int.MaxValue,
-                FriendId = int.MaxValue
+                Id = int.MaxValue
             };
 
             // Get the number of errors in the model. Expecting 1 error.

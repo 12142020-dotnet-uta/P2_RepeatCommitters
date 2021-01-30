@@ -18,7 +18,6 @@ namespace WhatsThatTest
 {
     public class ControllerTests
     {
-        private HostingEnvironment _env;
         private readonly ILogger<Repository> _repositoryLogger;
         private readonly ILogger<UserController> _userControllerLogger;
         private readonly ILogger<SongController> _songControllerLogger;
@@ -251,7 +250,9 @@ namespace WhatsThatTest
                 repository.SaveNewUser(user).Wait();
                 repository.SaveNewUser(user2).Wait();
 
-                userController.FriendRequest(user.Id, user2.Id).Wait();
+                var fl = new FriendList();
+
+                userController.FriendRequest(fl).Wait();
                 Assert.NotNull(repository.friendList);
             }
         }
@@ -445,9 +446,9 @@ namespace WhatsThatTest
                 repository.friendList.Add(fl);
                 context.SaveChanges();
 
-                var list = userController.DeleteFriend(user.Id, user2.Id);
+                userController.DeleteFriend(fl.Id).Wait();
 
-                Assert.Empty(list.Result);
+                Assert.Equal(0, repository.friendList.Count());
             }
         }
 
@@ -827,7 +828,7 @@ namespace WhatsThatTest
 
                 Repository repository = new Repository(context, _repositoryLogger);
                 BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
-                SongController songController = new SongController(logic, _songControllerLogger, _env);
+                SongController songController = new SongController(logic, _songControllerLogger);
                 // create a song
                 var song = new Song();
 
