@@ -69,8 +69,8 @@ steps:
     #publishWebProjects: true
     publishWebProjects: false
     # Added Code
-    projects: '/WhatsThatSong/WhatsThatSong.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    #projects: '/WhatsThatSong/WhatsThatSong.csproj'
+    #arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     # Added Code
     zipAfterPublish: true
 
