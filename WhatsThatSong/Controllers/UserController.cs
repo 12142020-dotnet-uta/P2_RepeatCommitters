@@ -162,10 +162,11 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("DeleteFriend")]
-        public async Task DeleteFriend(int FriendListId)
+        public async Task<List<FriendList>> DeleteFriend(int LoggedInUserId, int friendToDeleteId)
         {
-            await _businessLogicClass.DeleteFriend(FriendListId);
-            
+            await _businessLogicClass.DeleteFriend(LoggedInUserId, friendToDeleteId);
+            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(LoggedInUserId);
+            return friendList;
         }
 
         [HttpPost]
