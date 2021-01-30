@@ -446,7 +446,7 @@ namespace WhatsThatTest
                 repository.friendList.Add(fl);
                 context.SaveChanges();
 
-                userController.DeleteFriend(fl.Id).Wait();
+                userController.DeleteFriend(user.Id, user2.Id).Wait();
 
                 Assert.Equal(0, repository.friendList.Count());
             }
