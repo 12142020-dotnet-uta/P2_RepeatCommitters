@@ -14,7 +14,10 @@ variables:
 
 
 steps:
+
+# SonarCloud Stuff for API
 - task: SonarCloudPrepare@1
+  displayName: 'SonarCloud Prepare'
   inputs:
     SonarCloud: 'SonarCloud'
     organization: 'repeat-committers'
@@ -27,35 +30,40 @@ steps:
       sonar.cs.vstest.reportsPaths=$(Agent.TempDirectory)/*.trx
       sonar.cs.opencover.reportsPaths=$(Build.SourcesDirectory)/**/*.xml
 
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: './WhatsThatSong/WhatsThatSong.sln'
-    feedsToUse: 'select'
 
-- script: dotnet build ./WhatsThatSong/WhatsThatSong.sln --configuration $(buildConfiguration)
+# Find the API Solution File
+# - task: NuGetCommand@2
+#   inputs:
+#     command: 'restore'
+#     restoreSolution: './WhatsThatSong/WhatsThatSong.sln'
+#     feedsToUse: 'select'
+
+- script: dotnet build ./BackEnd/WhatsThatSong.sln --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
+  displayName: '.Net Test'
   inputs:
     command: 'test'
-    projects: './WhatsThatTest'
+    projects: '**/WhatsThatTest'
     arguments: '--configuration $(buildConfiguration) --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/MyCoverage/'
     publishTestResults: true
 
 - task: PublishCodeCoverageResults@1
-  displayName: publish code coverage
+  displayName: 'Publish Cobertura Code Coverage'
   inputs:
     codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(Build.SourcesDirectory)/**/MyCoverage/coverage.cobertura.xml'
 
 - task: SonarCloudAnalyze@1
+  displayName: 'Analyze on SonarCloud'
 
 - task: SonarCloudPublish@1
   inputs:
     pollingTimeoutSec: '300'
 
 - task: DotNetCoreCLI@2
+  displayName: '.Net Publish'
   inputs:
     command: 'publish'
     publishWebProjects: true
@@ -63,9 +71,17 @@ steps:
 
 
 - task: AzureRmWebAppDeployment@4
+  displayName: 'Deploy ASP.NET API'
   inputs:
     ConnectionType: 'AzureRM'
     azureSubscription: 'Azure subscription 1(177e072a-ef5e-4a5f-94f4-d006ea8b8575)'
     appType: 'webApp'
-    WebAppName: 'P2Pipeline'
+    WebAppName: 'WhatsThatSong'
     packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+
+- task: AzureAppServiceManage@0
+  displayName: 'Start App Service'
+  inputs:
+    azureSubscription: 'Azure subscription 1(177e072a-ef5e-4a5f-94f4-d006ea8b8575)'
+    Action: 'Start Azure App Service'
+    WebAppName: 'WhatsThatSong'
