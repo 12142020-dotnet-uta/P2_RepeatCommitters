@@ -15,35 +15,25 @@ import { SongService } from '../song.service';
 export class SearchComponent implements OnInit 
 {
     public query: string;
-    public songIn: Array<Song> = new Array<Song>();
-
     public bannerSongIds: Array<number> = new Array<number>();
     public songSelected: boolean;
     public selectedSong: Song;
 
-    constructor(public songService: SongService, private route: ActivatedRoute, private router: Router)
-    {
-        route.queryParams.pipe(filter(params => params.query))
-        .subscribe(params => 
-        {
-            this.query = params.query;
-        });
-
-        songService.searchOriginalsByLyrics(this.query).subscribe
-        (
-            (data) => this.songIn = data,
-            () => alert("Error Searching")
-        );
-
-        router.routeReuseStrategy.shouldReuseRoute = function () 
-        {
-            return false;
-        };
-    }
+    constructor(public songService: SongService, private route: ActivatedRoute, private router: Router){}
   
     ngOnInit(): void 
     {
         this.songSelected = false;
+        this.route.queryParams.pipe(filter(params => params.query))
+                .subscribe(params => 
+                {
+                    this.query = params.query;
+                });
+        
+        this.router.routeReuseStrategy.shouldReuseRoute = function () 
+        {
+            return false;
+        };
     }
 
     displaySong(songId: number)

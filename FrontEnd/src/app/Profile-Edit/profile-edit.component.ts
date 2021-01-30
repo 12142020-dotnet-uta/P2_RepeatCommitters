@@ -52,52 +52,37 @@ export class ProfileEditComponent implements OnInit
 	
 	updateDescription(description: string): void
 	{
+        const u = this.user;
         this.user.description = description["description"];
 
         this.loginService.editUser(this.user.id, this.user).subscribe
         (
-            () => 
-            {
-                this.loginService.loggedInUser = this.user;
-                this.router.navigate(['/profile/' + this.user.id]);
-            },
+            () => this.router.navigate(['/profile/' + this.user.id]),
             () => alert("There was an error!")
         );
     }
 
     updateFName(firstName: string): void
 	{
+        const u = this.user;
         this.user.firstName = firstName["firstName"];
 
         this.loginService.editUser(this.user.id, this.user).subscribe
         (
-            () => 
-            {
-                this.loginService.loggedInUser = this.user;
-                this.router.navigate(['/profile/' + this.user.id]);
-            },
+            () => this.router.navigate(['/profile/' + this.user.id]),
             () => alert("There was an error!")
         );
     }
 
     updateLName(lastName: string): void
 	{
+        const u = this.user;
         this.user.lastName = lastName["lastName"];
 
         this.loginService.editUser(this.user.id, this.user).subscribe
         (
-            () => 
-            {
-                this.loginService.loggedInUser = this.user;
-                this.router.navigate(['/profile/' + this.user.id]);
-            },
+            () => this.router.navigate(['/profile/' + this.user.id]),
             () => alert("There was an error!")
         );
     }
-
-    
-    //Quick access properties for the forms
-    get description() { return this.formdataDescription.get('description'); }
-    get firstName() { return this.formdataFirstName.get('firstName'); }
-    get lastName() { return this.formdataLastName.get('lastName'); }
 }

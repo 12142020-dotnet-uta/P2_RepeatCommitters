@@ -31,7 +31,7 @@ export class TrackListComponent implements OnInit
             this.emitBannerIds();
             return;
         }
-/*
+
         //By default we just display top songs
         if(this.search == null || this.search.length < 1)
         {
@@ -64,7 +64,6 @@ export class TrackListComponent implements OnInit
                 (error) => alert(error)//error/failure
             );
         }
-    */
     }
 
     //This should be Refactored so that we submit the whole song
@@ -80,5 +79,6 @@ export class TrackListComponent implements OnInit
         for(let x = 0; x < this.songs.length; x++)
             songIds.push(this.songs[x].id);
         this.allSongIds.emit(songIds);
+
     }
 }

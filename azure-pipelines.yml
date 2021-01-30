@@ -4,7 +4,7 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- main
+- Test
 
 pool:
   vmImage: 'windows-latest'
@@ -32,20 +32,20 @@ steps:
 
 
 # Find the API Solution File
-- task: NuGetCommand@2
-  inputs:
-    command: 'restore'
-    restoreSolution: './WhatsThatSong/WhatsThatSong.sln'
-    feedsToUse: 'select'
+# - task: NuGetCommand@2
+#   inputs:
+#     command: 'restore'
+#     restoreSolution: './WhatsThatSong/WhatsThatSong.sln'
+#     feedsToUse: 'select'
 
-- script: dotnet build ./WhatsThatSong/WhatsThatSong.sln --configuration $(buildConfiguration)
+- script: dotnet build ./BackEnd/WhatsThatSong.sln --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: '.Net Test'
   inputs:
     command: 'test'
-    projects: './WhatsThatTest'
+    projects: '**/WhatsThatTest'
     arguments: '--configuration $(buildConfiguration) --collect "Code Coverage" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/MyCoverage/'
     publishTestResults: true
 

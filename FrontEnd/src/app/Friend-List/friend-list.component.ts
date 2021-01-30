@@ -23,7 +23,7 @@ export class FriendListComponent implements OnInit
         //We will have to change this if we want to see someone else's friends list
         loginService.getFriends(loginService.loggedInUser.id).subscribe
         (
-            (data) => this.friends = data,
+            (data) => {this.friends = data; alert(data.length);},
             () => alert("Error")
         );
 

@@ -27,6 +27,14 @@
             </div>
         </div>
         
+        <div class="form-group">
+            <label>Year</label>
+            <input type="text" class="form-control" name="year" formControlName="year" required ngModel>        
+            <div class="form-control-feedback" *ngIf="year.invalid && (year.dirty || year.touched)">
+                <p *ngIf="year.errors.required">Year is required</p>
+            </div>
+        </div>
+        
         <!-- STRETCH GOAL ADD VALIDATION TO MAKE SURE URL IS VALID -->
         <div class="form-group">
             <label>Sound Cloud URL</label>
@@ -34,17 +42,9 @@
             <div class="form-control-feedback" *ngIf="urlPath.invalid && (urlPath.dirty || urlPath.touched)">
                 <p *ngIf="urlPath.errors.required">A Url is required</p>
             </div>
-        </div>   
-        
-        <!-- ASK RYAN this should be a huge box you can type in and have multiple lines
-                as it is now, all /n are converted to spaces upon a copy paste
-                and enter just submits the form-->
-        <div class="form-group">
-            <label>Lyrics</label>
-            <input type="textbox" class="form-control" name="lyrics" formControlName="lyrics" required ngModel>
-        </div>   
+        </div>      
 
-        <button type="submit" [disabled]="!formdata.valid" class="btn btn-warning">Upload</button>
+        <button type="submit" [disabled]="!formdata.valid" class="btn btn-warning">Register</button>
 
     </form>
 </div>

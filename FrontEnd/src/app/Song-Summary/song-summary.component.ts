@@ -23,17 +23,13 @@ export class SongSummaryComponent implements OnInit
     ngOnInit(): void 
     {
         this.checkFavourite();
+        //this.songService.incrementPlays(this.song.id).subscribe(() => {}, () => alert("Error Incrementing Plays"));
     }
 
     ngOnChanges(): void
     {
         this.lyrics = false;
         this.checkFavourite();
-        this.songService.incrementPlays(this.song.id).subscribe
-        (
-            () => this.song.numberOfPlays++, 
-            () => alert("Error Incrementing Plays")
-        );
     }
 
     getURL(): SafeResourceUrl
@@ -49,22 +45,32 @@ export class SongSummaryComponent implements OnInit
 
     addToFavourites(): void
     {
-        this.songService.addToFavourites(this.song.id, this.loginService.loggedInUser.id).subscribe
-        (
-            () => alert("Added to Favourites"),
-            () => alert("Error adding to favourites")
-        );
+        if(this.loginService.loggedInUser.favourites.indexOf(this.song) < 0)
+        {
+            this.loginService.loggedInUser.favourites.push(this.song);
+            this.loginService.editUser(this.loginService.loggedInUser.id, this.loginService.loggedInUser).subscribe
+            (
+                (data) => this.isFavourite = true,
+                (error) => 
+                {
+                    this.loginService.loggedInUser.favourites.pop();
+                    alert(error);
+                }
+            );
+        }
     }
 
     checkFavourite(): void
     {
-        this.isFavourite = false;
-        
+        /*
         if(this.loginService.loggedIn)
-            this.songService.isFavourite(this.song.id, this.loginService.loggedInUser.id).subscribe
-            (
-                (data) => this.isFavourite = data,
-                () => alert("Error checking favourite")
-            );
+            for(let x = 0; x < this.loginService.loggedInUser.favourites.length; x++)
+                if(this.song.id == this.loginService.loggedInUser.favourites[x].id)
+                {
+                    this.isFavourite = true;
+                    return;
+                }
+*/
+        this.isFavourite = false;
     }
 }

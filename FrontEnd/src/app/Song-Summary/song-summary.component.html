@@ -3,22 +3,24 @@
            It still works without it, but we get a console error -->
     <div *ngIf="song">
         <p style="color: black; min-height: 300px; font: 30px bold;">
+            <!--<img width="300px" height="300px" src={{song.albumURL}} style="float: left;"/>-->
             <!--
-            <img width="300px" height="300px" src={{song.albumURL}} style="float: left;"/>
             <iframe width="500px" height="300px" [src]='getYoutubeURL()' frameborder="0" style="float: right;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             -->
             <!-- Will need ngIf Soundcloud, ngElse Spotify-->
             <iframe width="500px" height="300px" scrolling="no" frameborder="no" allow="autoplay" style="float: right;" [src]="getURL()"></iframe>
+            <!--
+            https%3A//api.soundcloud.com/tracks/206801747"></iframe>
+            -->
             Title: {{song.title}}<br/>
-            Artist: {{song.artistName}}
-            <span *ngIf="song.album"><br/>Album: {{song.album}}</span><br/>
-            Genre: {{song.genre}}
-            <span *ngIf="song.year"><br/>Year: {{song.year}}</span><br/>
-            Plays: {{song.numberOfPlays}}<br/>
-            <span *ngIf="song.lyrics"><button class="btn btn-success" (click)="showLyrics()"> Lyrics </button></span>
+            Artist: {{song.artistName}}<br/>
+            Album: {{song.album}}<br/>
+            Genre: {{song.genre}}<br/>
+            <!-- Year: {{song.year}}<br/> -->
+            <button class="btn btn-success" (click)="showLyrics()"> Lyrics </button>
         </p>
         <!-- Check if the song is already added -->
-        <div *ngIf="loginService.loggedIn && !isFavourite && !(song.artistName == loginService.loggedInUser.userName)">
+        <div *ngIf="loginService.loggedIn && !isFavourite">
             <button class="btn btn-primary" (click)="addToFavourites()">Add to Favourites</button>
         </div>
     </div>

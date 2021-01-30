@@ -1,6 +1,6 @@
 <h2> Favourites </h2>
 
-<div *ngIf="songIn.length > 0; else elseblock">
+<div *ngIf="songIn.length  > 0; else elseblock">
     <div *ngIf="songSelected">
         <button class="w3-button w3-black w3-display-left" (click)="getPrevBannerSong()">&#10094;</button>
         <app-song-summary [song]="selectedSong"></app-song-summary>
@@ -8,7 +8,7 @@
     </div>
 
     <!-- We need this ngIf to prevent the component loading before songIn is initialized -->
-    <div *ngIf="songIn.length > 0">
+    <div *ngIf="songIn.length  > 0">
         <app-track-list [songIn]="songIn" (foundSongId)="displaySong($event)" (allSongIds)="setBannerSongs($event)"></app-track-list>
     </div>
 </div>

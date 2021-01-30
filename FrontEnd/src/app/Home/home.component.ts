@@ -50,14 +50,11 @@ export class HomeComponent implements OnInit
                                 friendService.editFriendRequest(data[x]).subscribe(() => {}, () => alert("Error Rejecting"));
                             }
                         }
-                        //Keeps displaying. If we have time we can add another state = "Accepted Viewed"
-                        /*
                         else if(friendService.isAccepted(data[x]))
                         {
                             alert(data[x].toUsername + " accepted your friend request.");
                             //friendService.deleteFriendRequest(data[x].id).subscribe();
                         }
-                        */
                         else if(friendService.isRejected(data[x]))
                         {
                             alert(data[x].toUsername + " rejected your friend request.");

@@ -28,13 +28,13 @@ export class FavouritesComponent implements OnInit
                     else           id = -1;
                 });
 
-        //Just in case
-        if(id == -1 && loginService.loggedIn)  id = loginService.loggedInUser.id;
-
-        songService.getFavourites(id).subscribe
+        loginService.getUser(id).subscribe
         (
-            (data) => this.songIn = data,
-            () => alert("Error getting Favourites")
+            (data) => 
+            {
+                this.songIn = data.favourites;
+            },
+            (error) => alert(error)
         );
     }
   

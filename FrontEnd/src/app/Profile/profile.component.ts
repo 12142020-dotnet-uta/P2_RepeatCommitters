@@ -45,7 +45,6 @@ export class ProfileComponent implements OnInit
                 (data) => 
                 {
                     this.user = data;
-
                     //Then we get friends
                     this.friendService.checkFriends(this.loginService.loggedInUser.id, data.id).subscribe
                     (
@@ -60,13 +59,8 @@ export class ProfileComponent implements OnInit
                             alert("Error");
                         }
                     );
-
                     //Then we get favourites
-                    songService.getTopFavourites(id).subscribe
-                    (
-                        (data) => this.songIn = data,
-                        () => alert("Error getting Favourites")
-                    );
+                    //this.loginService.getFavourites(id).subscribe();
                 },
                 () => this.homeUser = true
             );
@@ -77,11 +71,11 @@ export class ProfileComponent implements OnInit
             this.user = loginService.loggedInUser;
 
             //Set the favourite songs
-            songService.getTopFavourites(this.user.id).subscribe
-            (
-                (data) => this.songIn = data,
-                () => alert("Error getting Favourites")
-            );
+            /*
+            this.songSelected = false;
+            for(let x = 0; x < this.user.favourites.length && x < 5; x++)
+                this.songIn.push(this.user.favourites[x]);
+            */
         }
     }
   

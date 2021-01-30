@@ -30,15 +30,14 @@ export class MusicAddComponent implements OnInit
 			title: new FormControl("", Validators.required),
 			album: new FormControl("", Validators.required),
 			genre: new FormControl("", Validators.required),
-			urlPath: new FormControl("", Validators.required),
-			lyrics: new FormControl("")
+			year: new FormControl("", Validators.required),
+			urlPath: new FormControl("", Validators.required)
         });	
 	}
 	
 	upload(s: Song): void
 	{
         s.artistName = this.user.userName;
-        //s.year = 2021;
         this.songService.uploadSong(s).subscribe
         (
             () =>
@@ -53,6 +52,6 @@ export class MusicAddComponent implements OnInit
     get title() { return this.formdata.get('title'); }
     get album() { return this.formdata.get('album'); }
     get genre() { return this.formdata.get('genre'); }
+    get year() { return this.formdata.get('year'); }
     get urlPath() { return this.formdata.get('urlPath'); }
-    get lyrics() { return this.formdata.get('lyrics'); }
 }
