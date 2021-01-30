@@ -76,6 +76,13 @@ export class SongService
         return this.http.get<Song[]>(this.connection + "/Song/Get5FavoriteSongsForUser", {headers, params});  
     }
 
+    isFavourite(sId: number, uId: number): Observable<boolean>
+    {
+        const headers = new HttpHeaders().append('Content-Type', 'application/json');
+        const params = new HttpParams().append('songid', "" + sId).append('userId', "" + uId);
+        return this.http.get<boolean>(this.connection + "/Song/isSongAlreadyAFavorite", {headers, params});   
+    }
+
     searchOriginalsByLyrics(query: string): Observable<Song[]>
     {
         const headers = new HttpHeaders().append('Content-Type', 'application/json');
