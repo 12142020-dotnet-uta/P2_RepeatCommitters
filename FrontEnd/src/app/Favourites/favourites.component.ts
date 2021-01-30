@@ -33,7 +33,7 @@ export class FavouritesComponent implements OnInit
 
         songService.getFavourites(id).subscribe
         (
-            (data) => {this.songIn = data; alert(data.length);},
+            (data) => this.songIn = data,
             () => alert("Error getting Favourites")
         );
     }

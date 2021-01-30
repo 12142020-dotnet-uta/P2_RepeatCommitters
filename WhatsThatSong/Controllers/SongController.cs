@@ -198,7 +198,7 @@ namespace WhatsThatSong.Controllers
         public async Task<bool> isSongAlreadyAFavorite(int songId, int userId)
         {
             bool isFavorite = await _businessLogicClass.IsFavorite(songId, userId);
-                return isFavorite;
+            return isFavorite;
         }
     }
 }

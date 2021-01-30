@@ -58,15 +58,13 @@ export class SongSummaryComponent implements OnInit
 
     checkFavourite(): void
     {
-        /*
-        if(this.loginService.loggedIn)
-            for(let x = 0; x < this.loginService.loggedInUser.favourites.length; x++)
-                if(this.song.id == this.loginService.loggedInUser.favourites[x].id)
-                {
-                    this.isFavourite = true;
-                    return;
-                }
-*/
         this.isFavourite = false;
+        
+        if(this.loginService.loggedIn)
+            this.songService.isFavourite(this.song.id, this.loginService.loggedInUser.id).subscribe
+            (
+                (data) => this.isFavourite = data,
+                () => alert("Error checking favourite")
+            );
     }
 }
