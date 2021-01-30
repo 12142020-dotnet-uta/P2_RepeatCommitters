@@ -62,6 +62,20 @@ export class SongService
         return this.http.get<void>(this.connection + "/Song/addSongToFavorites", {headers, params});   
     }
 
+    getFavourites(id: number): Observable<Song[]>
+    {
+        const headers = new HttpHeaders().append('Content-Type', 'application/json');
+        const params = new HttpParams().append('Id', "" + id);
+        return this.http.get<Song[]>(this.connection + "/Song/GetUsersFavoriteSongs", {headers, params});  
+    }
+
+    getTopFavourites(id: number): Observable<Song[]>
+    {
+        const headers = new HttpHeaders().append('Content-Type', 'application/json');
+        const params = new HttpParams().append('Id', "" + id);
+        return this.http.get<Song[]>(this.connection + "/Song/Get5FavoriteSongsForUser", {headers, params});  
+    }
+
     searchOriginalsByLyrics(query: string): Observable<Song[]>
     {
         const headers = new HttpHeaders().append('Content-Type', 'application/json');
