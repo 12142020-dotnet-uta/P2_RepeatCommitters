@@ -273,9 +273,21 @@ namespace BusinessLogicLayer
             return await _repository.GetUserByIdAsync(id);
         }
 
-        public async Task DeleteFriend(int friendListId)
+        public async Task DeleteFriend(int UserId, int friendToDeleteId)
         {
-            await _repository.DeleteFriendByFreindListId(friendListId);
+            FriendList FreindListItemToDelete = new FriendList();
+            List<FriendList> list = await _repository.GetFriendListFriendByUserId(UserId);
+            foreach(var item in list)
+            {
+                if(item.FriendId == friendToDeleteId && item.RequestedFriendId == UserId)
+                {
+                    await _repository.DeleteFriendByFreindListId(item.Id);
+                }
+                else if(item.FriendId == UserId && item.RequestedFriendId == friendToDeleteId)
+                {
+                    await _repository.DeleteFriendByFreindListId(item.Id);
+                }
+            }
         }
 
         /// <summary>
