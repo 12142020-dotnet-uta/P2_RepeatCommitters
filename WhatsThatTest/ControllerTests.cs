@@ -875,7 +875,7 @@ namespace WhatsThatTest
         }
 
         [Fact]
-        public void GetUsersFavorites()
+        public void GetUsersFavoriteSongs()
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
@@ -904,7 +904,7 @@ namespace WhatsThatTest
                 repository.favoriteLists.Add(fave);
                 context.SaveChanges();
 
-                var s = songController.GetUsersFavorites(user.Id);
+                var s = songController.GetUsersFavoriteSongs(user.Id);
 
                 Assert.NotEmpty(s.Result);
             }
