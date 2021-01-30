@@ -22,16 +22,16 @@ namespace WhatsThatSong.Controllers
     [Route("Song")]
     public class SongController : ControllerBase
     {
-        private HostingEnvironment _env;
+        //private HostingEnvironment _env;
         private readonly BusinessLogicClass _businessLogicClass;
         private readonly ILogger<SongController> _logger;
 
 
-        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger, HostingEnvironment env)
+        public SongController(BusinessLogicClass businessLogicClass, ILogger<SongController> logger)//, HostingEnvironment env)
         {
             _businessLogicClass = businessLogicClass;
             _logger = logger;
-            _env = env;
+            //_env = env;
         }
 
         /// <summary>
@@ -102,11 +102,24 @@ namespace WhatsThatSong.Controllers
 
         [HttpPost]
         [Route("uploadSong")]
-        public async Task UploadSong(int userid, string userName,
-            string genre, string title, string lyrics, string urlPath, bool isOriginal)
+        public async Task UploadSong(Song song)
         {
-            Song s = new Song(userName, genre, title, lyrics, urlPath, isOriginal);
+            Song s = new Song(song.ArtistName, song.Genre, song.Title, song.Lyrics, song.UrlPath, true);
             await _businessLogicClass.SaveSong(s);
+
+        }
+
+        /// <summary>
+        /// return a list of songs by a certain user.
+        /// </summary>
+        /// <param name="genre"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetAllSongsByACertainUser")]
+        public async Task<List<Song>> GetAllSongsByACertainUser(int id)
+        {
+            List<Song> allUserSongs = await _businessLogicClass.GetallSongsByAUser(id);
+            return allUserSongs;
 
         }
 

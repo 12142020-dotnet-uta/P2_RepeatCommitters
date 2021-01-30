@@ -12,7 +12,7 @@ namespace ModelLayer.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        [Range(1, int.MaxValue, ErrorMessage = "Only positive numbers are allowed.")]
+        [Range(0, int.MaxValue, ErrorMessage = "Only positive numbers are allowed.")]
         public int FriendListLink { get; set; }
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Only positive numbers are allowed.")]

@@ -82,8 +82,11 @@ namespace RepositoryLayer
 
         public async Task<FriendList> GetFriendListFriend(int UserId, int pendingFriendId)
         {
-            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == pendingFriendId && x.FriendId == UserId && x.status == "pending");
-            return fl;
+            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == pendingFriendId && x.FriendId == UserId);// && x.status == "pending");
+            if(fl != null)  
+                return fl;
+            else
+                return friendList.FirstOrDefault(x => x.RequestedFriendId == UserId && x.FriendId == pendingFriendId);
         }
         public async Task AcceptRequest(FriendList pendingFriendId)
         {
@@ -132,7 +135,12 @@ namespace RepositoryLayer
             return numOfFriends;
         }
 
-       
+        public async Task<List<Song>> GetAllSongsByUserName(string userName)
+        {
+            return await songs.Where(x => x.ArtistName == userName).ToListAsync();
+        }
+
+
 
         /// <summary>
         /// returns the top 5 songs based on the number of plays
@@ -179,7 +187,7 @@ namespace RepositoryLayer
         }
         public async Task<bool> DoesUserExist(string username, string passw)
         {
-            User user = await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);
+            User user = await users.FirstOrDefaultAsync(x => x.UserName == username);// && x.Password == passw);
             if (user==null){
                 return false;
             }
@@ -209,7 +217,8 @@ namespace RepositoryLayer
 
         public async Task<List<FriendList>> GetAllFRiendRequestsByUserId(int userId)
         {
-            return await friendList.Where(x => x.RequestedFriendId == userId && x.status == "pending").ToListAsync();
+            //return await friendList.Where(x => x.RequestedFriendId == userId && x.status == "pending").ToListAsync();
+            return await friendList.Where(x => x.RequestedFriendId == userId).ToListAsync();
         }
 
         public async Task<FriendList> GetFriendByBothIds(int id1, int id2)

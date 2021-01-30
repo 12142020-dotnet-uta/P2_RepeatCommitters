@@ -31,6 +31,7 @@ namespace ModelLayer.Models
         public Boolean isOriginal { get; set; } = true;
         [NotMapped]
         public IFormFile file { get; set; }
+        [NotMapped] public int year{ get; set;} = 0;
         public string JpgStringSong { get; set; } = null;
         public byte[] ByteArrayImage { get; set; } = null;
 

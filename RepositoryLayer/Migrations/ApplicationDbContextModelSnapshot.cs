@@ -69,8 +69,14 @@ namespace RepositoryLayer.Migrations
                     b.Property<int>("FriendListLink")
                         .HasColumnType("int");
 
+                    b.Property<string>("FromUsername")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RequestedFriendId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ToUsername")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("status")
                         .HasColumnType("nvarchar(max)");
@@ -175,6 +181,9 @@ namespace RepositoryLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
