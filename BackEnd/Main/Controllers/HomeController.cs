@@ -14,7 +14,7 @@ namespace WhatsThatSong.Controllers
 {
     [ApiController]
     [Route("Home")]
-    public class HomeController : Controller
+    public class HomeController : ControllerBase
     {
         //private IHostingEnvironment _env;
         //private readonly ILogger<HomeController> _logger;
@@ -30,15 +30,15 @@ namespace WhatsThatSong.Controllers
         //}
        // BusinessLogicClass _businessLogicClass = new BusinessLogicClass();
 
-        [HttpGet]
-        [Route("Index")]
-        public IActionResult Index()
-        {
-           //_businessLogicClass.PopulateDb();
-            //_businessLogicClass.CreatNewBC("ronald", "mcdonald", "ronald@mcdonald.com");
+        //[HttpGet]
+        //[Route("Index")]
+        //public IActionResult Index()
+        //{
+        //   //_businessLogicClass.PopulateDb();
+        //    //_businessLogicClass.CreatNewBC("ronald", "mcdonald", "ronald@mcdonald.com");
 
-            return View("login");
-        }
+        //    return View("login");
+        //}
 
         [HttpPost]
         [Route("SongEditHC")]
