@@ -24,7 +24,7 @@ steps:
 # ArchiveFiles
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: 'FrontEnd/WhatsThatSong/dist'
+    rootFolderOrFile: '/dist'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
