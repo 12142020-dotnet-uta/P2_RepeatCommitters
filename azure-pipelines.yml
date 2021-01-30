@@ -84,6 +84,6 @@ steps:
 - task: AzureAppServiceManage@0
   displayName: 'Start App Service'
   inputs:
-    azureSubscription: 'Azure subscription 1(0cfa6593-af85-4dcb-b1a3-7ead93b8def2)'
+    azureSubscription: 'Azure subscription 1(177e072a-ef5e-4a5f-94f4-d006ea8b8575)'
     Action: 'Start Azure App Service'
     WebAppName: 'WhatsThatSong'
