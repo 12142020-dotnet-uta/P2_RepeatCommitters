@@ -1,5 +1,6 @@
 ﻿using BusinessLogicLayer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using ModelLayer.Models;
@@ -17,11 +18,15 @@ namespace WhatsThatTest
 {
     public class ControllerTests
     {
-
+        private HostingEnvironment _env;
         private readonly ILogger<Repository> _repositoryLogger;
         private readonly ILogger<UserController> _userControllerLogger;
+        private readonly ILogger<SongController> _songControllerLogger;
         private readonly MapperClass _mapperClass = new MapperClass();
 
+
+
+        /* USER CONTROLLER TESTS */
         [Fact]
         public void CreateUserTest()
         {
@@ -536,9 +541,12 @@ namespace WhatsThatTest
 
                 var message = new Message { ToUserId = user.Id, FromUserId = user2.Id, FromUserName = user2.UserName, Content = "Thicc dummy data" };
 
-                var mvm = userController.SendMessage(message);
+                repository.messages.Add(message);
+                context.SaveChanges();
 
-                Assert.NotNull(mvm);
+                var messagesBetween2Users = userController.GetMessagesBetween2Users(user.Id, user2.Id);
+
+                Assert.NotNull(messagesBetween2Users);
             }
         }
 
@@ -755,7 +763,79 @@ namespace WhatsThatTest
         [Fact]
         public void AreWeFriendsTest()
         {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
 
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                UserController userController = new UserController(logic, _userControllerLogger);
+                // create a user
+                var user = new User
+                {
+                    UserName = "jtest",
+                    Password = "Test1!",
+                    FirstName = "Johnny",
+                    LastName = "Test",
+                    Email = "johnnytest123@email.com"
+                };
+
+                // create a second user
+                var user2 = new User
+                {
+                    UserName = "greg",
+                    Password = "Test1!",
+                    FirstName = "Greg",
+                    LastName = "Smeg",
+                    Email = "johnnytest123@zmail.com"
+                };
+
+                repository.SaveNewUser(user).Wait();
+                repository.SaveNewUser(user2).Wait();
+
+                var fl = new FriendList { FriendId = user.Id, RequestedFriendId = user2.Id };
+                repository.friendList.Add(fl);
+                context.SaveChanges();
+
+                Assert.False(userController.AreWeFriends(user.Id, user2.Id).Result);
+
+                var fl2 = new FriendList { FriendId = user.Id, RequestedFriendId = user2.Id, status = "accept" };
+                repository.friendList.Add(fl2);
+                context.SaveChanges();
+
+                Assert.True(userController.AreWeFriends(user.Id, user2.Id).Result);
+            }
+        }
+
+        /* SONG CONTROLLER TESTS */
+        [Fact]
+        public void GetSongByIdAsyncTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger, _env);
+                // create a song
+                var song = new Song();
+
+                repository.songs.Add(song);
+                context.SaveChanges();
+
+                Assert.NotNull(songController.GetSongByIdAsync(song.Id));
+            }
         }
     }
 }

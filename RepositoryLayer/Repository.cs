@@ -214,7 +214,7 @@ namespace RepositoryLayer
 
         public async Task<FriendList> GetFriendByBothIds(int id1, int id2)
         {
-            return await friendList.FirstOrDefaultAsync(x => x.FriendId == id1 && x.RequestedFriendId == id2);
+            return await friendList.FirstOrDefaultAsync(x => x.FriendId == id1 && x.RequestedFriendId == id2 && x.status == "accept");
         }
 
         public async Task<User> SaveUserToDb(User userToEdit)

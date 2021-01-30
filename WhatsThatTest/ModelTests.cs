@@ -448,6 +448,17 @@ namespace WhatsThatTest
             var errorcount = ValidateModel(song).Count;
             // No errors indicates that the model built without errors, and we like that.
             Assert.Equal(0, errorcount);
+
+            // overload song
+            var song2 = new Song("z", "Rock", "Du Hast", "", "", false);
+            errorcount = ValidateModel(song2).Count;
+            Assert.Equal(0, errorcount);
+
+            // empty song constructor
+            var song3 = new Song();
+            errorcount = ValidateModel(song3).Count;
+            // 3 values are automatically assigned null, so we should expect that
+            Assert.Equal(3, errorcount);
         }
 
         /// <summary>
