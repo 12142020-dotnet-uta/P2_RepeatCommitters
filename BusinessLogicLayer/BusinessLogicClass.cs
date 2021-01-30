@@ -39,12 +39,10 @@ namespace BusinessLogicLayer
                 {
                     return;
                 }
-                else
-                {
-                    FavoriteList fSong = new FavoriteList(songid, userId);
-                    await _repository.AddSongToFavorites(fSong);
-                }
             }
+            
+            FavoriteList fSong = new FavoriteList(songid, userId);
+            await _repository.AddSongToFavorites(fSong);
         }
 
 

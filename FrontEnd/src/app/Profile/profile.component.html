@@ -8,7 +8,7 @@
     <!-- Ask Ryan if he can make this into a sidebar navigation menu (or maybe not so we can take up space) -->
     <button routerLink="/friends" routerLinkActive="active" class="btn btn-warning"> My Friends </button> <br/>
     <button class="btn btn-warning" (click)="goToFavourites()"> My Favourites </button> <br/>
-    <button class="btn btn-warning"> My Playlists </button> <br/>
+    <!-- <button class="btn btn-warning"> My Playlists </button> <br/> -->
     <button class="btn btn-warning" (click)="goToOriginalMusic()"> My Music </button> <br/>
 
         
@@ -31,12 +31,12 @@
 
     <!-- How much of this should be visible? -->
     <!--
-    <button routerLink="/friends" routerLinkActive="active" class="btn btn-warning"> {{user.username}}'s Friends </button> <br/>
-    <button class="btn btn-warning"> {{user.username}}'s Playlists </button> <br/>
+    <button routerLink="/friends" routerLinkActive="active" class="btn btn-warning"> {{user.userName}}'s Friends </button> <br/>
+    <button class="btn btn-warning"> {{user.userName}}'s Playlists </button> <br/>
     -->
     <button class="btn btn-warning" (click)="goToChat()"> Chat </button> <br/>
-    <button class="btn btn-warning" (click)="goToFavourites()"> {{user.username}}'s Favourites </button> <br/>
-    <button class="btn btn-warning" (click)="goToOriginalMusic()"> {{user.username}}'s Music </button> <br/>
+    <button class="btn btn-warning" (click)="goToFavourites()"> {{user.userName}}'s Favourites </button> <br/>
+    <button class="btn btn-warning" (click)="goToOriginalMusic()"> {{user.userName}}'s Music </button> <br/>
 
         
     <h4 style="margin: 40px;"> {{user.userName}}'s Top 5 </h4>

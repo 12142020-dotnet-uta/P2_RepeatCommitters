@@ -80,7 +80,6 @@ export class MusicComponent implements OnInit
             {
                 this.selectedSong = data;
                 this.songSelected = true;
-                alert(this.selectedSong.title);
             },
             (error) => alert(error)//error/failure
         );

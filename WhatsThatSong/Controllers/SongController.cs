@@ -51,7 +51,7 @@ namespace WhatsThatSong.Controllers
         /// </summary>
         /// <param name="songid"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpGet]
         [Route("addSongToFavorites")]
         public async Task addSongToFavorites(int songid, int userId)
         {
@@ -124,7 +124,6 @@ namespace WhatsThatSong.Controllers
         {
             List<Song> originalSongSearch = await _businessLogicClass.GetSongsBySearhGenre(genre);
             return originalSongSearch;
-
         }
 
         /// <summary>
@@ -156,7 +155,7 @@ namespace WhatsThatSong.Controllers
         /// <summary>
         /// increments the song number of plays property
         /// </summary>
-        [HttpPost]
+        [HttpGet]
         [Route("incrementNumPlays")]
         public async Task IncrementNumPlays(int songId)
         {
