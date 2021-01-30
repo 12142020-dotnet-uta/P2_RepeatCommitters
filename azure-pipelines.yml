@@ -70,7 +70,7 @@ steps:
     publishWebProjects: false
     # Added Code
     projects: '/WhatsThatSong/WhatsThatSong.csproj'
-    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStragingDirectory)'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
     # Added Code
     zipAfterPublish: true
 
