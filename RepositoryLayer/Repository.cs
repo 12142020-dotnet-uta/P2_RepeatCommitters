@@ -210,6 +210,18 @@ namespace RepositoryLayer
             return songlist;
         }
 
+
+        /// <summary>
+        /// gets a favoriteslist item buy the userid and songId
+        /// </summary>
+        /// <param name="songId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<FavoriteList> GetFavoriteBySongIdUserId(int songId, int userId)
+        {
+            return await favoriteLists.FirstOrDefaultAsync(x => x.SongId == songId && x.UserId == userId);
+        }
+
         public async Task<User> GetUserByNameAndPass(string username, string passw)
         {
             return await users.FirstOrDefaultAsync(x => x.UserName == username && x.Password == passw);

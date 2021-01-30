@@ -202,7 +202,15 @@ namespace BusinessLogicLayer
             return originalSongs;
         }
 
-        
+        public async Task<bool> IsFavorite(int songId, int userId)
+        {
+            FavoriteList favorite = await _repository.GetFavoriteBySongIdUserId(songId, userId);
+            if(favorite != null)
+            {
+                return true;
+            }
+            else { return false; }
+        }
 
         public async Task AcceptFriend(FriendList friend)
         {
