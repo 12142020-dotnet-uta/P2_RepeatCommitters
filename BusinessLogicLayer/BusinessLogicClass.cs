@@ -208,8 +208,11 @@ namespace BusinessLogicLayer
 
         public async Task AcceptFriend(FriendList friend)
         {
+            // get the friendlist object to change
             FriendList friendToEdit = await _repository.GetFriendListFriend(friend.FriendId, friend.RequestedFriendId);
+            // TODO: change the status ------------------ friendToEdit status is the same as friend status, since we just retrieved the equivalent of friend from the database
             friendToEdit.status = friend.status;
+            // send to repository to update that database entry
             await _repository.AcceptRequest(friendToEdit);
         }
 

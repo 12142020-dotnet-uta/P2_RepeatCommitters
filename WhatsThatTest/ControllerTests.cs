@@ -1082,5 +1082,46 @@ namespace WhatsThatTest
                 Assert.NotNull(s);
             }
         }
+
+        [Fact]
+        public void Get5FavoriteSongsForUserTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger);
+                // create a user
+                var user = new User();
+                repository.users.Add(user);
+                // create a few songs...
+                for (int i = 0; i < 5; i++)
+                {
+                    var song = new Song();
+                    repository.songs.Add(song);
+                }
+
+                // create the user's favorites...
+                for (int i = 0; i < 5; i++)
+                {
+                    var fave = new FavoriteList { SongId = i+1, UserId = user.Id };
+                    repository.favoriteLists.Add(fave);
+                }
+
+
+                context.SaveChanges();
+
+                var s = songController.Get5FavoriteSongsForUser(user.Id);
+                Assert.NotEmpty(s.Result);
+                Assert.Equal(5, s.Result.Count);
+            }
+        }
     }
 }
