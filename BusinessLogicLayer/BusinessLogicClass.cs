@@ -202,12 +202,23 @@ namespace BusinessLogicLayer
             return originalSongs;
         }
 
-        
+        public async Task<bool> IsFavorite(int songId, int userId)
+        {
+            FavoriteList favorite = await _repository.GetFavoriteBySongIdUserId(songId, userId);
+            if(favorite != null)
+            {
+                return true;
+            }
+            else { return false; }
+        }
 
         public async Task AcceptFriend(FriendList friend)
         {
+            // get the friendlist object to change
             FriendList friendToEdit = await _repository.GetFriendListFriend(friend.FriendId, friend.RequestedFriendId);
+            // TODO: change the status ------------------ friendToEdit status is the same as friend status, since we just retrieved the equivalent of friend from the database
             friendToEdit.status = friend.status;
+            // send to repository to update that database entry
             await _repository.AcceptRequest(friendToEdit);
         }
 

@@ -186,5 +186,19 @@ namespace WhatsThatSong.Controllers
             List<Song> songs = await _businessLogicClass.Get5FavoriteSongsForUser(Id);
             return songs;
         }
+
+        /// <summary>
+        /// returns a boolean for show weather a song is already on a users favorites list. 
+        /// </summary>
+        /// <param name="songId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("isSongAlreadyAFavorite")]
+        public async Task<bool> isSongAlreadyAFavorite(int songId, int userId)
+        {
+            bool isFavorite = await _businessLogicClass.IsFavorite(songId, userId);
+                return isFavorite;
+        }
     }
 }
