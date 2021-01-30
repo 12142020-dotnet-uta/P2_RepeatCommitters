@@ -15,6 +15,7 @@ export class FriendService
     //private connection: string = "http://localhost:3000"; //Mocked DB
     //private connection: string = "http://localhost:44250; //Whatever our real backend is
     private connection: string = "/api";
+    //private connection: string = "https://p2pipeline.azurewebsites.net";
 
     constructor(private http: HttpClient){}
 
@@ -33,11 +34,17 @@ export class FriendService
         return this.http.get<boolean>(this.connection + "/user/AreWeFriends", {headers, params}); 
     }
 
+    /*
     requestFriend(idA: number, idB: number): Observable<any>
     {
         const headers = new HttpHeaders().append('Content-Type', 'application/json');
         const params = new HttpParams().append('userId', "" + idA).append('requestedFriendId', "" + idB);
         return this.http.get<any>(this.connection + "/user/RequestFriend", {headers, params}); 
+    }
+    */
+    requestFriend(fr: FriendList): Observable<FriendList>
+    {
+        return this.http.post<FriendList>(this.connection + "/user/RequestFriend", fr);
     }
 
     acceptFriend(idA: number, idB: number): Observable<any>
@@ -54,13 +61,26 @@ export class FriendService
         return this.http.get<any>(this.connection + "/user/DeleteFriend", {headers, params}); 
     }
 
+    getAllFriendRequests(uId: number): Observable<FriendList[]>
+    {
+        const headers = new HttpHeaders().append('Content-Type', 'application/json');
+        const params = new HttpParams().append('UserId', "" + uId);
+        return this.http.get<any>(this.connection + "/user/DisplayAllFriendRequests", {headers, params}); 
+    }
+
+    //editFriendRequest(id: number, fr: FriendList): Observable<FriendList>
+    editFriendRequest(fr: FriendList): Observable<FriendList>
+    {
+        return this.http.put<FriendList>(this.connection + "/user/EditFriendStatus", fr);
+    }
+
     //Helper Methods
-    setSent(fr: FriendList): void {fr.status = "Sent";}
-    setAccepted(fr: FriendList): void {fr.status = "Accepted";}
-    setRejected(fr: FriendList): void {fr.status = "Rejected";}
-    setDeleted(fr: FriendList): void {fr.status = "Deleted";}
-    isSent(fr: FriendList): boolean {return fr.status == "Sent";}
-    isAccepted(fr: FriendList): boolean {return fr.status == "Accepted";}
-    isRejected(fr: FriendList): boolean {return fr.status == "Rejected";}
-    isDeleted(fr: FriendList): boolean {return fr.status == "Deleted";}
+    setPending(fr: FriendList): void {fr.status = "pending";}
+    setAccepted(fr: FriendList): void {fr.status = "accept";}
+    setRejected(fr: FriendList): void {fr.status = "rejected";}
+    setDeleted(fr: FriendList): void {fr.status = "deleted";}
+    isPending(fr: FriendList): boolean {return fr.status == "pending";}
+    isAccepted(fr: FriendList): boolean {return fr.status == "accept";}
+    isRejected(fr: FriendList): boolean {return fr.status == "rejected";}
+    isDeleted(fr: FriendList): boolean {return fr.status == "deleted";}
 }

@@ -351,7 +351,7 @@ namespace WhatsThatTest
                     Assert.Contains<FriendList>(fl, _repository.friendList);
 
                     // revoke friendship
-                    businessLogicClass.DeleteFriend(fl.Id).Wait();
+                    businessLogicClass.DeleteFriend(user1.Id, user2.Id).Wait();
                     Assert.DoesNotContain<FriendList>(fl, _repository.friendList);
 
                 }

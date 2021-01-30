@@ -25,7 +25,6 @@ export class HomeComponent implements OnInit
         //Parse Friend Requests
         //As it currently is, will require another subscription for getting user name.
         //We should fix this in db.
-        /*
        if(loginService.loggedIn)
        {
             friendService.getAllFriendRequests(loginService.loggedInUser.id).subscribe
@@ -34,15 +33,12 @@ export class HomeComponent implements OnInit
                 {
                     for(let x = 0; x < data.length; x++)
                     {
-                        if(friendService.isSent(data[x]) && data[x].to.id == loginService.loggedInUser.id)
+                        if(friendService.isPending(data[x]))
                         {
-                            if(confirm("Would you like to become friends with " + data[x].from.username + "?"))
+                            if(confirm("Would you like to become friends with " + data[x].fromUsername + "?"))
                             {
                                 friendService.setAccepted(data[x]);
-                                friendService.editFriendRequest(data[x].id, data[x]).subscribe();
-
-                                //Add Friends
-                                friendService.acceptFriend(loginService.loggedInUser.id, data[x].from.id).subscribe
+                                friendService.editFriendRequest(data[x]).subscribe
                                 (
                                     () => alert("You are now friends"),
                                     () => alert("Accept Error")
@@ -51,36 +47,42 @@ export class HomeComponent implements OnInit
                             else
                             {
                                 friendService.setRejected(data[x]);
-                                friendService.editFriendRequest(data[x].id, data[x]).subscribe();
+                                friendService.editFriendRequest(data[x]).subscribe(() => {}, () => alert("Error Rejecting"));
                             }
                         }
-                        else if(friendService.isAccepted(data[x]) && data[x].from.id == loginService.loggedInUser.id)
+                        else if(friendService.isAccepted(data[x]))
                         {
-                            alert(data[x].to.username + " accepted your friend request.");
-                            friendService.deleteFriendRequest(data[x].id).subscribe();
+                            alert(data[x].toUsername + " accepted your friend request.");
+                            //friendService.deleteFriendRequest(data[x].id).subscribe();
                         }
-                        else if(friendService.isRejected(data[x]) && data[x].from.id == loginService.loggedInUser.id)
+                        else if(friendService.isRejected(data[x]))
                         {
-                            alert(data[x].to.username + " rejected your friend request.");
-                            friendService.deleteFriendRequest(data[x].id).subscribe();
+                            alert(data[x].toUsername + " rejected your friend request.");
+                            friendService.deleteFriend(data[x].friendId, data[x].requestedFriendId).subscribe(() => {}, () => alert("Error Rection"));
+                            //friendService.deleteFriendRequest(data[x].id).subscribe();
                         }
-                        else if(friendService.isDeleted(data[x]) && data[x].to.id == loginService.loggedInUser.id)
+                        else if(friendService.isDeleted(data[x]))
                         {
-                            alert(data[x].from.username + " is no longer your friend.");
-                            friendService.deleteFriendRequest(data[x].id).subscribe();
+                            alert(data[x].fromUsername + " is no longer your friend.");
+                            friendService.deleteFriend(data[x].friendId, data[x].requestedFriendId).subscribe(() => {}, () => alert("Error Deletion"));
+                            //friendService.deleteFriendRequest(data[x].id).subscribe();
                         }
                     }
                 },
                 (error) => alert(error)
             );
         }
-        */
     }
   
     ngOnInit(): void 
     {
         //this.homepageSong = songService.songs[0];
         //this.displaySong(Math.floor(Math.random() * 12));
+
+        //Test song
+        //this.homepageSong = new Song("Moonlight Sonata 3", "Viossy", "Viossy", "Rock", 2010, "https://soundcloud.com/xabcxyzx/drviossy-moonlight-sonata-beethoven-metal-version", false);
+        this.homepageSong = new Song("Joel's Song", "Joel", "Joel's Album", "Rock", 2000, "https://soundcloud.com/00joel/dgnj", true);
+        this.homepageSong.lyrics = "Instrumental";
     }
 
     search(): void

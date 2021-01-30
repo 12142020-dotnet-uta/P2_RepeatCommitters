@@ -3,7 +3,9 @@ import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators, ValidationErrors, ValidatorFn, AbstractControl} from '@angular/forms';
 
 import { User } from '../user';
+import { Song } from '../song';
 import { LoginService } from '../login.service';
+import { SongService } from '../song.service';
 
 @Component({
   selector: 'app-music-add',
@@ -13,46 +15,43 @@ import { LoginService } from '../login.service';
 
 export class MusicAddComponent implements OnInit 
 {
+    public user: User;
 	public formdata: FormGroup;// = null;
 
-	constructor(public loginService: LoginService, private router: Router) { }
-/*
-We will need another DB entry + a convertor to song (so we can pass to tracklist)
-public id:number;
-    public name: string;
-    public artist: string;
-    public album: string;
-    public albumURL: string;
-    public year: number;
-    public genre: string;
-    public youtubeURL: string;
-    public lyrics: string;
-*/
+    constructor(public loginService: LoginService, private songService: SongService, private router: Router) 
+    { 
+        this.user = loginService.loggedInUser;
+    }
+
 	ngOnInit(): void 
 	{
         this.formdata = new FormGroup
         ({
-			username: new FormControl("", Validators.required),
-			password: new FormControl("", Validators.required),
-			rePassword: new FormControl("", Validators.required)
+			title: new FormControl("", Validators.required),
+			album: new FormControl("", Validators.required),
+			genre: new FormControl("", Validators.required),
+			year: new FormControl("", Validators.required),
+			urlPath: new FormControl("", Validators.required)
         });	
 	}
 	
-	register(user: User): void
+	upload(s: Song): void
 	{
-        const u = new User(user.userName, user.password, "");//, "", "");
-        this.loginService.loggedInUser = u;
-        this.loginService.loggedIn = true;
-
-        this.loginService.register(u).subscribe
+        s.artistName = this.user.userName;
+        this.songService.uploadSong(s).subscribe
         (
-            () => this.router.navigate(['/']),
-            () => alert("There was an error!")
+            () =>
+            {
+                alert("Song uploaded successfully");
+                this.router.navigate(["/music/" + this.user.id]);
+            },
         );
     }
 
     //Quick access properties for the forms
-    get username() { return this.formdata.get('username'); }
-    get password() { return this.formdata.get('password'); }
-    get rePassword() { return this.formdata.get('rePassword'); }
+    get title() { return this.formdata.get('title'); }
+    get album() { return this.formdata.get('album'); }
+    get genre() { return this.formdata.get('genre'); }
+    get year() { return this.formdata.get('year'); }
+    get urlPath() { return this.formdata.get('urlPath'); }
 }

@@ -23,6 +23,7 @@ export class SongSummaryComponent implements OnInit
     ngOnInit(): void 
     {
         this.checkFavourite();
+        //this.songService.incrementPlays(this.song.id).subscribe(() => {}, () => alert("Error Incrementing Plays"));
     }
 
     ngOnChanges(): void
@@ -31,9 +32,9 @@ export class SongSummaryComponent implements OnInit
         this.checkFavourite();
     }
 
-    getYoutubeURL(): SafeResourceUrl
+    getURL(): SafeResourceUrl
     {
-        return this.sanitizer.bypassSecurityTrustResourceUrl(this.song.youtubeURL);
+        return this.sanitizer.bypassSecurityTrustResourceUrl("https://w.soundcloud.com/player/?url=" + this.song.urlPath);
     }
 
     showLyrics(): void
@@ -61,6 +62,7 @@ export class SongSummaryComponent implements OnInit
 
     checkFavourite(): void
     {
+        /*
         if(this.loginService.loggedIn)
             for(let x = 0; x < this.loginService.loggedInUser.favourites.length; x++)
                 if(this.song.id == this.loginService.loggedInUser.favourites[x].id)
@@ -68,7 +70,7 @@ export class SongSummaryComponent implements OnInit
                     this.isFavourite = true;
                     return;
                 }
-
+*/
         this.isFavourite = false;
     }
 }
