@@ -10,7 +10,7 @@ using RepositoryLayer;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210129045517_initial")]
+    [Migration("20210129215157_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,8 +71,14 @@ namespace RepositoryLayer.Migrations
                     b.Property<int>("FriendListLink")
                         .HasColumnType("int");
 
+                    b.Property<string>("FromUsername")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RequestedFriendId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ToUsername")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("status")
                         .HasColumnType("nvarchar(max)");
@@ -177,6 +183,9 @@ namespace RepositoryLayer.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .UseIdentityColumn();
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
