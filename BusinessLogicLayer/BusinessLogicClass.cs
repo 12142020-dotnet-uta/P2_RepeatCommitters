@@ -83,10 +83,33 @@ namespace BusinessLogicLayer
             return await _repository.GetMessages2users(id, userToMessageId); 
         }
 
-        public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
+        public async Task<List<Song>> GetUsersFavoriteSongs(int userId)
         {
             List<FavoriteList> favs = await _repository.GetUsersFavorites(userId);
-            return favs; 
+            List<Song> favoritsSongs = new List<Song>();
+            foreach(var item in favs)
+            {
+                Song fSong = await _repository.GetSongById(item.SongId);
+                favoritsSongs.Add(fSong);
+            }
+            return favoritsSongs; 
+        }
+
+        public async Task<List<Song>> Get5FavoriteSongsForUser(int id)
+        {
+            List<FavoriteList> favs = await _repository.GetUsersFavorites(id);
+            List<Song> favoritsSongs = new List<Song>();
+            int count = 0;
+            foreach (var item in favs)
+            {
+                Song fSong = await _repository.GetSongById(item.SongId);
+                if(count <5)
+                {
+                    favoritsSongs.Add(fSong);
+                    count++;
+                }
+            }
+            return favoritsSongs;
         }
 
         public async Task ConvertFileToBitArray(Song newSong)
@@ -180,6 +203,8 @@ namespace BusinessLogicLayer
             List<Song> originalSongs = await _repository.GetOriginalSongsByGenre(genre);
             return originalSongs;
         }
+
+        
 
         public async Task AcceptFriend(FriendList friend)
         {

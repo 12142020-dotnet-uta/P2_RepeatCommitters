@@ -58,17 +58,7 @@ namespace WhatsThatSong.Controllers
             await _businessLogicClass.AddSongToFavorites(songid, userId);
         }
 
-        /// <summary>
-        /// gets all of a users favorite songs
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("getAllSongs")]
-        public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
-        {
-            List<FavoriteList> favs = await _businessLogicClass.GetUsersFavorites(userId);
-            return favs;
-        }
+        
 
         //[HttpPost]
         //[Route("uploadSongWithFile")]
@@ -170,6 +160,31 @@ namespace WhatsThatSong.Controllers
         public async Task IncrementNumPlays(int songId)
         {
             await _businessLogicClass.IncrementNUmPlays(songId);
+        }
+
+        /// <summary>
+        /// gets all of a users favorite songs
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetUsersFavoriteSongs")]
+        public async Task<List<Song>> GetUsersFavoriteSongs(int Id)
+        {
+            List<Song> songs = await _businessLogicClass.GetUsersFavoriteSongs(Id);
+            return songs;
+        }
+
+        /// <summary>
+        /// gets a users forst 5 favorite songs
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("Get5FavoriteSongsForUser")]
+        public async Task<List<Song>> Get5FavoriteSongsForUser(int Id)
+        {
+            List<Song> songs = await _businessLogicClass.Get5FavoriteSongsForUser(Id);
+            return songs;
         }
     }
 }

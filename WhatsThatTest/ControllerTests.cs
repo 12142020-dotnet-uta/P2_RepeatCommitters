@@ -838,5 +838,249 @@ namespace WhatsThatTest
                 Assert.NotNull(songController.GetSongByIdAsync(song.Id));
             }
         }
+
+        [Fact]
+        public void AddSongToFavoritesTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger);
+                // create a user
+                var user = new User();
+
+                // create a song
+                var song = new Song();
+
+                // create a favorite
+                var fave = new FavoriteList { UserId = user.Id, SongId = song.Id };
+
+                repository.songs.Add(song);
+                repository.users.Add(user);
+                repository.favoriteLists.Add(fave);
+                context.SaveChanges();
+
+                var s = songController.addSongToFavorites(song.Id, user.Id);
+
+                Assert.NotNull(s);
+            }
+        }
+
+        [Fact]
+        public void GetUsersFavoriteSongs()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger);
+                // create a user
+                var user = new User();
+
+                // create a song
+                var song = new Song();
+
+                repository.songs.Add(song);
+                repository.users.Add(user);
+
+                // create a favorite
+                var fave = new FavoriteList { UserId = user.Id, SongId = song.Id };
+
+                repository.favoriteLists.Add(fave);
+                context.SaveChanges();
+
+                var s = songController.GetUsersFavoriteSongs(user.Id);
+
+                Assert.NotEmpty(s.Result);
+            }
+        }
+
+        [Fact]
+        public void UploadSongTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger);
+                // create a song
+                var song = new Song();
+
+                repository.songs.Add(song);
+                context.SaveChanges();
+
+                var s = songController.UploadSong(song);
+
+                Assert.NotNull(s);
+            }
+        }
+
+        [Fact]
+        public void GetAllSongsByACertainUserTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger);
+                // create a user -- generates with null as username
+                var user = new User();
+
+                // create a song -- generates with null as artist name
+                var song = new Song();
+
+                repository.songs.Add(song);
+                repository.users.Add(user);
+                context.SaveChanges();
+
+                // gets list where artist name matches username
+                var s = songController.GetAllSongsByACertainUser(user.Id);
+
+                // list is not empty because we create song and user with null
+                Assert.NotEmpty(s.Result);
+            }
+        }
+
+        [Fact]
+        public void GetOriginalSongSearchByGenreTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger);
+
+                // create a song with pop as genre
+                var song = new Song { Genre = "Pop" };
+
+                repository.songs.Add(song);
+                context.SaveChanges();
+
+                // search for null
+                var s = songController.GetOriginalSongSearchByGenre("Pop");
+
+                Assert.NotEmpty(s.Result);
+            }
+        }
+
+        [Fact]
+        public void GetOriginalsongsByLyricsTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger);
+                // create a song
+                var song = new Song { Lyrics = "thicc dummy data" };
+
+                repository.songs.Add(song);
+                context.SaveChanges();
+
+                var s = songController.GetOriginalsongsByLyrics(song.Lyrics);
+
+                Assert.NotEmpty(s.Result);
+            }
+        }
+
+        [Fact]
+        public void GetTop5OriginalsTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger);
+                // create a few songs...
+                for (int i = 0; i < 5; i++)
+                {
+                    var song = new Song();
+                    repository.songs.Add(song);
+                }
+
+                context.SaveChanges();
+
+                var s = songController.GetTop5Originals();
+
+                Assert.Equal(5, s.Result.Count);
+            }
+        }
+
+        [Fact]
+        public void IncrementNumPlaysTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestControllerDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _repositoryLogger);
+                BusinessLogicClass logic = new BusinessLogicClass(repository, _mapperClass, _repositoryLogger);
+                SongController songController = new SongController(logic, _songControllerLogger);
+                // create a song
+                var song = new Song();
+                
+                repository.songs.Add(song);
+                context.SaveChanges();
+
+                var s = songController.IncrementNumPlays(song.Id);
+
+                Assert.NotNull(s);
+            }
+        }
     }
 }
