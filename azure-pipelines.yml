@@ -66,11 +66,18 @@ steps:
   displayName: '.Net Publish'
   inputs:
     command: 'publish'
-    publishWebProjects: true
-    #publishWebProjects: false
+    #publishWebProjects: true
+    publishWebProjects: false
+    # Added Code
+    projects: '/WhatsThatSong/WhatsThatSong.csproj'
+    arguments: '--configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+    # Added Code
     zipAfterPublish: true
 
-
+# Added Task
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifacts'
+# Added Task
 
 - task: AzureRmWebAppDeployment@4
   displayName: 'Deploy ASP.NET API'
