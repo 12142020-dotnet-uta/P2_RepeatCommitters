@@ -40,11 +40,16 @@ export class RegisterComponent implements OnInit
 
         this.loginService.register(u).subscribe
         (
-            () => 
+            (data) => 
             {
-                this.loginService.loggedInUser = u;
-                this.loginService.loggedIn = true;
-                this.router.navigate(['/'])
+                if(!data) 
+                    alert("User Already Exists!");
+                else
+                {
+                    this.loginService.loggedInUser = u;
+                    this.loginService.loggedIn = true;
+                    this.router.navigate(['/']);
+                }
             },
             () => alert("There was an error!")
         );

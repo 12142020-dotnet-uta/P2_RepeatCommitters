@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { User } from '../user';
 import { LoginService } from '../login.service';
 import { FriendService } from '../friend.service';
+import { FriendList } from '../friendRequest';
 
 
 @Component
@@ -60,7 +61,11 @@ export class FriendListComponent implements OnInit
         //CURRENTLY ONLY HOMEUSER HAS ACCESS TO THIS PAGE
         //if(!this.homeUser) //We shouldn't get this option otherwise
         //{
-            this.friendService.deleteFriend(this.loginService.loggedInUser.id, u.id).subscribe
+            //NEEDS TO BE EDIT FRIEND
+            let fl = new FriendList(this.loginService.loggedInUser.id, u.id);
+            this.friendService.setDeleted(fl);
+            this.friendService.editFriendRequest(fl).subscribe
+            //this.friendService.deleteFriend(this.loginService.loggedInUser.id, u.id).subscribe
             (
                () => 
                {

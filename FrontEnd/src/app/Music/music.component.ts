@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
 
 import { Song } from '../song';
+import { User } from '../user';
 import { LoginService } from '../login.service';
 import { SongService } from '../song.service';
-import { User } from '../user';
 
 @Component
 ({
@@ -16,8 +15,8 @@ import { User } from '../user';
 
 export class MusicComponent implements OnInit 
 {
-    //public query: string;
     public user: User;
+    public homeUser: boolean;// = false;
 
     public songIn: Array<Song> = new Array<Song>();
     public bannerSongIds: Array<number> = new Array<number>();
@@ -32,16 +31,40 @@ export class MusicComponent implements OnInit
                     if(params.id)  id = params['id'];
                     else           id = -1;
                 });
+                
+        if(id == loginService.loggedInUser.id || id == -1)
+        {
+            this.user = loginService.loggedInUser;
+            this.homeUser = true;
+            
+            //Get Songs
+            songService.getUserSongs(this.user.id).subscribe
+            (
+                (data) => this.songIn = data,
+                () => alert("Error getting songs")
+            );
+            
+        }
+        else
+        {
+            loginService.getUser(id).subscribe
+            (
+                (data) => 
+                {
+                    this.user = data;
+                    this.homeUser = false;
+                    //this.songIn = data.songs; 
 
-        loginService.getUser(id).subscribe
-        (
-            (data) => 
-            {
-                this.user = data;
-                //this.songIn = data.songs;
-            },
-            (error) => alert(error)
-        );
+                    //Get Songs
+                    songService.getUserSongs(this.user.id).subscribe
+                    (
+                        (data) => this.songIn = data,
+                        () => alert("Error getting songs")
+                    );
+                },
+                (error) => alert(error)
+            );
+        }
     }
   
     ngOnInit(): void 
@@ -57,6 +80,7 @@ export class MusicComponent implements OnInit
             {
                 this.selectedSong = data;
                 this.songSelected = true;
+                alert(this.selectedSong.title);
             },
             (error) => alert(error)//error/failure
         );
@@ -65,7 +89,7 @@ export class MusicComponent implements OnInit
     //Routing Methods
     addSong(): void
     {
-        this.router.navigate(['/music/' + this.user.id]);
+        this.router.navigate(['/upload']);
     }
     
     //Banner Methods

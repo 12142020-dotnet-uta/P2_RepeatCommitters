@@ -1,27 +1,33 @@
 export class Song
 {
     public id:number;
-    public name: string;
-    public artist: string;
+    public title: string;
+    public artistName: string;
     public album: string;
-    public albumURL: string;
     public year: number;
     public genre: string;
-    public youtubeURL: string;
+    public urlPath: string;
+    public numberOfPlays: number;
+    public isOriginal: boolean;
+    
+    //Optional
+    public duration: string;
+    public albumURL: string;
     public lyrics: string;
-    public similarSongs: Array<Song>;
+    //public similarSongs: Array<Song>;
 
-    constructor(i:number, n: string, art: string, al: string, aurl: string, g: string, y: number, yurl: string)
+    constructor(t: string, art: string, al: string, g: string, y: number, url: string, o: boolean)
     {
-        this.id = i;
-        this.name = n;
-        this.artist = art;
+        this.title = t;
+        this.artistName = art; 
         this.album = al;
-        this.albumURL = aurl;
         this.genre = g;
         this.year = y;
-        this.youtubeURL = yurl;
-        this.similarSongs = new Array<Song>();
+        this.urlPath = url;
+        this.isOriginal = o;
+
+        this.numberOfPlays = 0;
         this.lyrics = "";
+        //Album URL???
     }
 }

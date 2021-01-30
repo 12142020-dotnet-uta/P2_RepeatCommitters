@@ -27,7 +27,7 @@ const routes: Routes =
     { path: 'chat/:aId/:bId', canActivate: [GuardService], component: ChatComponent },
     { path: 'favourites/:id', component: FavouritesComponent },
     { path: 'music/:id', component: MusicComponent },
-    { path: 'upload/:id', canActivate: [GuardService], component: MusicAddComponent },
+    { path: 'upload', canActivate: [GuardService], component: MusicAddComponent },
     { path: 'search', component: SearchComponent },
     { path: 'usersearch', component: SearchUsersComponent },
     { path: '', component: HomeComponent }

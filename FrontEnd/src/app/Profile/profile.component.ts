@@ -101,20 +101,12 @@ export class ProfileComponent implements OnInit
     {
         if(!this.homeUser)  //We shouldn't get this option otherwise
         {
-            this.friendService.requestFriend(this.loginService.loggedInUser.id, this.user.id).subscribe
+            const fl: FriendList = new FriendList(this.loginService.loggedInUser.id, this.user.id);
+            fl.toUsername = this.user.userName;
+            fl.fromUsername = this.loginService.loggedInUser.userName;
+            this.friendService.requestFriend(fl).subscribe
             (
-                () =>
-                {
-                    this.friendService.acceptFriend(this.user.id, this.loginService.loggedInUser.id).subscribe
-                    (
-                        () => 
-                        {
-                            this.isFriend = true;//temp
-                            alert("Sent a friend request to " + this.user.userName);
-                        },
-                        () => alert("Accept Error")
-                    );
-                },
+                () => alert("Sent a friend request to " + this.user.userName),
                 () => alert("Request Error")
             );
         }
@@ -124,11 +116,12 @@ export class ProfileComponent implements OnInit
     {
         if(!this.homeUser) //We shouldn't get this option otherwise
         {
-            this.friendService.deleteFriend(this.loginService.loggedInUser.id, this.user.id).subscribe
+            let fl = new FriendList(this.loginService.loggedInUser.id, this.user.id);
+            this.friendService.setDeleted(fl);
+            this.friendService.editFriendRequest(fl).subscribe
             (
-                () => 
+                () =>
                 {
-                    // => NOW SET DELTE, AND THEN SEND DELTED FRIEND REQUEST
                     this.isFriend = false;
                     alert("You are no longer friends with " + this.user.userName);
                 },
