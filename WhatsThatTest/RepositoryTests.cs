@@ -503,7 +503,7 @@ namespace WhatsThatTest
                 // friend status should be 'pending'; while updated repo should have 'accept'
                 //Assert.NotEqual(friend, repository.friendList.SingleOrDefault(x=>x.FromUsername == friend.FromUsername && x.ToUsername == friend.ToUsername));
             }
-        }
+        } 
 
         [Fact]
         public async Task GetSongByTitleTest()
