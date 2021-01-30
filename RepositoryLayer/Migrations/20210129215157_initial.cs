@@ -44,7 +44,9 @@ namespace RepositoryLayer.Migrations
                     FriendListLink = table.Column<int>(type: "int", nullable: false),
                     FriendId = table.Column<int>(type: "int", nullable: false),
                     RequestedFriendId = table.Column<int>(type: "int", nullable: false),
-                    status = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ToUsername = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FromUsername = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -114,7 +116,8 @@ namespace RepositoryLayer.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ProfilePicture = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                    ProfilePicture = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

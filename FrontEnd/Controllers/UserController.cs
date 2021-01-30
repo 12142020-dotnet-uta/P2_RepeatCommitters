@@ -120,17 +120,16 @@ namespace WhatsThatSong.Controllers
             return listOfUsers;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("RequestFriend")]
-        public async Task FriendRequest(FriendList fl)
+        public async Task FriendRequest(int userId, int requestedFriendId)
         {
-
-            await _businessLogicClass.RequestFriend(fl.FriendId, fl.RequestedFriendId);
+            await _businessLogicClass.RequestFriend(userId, requestedFriendId);
             // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
         }
 
 
-        [HttpPut]
+        [HttpGet]
         [Route("EditFriendStatus")]
         public async Task AcceptFriend(FriendList friend)
         {
@@ -162,10 +161,11 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("DeleteFriend")]
-        public async Task DeleteFriend(int FriendListId)
+        public async Task<List<FriendList>> DeleteFriend(int LoggedInUserId, int friendToDeleteId)
         {
-            await _businessLogicClass.DeleteFriend(FriendListId);
-            
+            await _businessLogicClass.DeleteFriend(LoggedInUserId, friendToDeleteId);
+            List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(LoggedInUserId);
+            return friendList;
         }
 
         [HttpPost]

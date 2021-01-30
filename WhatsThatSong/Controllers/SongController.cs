@@ -116,10 +116,10 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetAllSongsByACertainUser")]
-        public async Task<List<Song>> GetAllSongsByACertainUser(User user)
+        public async Task<List<Song>> GetAllSongsByACertainUser(int id)
         {
-            List<Song> alUserSongs = await _businessLogicClass.GetallSongsByAUser(user);
-            return alUserSongs;
+            List<Song> allUserSongs = await _businessLogicClass.GetallSongsByAUser(id);
+            return allUserSongs;
 
         }
 

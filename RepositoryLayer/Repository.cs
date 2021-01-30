@@ -135,9 +135,9 @@ namespace RepositoryLayer
             return numOfFriends;
         }
 
-        public async Task<List<Song>> GetAllSongsByUser(User user)
+        public async Task<List<Song>> GetAllSongsByUserName(string userName)
         {
-            return await songs.Where(x => x.ArtistName == user.UserName).ToListAsync();
+            return await songs.Where(x => x.ArtistName == userName).ToListAsync();
         }
 
 

@@ -142,10 +142,11 @@ namespace BusinessLogicLayer
             return u;
         }
 
-        public async Task<List<Song>> GetallSongsByAUser(User user)
+        public async Task<List<Song>> GetallSongsByAUser(int userId)
         {
-            List<Song> allUsersSongs = await _repository.GetAllSongsByUser(user);
-            return allUsersSongs;
+            User user = await GetUserByIdAsync(userId);
+            List<Song> songlistByUserName = await _repository.GetAllSongsByUserName(user.UserName);
+            return songlistByUserName; 
         }
 
         /// <summary>
@@ -272,22 +273,9 @@ namespace BusinessLogicLayer
             return await _repository.GetUserByIdAsync(id);
         }
 
-        public async Task DeleteFriend(int UserId, int friendToDeleteId)
+        public async Task DeleteFriend(int friendListId)
         {
-            FriendList FreindListItemToDelete = new FriendList();
-            List<FriendList> list = await _repository.GetFriendListFriendByUserId(UserId);
-            foreach(var item in list)
-            {
-                if(item.FriendId == friendToDeleteId && item.RequestedFriendId == UserId)
-                {
-                    await _repository.DeleteFriendByFreindListId(item.Id);
-                }
-                else if(item.FriendId == UserId && item.RequestedFriendId == friendToDeleteId)
-                {
-                    await _repository.DeleteFriendByFreindListId(item.Id);
-                }
-            }
-
+            await _repository.DeleteFriendByFreindListId(friendListId);
         }
 
         /// <summary>

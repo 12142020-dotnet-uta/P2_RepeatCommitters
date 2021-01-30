@@ -1,0 +1,37 @@
+<div>
+    <h1>Upload a Song</h1>
+
+    <form [formGroup]="formdata" #registrationForm="ngForm" (ngSubmit)="register(registrationForm.value)">
+
+      <div class="form-group">
+        <label>Userame</label>
+        <input type="text" class="form-control" name="username" formControlName="username" required ngModel>
+        <div class="form-control-feedback" *ngIf="username.invalid && (username.dirty || username.touched)">
+            <p *ngIf="username.errors.required">Username is required</p>
+        </div>
+      </div> 
+
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" class="form-control" name="password" formControlName="password" required ngModel>
+        <div class="form-control-feedback" *ngIf="password.invalid && (password.dirty || password.touched)">
+            <p *ngIf="password.errors.required">Password is required</p>
+        </div>
+      </div>
+	  	  
+      <div class="form-group">
+        <label>Retype Password</label>
+        <input type="password" class="form-control" name="rePassword" formControlName="rePassword" required ngModel>
+        <!-- Ask Ryan - IDK why we cant put these two divs in one -->
+        <div class="form-control-feedback" *ngIf="(rePassword.invalid) && (rePassword.dirty || rePassword.touched)">
+            <p *ngIf="rePassword.errors.required">Retype the password</p>
+        </div>
+        <div class="form-control-feedback" *ngIf="(formdata.errors?.rePassword) && (rePassword.dirty || rePassword.touched)">
+            <p>Password must match</p>
+        </div>
+      </div>
+
+      <button type="submit" [disabled]="!formdata.valid" class="btn btn-warning">Register</button>
+
+    </form>
+</div>
