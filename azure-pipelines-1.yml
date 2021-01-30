@@ -21,9 +21,29 @@ steps:
     ng build --prod
   displayName: 'npm install and build'
   
+# ArchiveFiles
+- task: ArchiveFiles@2
+  inputs:
+    rootFolderOrFile: 'FrontEnd/WhatsThatSong/dist'
+    includeRootFolder: true
+    archiveType: 'zip'
+    archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+    replaceExistingArchive: true
+
 # Publish Artifacts
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     artifactName: 'dist'
     publishLocation: 'Container'
+
+# Send 
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Azure subscription 1(177e072a-ef5e-4a5f-94f4-d006ea8b8575)'
+    appType: 'webApp'
+    WebAppName: 'inHarmony'
+    packageForLinux: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+
+
