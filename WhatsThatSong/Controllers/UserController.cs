@@ -129,7 +129,7 @@ namespace WhatsThatSong.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPut]
         [Route("EditFriendStatus")]
         public async Task AcceptFriend(FriendList friend)
         {
