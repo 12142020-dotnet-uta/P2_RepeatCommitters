@@ -120,16 +120,17 @@ namespace WhatsThatSong.Controllers
             return listOfUsers;
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("RequestFriend")]
-        public async Task FriendRequest(int userId, int requestedFriendId)
+        public async Task FriendRequest(FriendList fl)
         {
-            await _businessLogicClass.RequestFriend(userId, requestedFriendId);
+
+            await _businessLogicClass.RequestFriend(fl.FriendId, fl.RequestedFriendId);
             // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
         }
 
 
-        [HttpGet]
+        [HttpPut]
         [Route("EditFriendStatus")]
         public async Task AcceptFriend(FriendList friend)
         {

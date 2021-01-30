@@ -142,10 +142,11 @@ namespace BusinessLogicLayer
             return u;
         }
 
-        public async Task<List<Song>> GetallSongsByAUser(User user)
+        public async Task<List<Song>> GetallSongsByAUser(int userId)
         {
-            List<Song> allUsersSongs = await _repository.GetAllSongsByUser(user);
-            return allUsersSongs;
+            User user = await GetUserByIdAsync(userId);
+            List<Song> songlistByUserName = await _repository.GetAllSongsByUserName(user.UserName);
+            return songlistByUserName; 
         }
 
         /// <summary>
@@ -287,7 +288,6 @@ namespace BusinessLogicLayer
                     await _repository.DeleteFriendByFreindListId(item.Id);
                 }
             }
-
         }
 
         /// <summary>

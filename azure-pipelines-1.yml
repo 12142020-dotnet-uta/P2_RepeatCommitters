@@ -27,26 +27,26 @@ steps:
   displayName: 'NPM Install'
   inputs:
     command: 'install'
-    workingDir: './Frontend/WhatsThatSong/'
+    workingDir: './Frontend/'
 
 - task: Npm@1
   displayName: 'NPM Install Angular CLI'
   inputs:
     command: 'custom'
-    workingDir: './Frontend/WhatsThatSong/'
+    workingDir: './Frontend/'
     customCommand: 'install -g @angular/cli@latest'
 
 - task: Npm@1
   displayName: 'NPM Build Angular'
   inputs:
     command: 'custom'
-    workingDir: './Frontend/WhatsThatSong/'
+    workingDir: './Frontend/'
     customCommand: 'run ng build --prod'
   
 # ArchiveFiles
 - task: ArchiveFiles@2
   inputs:
-    rootFolderOrFile: '$(Build.BinariesDirectory)/FrontEnd/WhatsThatSong/dist'
+    rootFolderOrFile: 'FrontEnd/dist'
     includeRootFolder: true
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'

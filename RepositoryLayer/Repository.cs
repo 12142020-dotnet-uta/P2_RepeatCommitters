@@ -82,8 +82,11 @@ namespace RepositoryLayer
 
         public async Task<FriendList> GetFriendListFriend(int UserId, int pendingFriendId)
         {
-            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == pendingFriendId && x.FriendId == UserId && x.status == "pending");
-            return fl;
+            FriendList fl = friendList.FirstOrDefault(x => x.RequestedFriendId == pendingFriendId && x.FriendId == UserId);// && x.status == "pending");
+            if(fl != null)  
+                return fl;
+            else
+                return friendList.FirstOrDefault(x => x.RequestedFriendId == UserId && x.FriendId == pendingFriendId);
         }
         public async Task AcceptRequest(FriendList pendingFriendId)
         {
@@ -132,9 +135,9 @@ namespace RepositoryLayer
             return numOfFriends;
         }
 
-        public async Task<List<Song>> GetAllSongsByUser(User user)
+        public async Task<List<Song>> GetAllSongsByUserName(string userName)
         {
-            return await songs.Where(x => x.ArtistName == user.UserName).ToListAsync();
+            return await songs.Where(x => x.ArtistName == userName).ToListAsync();
         }
 
 
@@ -214,12 +217,13 @@ namespace RepositoryLayer
 
         public async Task<List<FriendList>> GetAllFRiendRequestsByUserId(int userId)
         {
-            return await friendList.Where(x => x.RequestedFriendId == userId && x.status == "pending").ToListAsync();
+            //return await friendList.Where(x => x.RequestedFriendId == userId && x.status == "pending").ToListAsync();
+            return await friendList.Where(x => x.RequestedFriendId == userId).ToListAsync();
         }
 
         public async Task<FriendList> GetFriendByBothIds(int id1, int id2)
         {
-            return await friendList.FirstOrDefaultAsync(x => x.FriendId == id1 && x.RequestedFriendId == id2);
+            return await friendList.FirstOrDefaultAsync(x => x.FriendId == id1 && x.RequestedFriendId == id2 && x.status == "accept");
         }
 
         public async Task<User> SaveUserToDb(User userToEdit)
