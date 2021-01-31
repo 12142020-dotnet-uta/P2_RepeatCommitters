@@ -105,7 +105,7 @@ namespace WhatsThatSong.Controllers
         public async Task<UserProfileViewModel> EditUser(User u)
         {
             User userToEdit = await _businessLogicClass.GetUserByIdAsync(u.Id);
-            userToEdit.UserName = u.UserName; userToEdit.Password = u.Password; userToEdit.Email = u.Email; userToEdit.FirstName = u.FirstName; userToEdit.LastName = u.LastName;
+            userToEdit.UserName = u.UserName; userToEdit.Password = u.Password; userToEdit.Email = u.Email; userToEdit.FirstName = u.FirstName; userToEdit.LastName = u.LastName;userToEdit.Description = u.Description;
             await _businessLogicClass.SaveUserToDb(userToEdit);
             UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(userToEdit.Id);
             return UPVM;

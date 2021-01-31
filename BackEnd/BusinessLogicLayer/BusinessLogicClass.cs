@@ -39,12 +39,10 @@ namespace BusinessLogicLayer
                 {
                     return;
                 }
-                else
-                {
-                    FavoriteList fSong = new FavoriteList(songid, userId);
-                    await _repository.AddSongToFavorites(fSong);
-                }
             }
+            
+            FavoriteList fSong = new FavoriteList(songid, userId);
+            await _repository.AddSongToFavorites(fSong);
         }
 
 
@@ -83,10 +81,33 @@ namespace BusinessLogicLayer
             return await _repository.GetMessages2users(id, userToMessageId); 
         }
 
-        public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
+        public async Task<List<Song>> GetUsersFavoriteSongs(int userId)
         {
             List<FavoriteList> favs = await _repository.GetUsersFavorites(userId);
-            return favs; 
+            List<Song> favoritsSongs = new List<Song>();
+            foreach(var item in favs)
+            {
+                Song fSong = await _repository.GetSongById(item.SongId);
+                favoritsSongs.Add(fSong);
+            }
+            return favoritsSongs; 
+        }
+
+        public async Task<List<Song>> Get5FavoriteSongsForUser(int id)
+        {
+            List<FavoriteList> favs = await _repository.GetUsersFavorites(id);
+            List<Song> favoritsSongs = new List<Song>();
+            int count = 0;
+            foreach (var item in favs)
+            {
+                Song fSong = await _repository.GetSongById(item.SongId);
+                if(count <5)
+                {
+                    favoritsSongs.Add(fSong);
+                    count++;
+                }
+            }
+            return favoritsSongs;
         }
 
         public async Task ConvertFileToBitArray(Song newSong)
@@ -181,10 +202,23 @@ namespace BusinessLogicLayer
             return originalSongs;
         }
 
+        public async Task<bool> IsFavorite(int songId, int userId)
+        {
+            FavoriteList favorite = await _repository.GetFavoriteBySongIdUserId(songId, userId);
+            if(favorite != null)
+            {
+                return true;
+            }
+            else { return false; }
+        }
+
         public async Task AcceptFriend(FriendList friend)
         {
+            // get the friendlist object to change
             FriendList friendToEdit = await _repository.GetFriendListFriend(friend.FriendId, friend.RequestedFriendId);
+            // TODO: change the status ------------------ friendToEdit status is the same as friend status, since we just retrieved the equivalent of friend from the database
             friendToEdit.status = friend.status;
+            // send to repository to update that database entry
             await _repository.AcceptRequest(friendToEdit);
         }
 
