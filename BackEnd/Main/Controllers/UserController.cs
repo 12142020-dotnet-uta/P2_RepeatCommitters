@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace WhatsThatSong.Controllers
 {
-
+    [EnableCors]
     [ApiController]
     [Route("user")]
     public class UserController : ControllerBase
