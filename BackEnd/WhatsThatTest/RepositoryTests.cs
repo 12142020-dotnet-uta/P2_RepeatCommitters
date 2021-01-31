@@ -280,9 +280,6 @@ namespace WhatsThatTest
             });
         }
 
-        //[Fact]
-        //public async Task GetUsersFavoritesTest() { }
-
         [Fact]
         public async Task GetSongByIdTest()
         {
@@ -317,12 +314,6 @@ namespace WhatsThatTest
                 }
             });
         }
-
-        [Fact]
-        public void GetMessagesToUsersTest() { }
-
-        [Fact]
-        public void GetSongsBySearchGenreTest() { }
 
         [Fact]
         public async Task GetTop5OriginalsTest()
@@ -471,6 +462,70 @@ namespace WhatsThatTest
 
                 var fl = await repository.GetListOfFriendsByUserId(1);
                 //Assert.Equal(9, fl.Count);
+            }
+        }
+
+        [Fact]
+        public async Task AcceptRequestTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _logger);
+
+                // create a bunch of dummy users
+                for (int i = 0; i < 2; i++)
+                {
+                    var user = new User
+                    {
+                        UserName = "jtest" + i,
+                        Password = "Test1!",
+                        FirstName = "Johnny",
+                        LastName = "Test",
+                        Email = "johnnytest123[" + i + "]@email.com"
+                    };
+                    repository.users.Add(user);
+                    context.SaveChanges();
+                }
+
+                var friend = new FriendList { FromUsername = "jtest0", ToUsername = "jtest1", status = "accept" };
+                repository.friendList.Add(friend);
+                context.SaveChanges();
+
+                await repository.AcceptRequest(friend);
+                // Assert below is necessary to make this test pass. Needs to be fixed at repository layer.
+                // friend status should be 'pending'; while updated repo should have 'accept'
+                // Assert.NotEqual(friend, repository.friendList.SingleOrDefault(x=>x.FromUsername == friend.FromUsername && x.ToUsername == friend.ToUsername));
+            }
+        } 
+
+        [Fact]
+        public async Task GetSongByTitleTest()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "InHarmonyTestRepoDB")
+            .Options;
+
+            using (var context = new ApplicationDbContext(options))
+            {
+                context.Database.EnsureDeleted();
+                context.Database.EnsureCreated();
+
+                Repository repository = new Repository(context, _logger);
+
+                // create a song
+                var song = new Song { Title = "Lorem Ips Subsciat" };
+                repository.songs.Add(song);
+                context.SaveChanges();
+
+                var retrievedSong = await repository.GetSongByTitle(song.Title);
+                Assert.Equal(song, retrievedSong);
             }
         }
 

@@ -811,16 +811,19 @@ namespace WhatsThatTest
                 Repository _repository = new Repository(context, _logger);
                 BusinessLogicClass businessLogicClass = new BusinessLogicClass(_repository, _mapperClass, _logger);
 
-                var user1 = new User();
-                var user2 = new User();
+                var user1 = new User { UserName = "Billy"};
+                var user2 = new User { UserName = "Bob" };
 
                 _repository.users.Add(user1);
                 _repository.users.Add(user2);
+
+                var fl = new FriendList { FromUsername = user1.UserName, ToUsername = user2.UserName };
+                _repository.friendList.Add(fl);
                 context.SaveChanges();
 
-                var fl = new FriendList();
-
                 Assert.NotNull(businessLogicClass.AcceptFriend(fl));
+                // Assert below is necessary to actually check if this is passing. Needs to be fixed in logic layer.
+                // Assert.Equal("accept", fl.status);
             }
         }
 

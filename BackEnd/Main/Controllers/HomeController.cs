@@ -1,20 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using BusinessLogicLayer;
-using ModelLayer.Models;
-using Microsoft.AspNetCore.Hosting;
-using ModelLayer.ViewModels;
 
 namespace WhatsThatSong.Controllers
 {
     [ApiController]
     [Route("Home")]
-    public class HomeController : ControllerBase
+    public class HomeController : Controller
     {
         //private IHostingEnvironment _env;
         //private readonly ILogger<HomeController> _logger;
@@ -28,17 +18,17 @@ namespace WhatsThatSong.Controllers
         //    _businessLogicClass = businessLogicLayer;
         //    _env = env;
         //}
-       // BusinessLogicClass _businessLogicClass = new BusinessLogicClass();
+        //BusinessLogicClass _businessLogicClass = new BusinessLogicClass();
 
-        //[HttpGet]
-        //[Route("Index")]
-        //public IActionResult Index()
-        //{
-        //   //_businessLogicClass.PopulateDb();
-        //    //_businessLogicClass.CreatNewBC("ronald", "mcdonald", "ronald@mcdonald.com");
+        [HttpGet]
+        [Route("Index")]
+        public IActionResult Index()
+        {
+           //_businessLogicClass.PopulateDb();
+            //_businessLogicClass.CreatNewBC("ronald", "mcdonald", "ronald@mcdonald.com");
 
-        //    return View("login");
-        //}
+            return View("login");
+        }
 
         [HttpPost]
         [Route("SongEditHC")]
