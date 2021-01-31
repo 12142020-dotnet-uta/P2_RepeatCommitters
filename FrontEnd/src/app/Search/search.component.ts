@@ -4,6 +4,7 @@ import { filter } from 'rxjs/operators';
 
 import { Song } from '../song';
 import { SongService } from '../song.service';
+import { GeniusService } from '../genius.service';
 
 @Component
 ({
@@ -15,13 +16,13 @@ import { SongService } from '../song.service';
 export class SearchComponent implements OnInit 
 {
     public query: string;
-    public songIn: Array<Song> = new Array<Song>();
 
-    public bannerSongIds: Array<number> = new Array<number>();
+    public songIn: Array<Song> = new Array<Song>();
     public songSelected: boolean;
     public selectedSong: Song;
+    public selectedSongIndex: number; //For the Banner
 
-    constructor(public songService: SongService, private route: ActivatedRoute, private router: Router)
+    constructor(public songService: SongService, public geniusService: GeniusService, private route: ActivatedRoute, private router: Router)
     {
         route.queryParams.pipe(filter(params => params.query))
         .subscribe(params => 
@@ -35,6 +36,22 @@ export class SearchComponent implements OnInit
             () => alert("Error Searching")
         );
 
+        geniusService.search(this.query).subscribe
+        (
+            (data) =>
+            {
+                const results = data["response"]["hits"];
+                for(let x = 0; x < results.length; x++)
+                {
+                    const result = results[x]["result"];
+                    let s = new Song(result["title"], result["primary_artist"]["name"], "", "", 2021, "", false);
+                    this.songIn.push(s);
+                }
+                console.log("Success");
+            },
+            () => alert("Error with Genius API")
+        );
+
         router.routeReuseStrategy.shouldReuseRoute = function () 
         {
             return false;
@@ -46,45 +63,50 @@ export class SearchComponent implements OnInit
         this.songSelected = false;
     }
 
-    displaySong(songId: number)
+    displaySong(x: number)
     {
-        this.songService.getSong(songId).subscribe
-        (
-            (data) => 
-            {
-                this.selectedSong = data;
-                this.songSelected = true;
-            },
-            (error) => alert(error)//error/failure
-        );
-    }
+        this.selectedSong = this.songIn[x];
+        this.songSelected = true;
+        this.selectedSongIndex = x;
+    }  
 
     search()
     {
         this.router.navigate(['/search'], { queryParams: { query: this.query } });
     }
     
-    //Banner Methods
-    setBannerSongs(songIds: Array<number>): void
-    {
-        this.bannerSongIds = songIds;
-    }
 
+    //Banner Methods
     getNextBannerSong(): void
     {
-        const index = this.bannerSongIds.indexOf(this.selectedSong.id);
-        if(this.bannerSongIds.length <= index + 1)
-            this.displaySong(this.bannerSongIds[0]);
+        if(this.songIn.length <= this.selectedSongIndex + 1)
+            this.displaySong(0);
         else
-            this.displaySong(this.bannerSongIds[index + 1]);
+            this.displaySong(this.selectedSongIndex + 1);
     }
 
     getPrevBannerSong(): void
     {
-        const index = this.bannerSongIds.indexOf(this.selectedSong.id);
-        if(index <= 0)
-            this.displaySong(this.bannerSongIds[this.bannerSongIds.length - 1]);
+        if(this.selectedSongIndex <= 0)
+            this.displaySong(this.songIn.length - 1);
         else
-            this.displaySong(this.bannerSongIds[index - 1]);
+            this.displaySong(this.selectedSongIndex - 1);
+    }
+
+
+    testGenius(): void
+    {
+        this.geniusService.search(this.query).subscribe
+        (
+            (data) =>
+            {
+                const results = data["response"]["hits"];
+                const result = data[0]["result"];
+                let s = new Song(result["title"], result["primary_artist"]["name"], "", "", 2021, "", false);
+                this.songIn.push(s);
+                alert("Success");
+            },
+            () => alert("Error with Genius API")
+        );
     }
 }

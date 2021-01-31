@@ -12,7 +12,7 @@ import { LoginService } from './login.service';
 
 export class AppComponent 
 {
-    public title = 'WhatsThatSong';
+    private title = 'WhatsThatSong';
 
     constructor(public loginService: LoginService, private router: Router){}
 

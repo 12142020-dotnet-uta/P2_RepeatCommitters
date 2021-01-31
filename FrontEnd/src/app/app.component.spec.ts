@@ -1,28 +1,23 @@
-import { TestBed, ComponentFixture, async } from '@angular/core/testing';
+import { TestBed, async } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('AppComponent', () => 
 {
-  let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
-
-  beforeEach(async() => 
+  beforeEach(async(() => 
     {
     TestBed.configureTestingModule(
       {
       imports: 
       [
-        RouterTestingModule,
-        HttpClientTestingModule
+        RouterTestingModule
       ],
       declarations: 
       [
         AppComponent
       ],
       }).compileComponents();
-    });
+    }));
 
   it('should create the app', () => 
   {

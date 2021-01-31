@@ -23,9 +23,9 @@ export class ProfileComponent implements OnInit
 
     //Track List Info
     public songIn: Array<Song> = new Array<Song>();
-    public bannerSongIds: Array<number> = new Array<number>();
     public selectedSong: Song;// = null;
     public songSelected: boolean;// = false;
+    public selectedSongIndex: number;
 
     constructor(public loginService: LoginService, public songService: SongService, public friendService: FriendService, private route: ActivatedRoute, private router: Router)
     {
@@ -90,18 +90,12 @@ export class ProfileComponent implements OnInit
     }
 
     
-    displaySong(songId: number): void
+    displaySong(x: number)
     {
-        this.songService.getSong(songId).subscribe
-        (
-            (data) => 
-            {
-                this.selectedSong = data;
-                this.songSelected = true;
-            },
-            (error) => alert(error)//error/failure
-        );
-    }
+        this.selectedSong = this.songIn[x];
+        this.songSelected = true;
+        this.selectedSongIndex = x;
+    }  
 
     makeFriend(): void
     {
@@ -171,26 +165,19 @@ export class ProfileComponent implements OnInit
     }
     
     //Banner Methods
-    setBannerSongs(songIds: Array<number>): void
-    {
-        this.bannerSongIds = songIds;
-    }
-
     getNextBannerSong(): void
     {
-        const index = this.bannerSongIds.indexOf(this.selectedSong.id);
-        if(this.bannerSongIds.length <= index + 1)
-            this.displaySong(this.bannerSongIds[0]);
+        if(this.songIn.length <= this.selectedSongIndex + 1)
+            this.displaySong(0);
         else
-            this.displaySong(this.bannerSongIds[index + 1]);
+            this.displaySong(this.selectedSongIndex + 1);
     }
-
+    
     getPrevBannerSong(): void
     {
-        const index = this.bannerSongIds.indexOf(this.selectedSong.id);
-        if(index <= 0)
-            this.displaySong(this.bannerSongIds[this.bannerSongIds.length - 1]);
+        if(this.selectedSongIndex <= 0)
+            this.displaySong(this.songIn.length - 1);
         else
-            this.displaySong(this.bannerSongIds[index - 1]);
+            this.displaySong(this.selectedSongIndex - 1);
     }
 }
