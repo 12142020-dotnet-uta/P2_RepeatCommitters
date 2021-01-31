@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "http://localhost:65418",
+        "target": "https://p2pipeline.azurewebsites.net",
         "secure": false,
 		"pathRewrite": {
         "^/api": ""

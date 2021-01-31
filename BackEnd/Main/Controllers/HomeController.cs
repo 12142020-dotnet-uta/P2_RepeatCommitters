@@ -1,4 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Threading.Tasks;
+using WhatsThatSong.Models;
+using BusinessLogicLayer;
+using ModelLayer.Models;
+using Microsoft.AspNetCore.Hosting;
+using ModelLayer.ViewModels;
 
 namespace WhatsThatSong.Controllers
 {
