@@ -14,7 +14,6 @@ namespace WhatsThatSong.Controllers
     
     [ApiController]
     [Route("user")]
-    [EnableCors("AllowOrigin")]
     public class UserController : ControllerBase
     {
         private readonly BusinessLogicClass _businessLogicClass;
@@ -45,6 +44,7 @@ namespace WhatsThatSong.Controllers
         */
         [HttpPost]
         [Route("CreateUser")]
+        [EnableCors("AllowOrigin")]
         public async Task<UserProfileViewModel> CreateUser(User u)
         {
             User newUser = await _businessLogicClass.CreatNewBC(u.UserName, u.Password, u.Email);
@@ -61,6 +61,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("login")]
+        [EnableCors("AllowOrigin")]
         //public async Task<UserProfileViewModel> login(string userName, string password)
         public async Task<User> login(string userName, string password)
         {
@@ -95,6 +96,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("EditButton")]
+        [EnableCors("AllowOrigin")]
         public async Task<User> GetUserToEdit(int id)
         {
             User user = await _businessLogicClass.GetUserByIdAsync(id);
@@ -103,6 +105,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpPut]
         [Route("SaveEdit")]
+        [EnableCors("AllowOrigin")]
         //public async Task<UserProfileViewModel> EditUser(int userId, string userName, string password, string email, string firstName, string lastName)
         public async Task<UserProfileViewModel> EditUser(User u)
         {
@@ -115,6 +118,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("SearchForUsers")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<User>> SearchForUsers(string searchString)
         {
             List<User> listOfUsers = await _businessLogicClass.SearchForUsersByPartialN(searchString);
@@ -124,6 +128,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpPost]
         [Route("RequestFriend")]
+        [EnableCors("AllowOrigin")]
         public async Task FriendRequest(FriendList fl)
         {
 
@@ -134,6 +139,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpPut]
         [Route("EditFriendStatus")]
+        [EnableCors("AllowOrigin")]
         public async Task AcceptFriend(FriendList friend)
         {
             await _businessLogicClass.AcceptFriend(friend);
@@ -145,6 +151,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetFriends")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<FriendList>> GetFriendsByUserId(int id)
         {
             List<FriendList> friendList = await _businessLogicClass.GetListOfFriendsByUserId(id);
@@ -152,6 +159,7 @@ namespace WhatsThatSong.Controllers
         }
         [HttpGet]
         [Route("GetFriendsAsUsers")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<User>> GetFriendsAsUsers(int id)
         {
             List<User> userFriends = await _businessLogicClass.GetFriendsToUserList(id);
@@ -164,6 +172,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("DeleteFriend")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<FriendList>> DeleteFriend(int LoggedInUserId, int friendToDeleteId)
         {
             await _businessLogicClass.DeleteFriend(LoggedInUserId, friendToDeleteId);
@@ -173,6 +182,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpPost]
         [Route("sendMessage")]
+        [EnableCors("AllowOrigin")]
         //public async Task<MessagingViewModel> SendMessage(string FromUserName, int LoggedInUserIdint,int UserToMessageId, string content)
         public async Task<MessagingViewModel> SendMessage(Message m)
         {
@@ -187,6 +197,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GoToChat")]
+        [EnableCors("AllowOrigin")]
         public async Task<MessagingViewModel> GetMessagesBetween2Users(int loggedInUser, int UserToMessageId)
         {
             MessagingViewModel viewModel = await _businessLogicClass.GetMessagesViewModel(loggedInUser, UserToMessageId);
@@ -197,6 +208,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("BakToProfile")]
+        [EnableCors("AllowOrigin")]
         public async Task<UserProfileViewModel> BackToProfile(int LoggedInUserid)
         {
             User user = await _businessLogicClass.GetUserByIdAsync(LoggedInUserid);
@@ -215,6 +227,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("getUserByIdaAync")]
+        [EnableCors("AllowOrigin")]
         public async Task<User> GetUserByIdAsync(int id)
         {
             return await _businessLogicClass.GetUserByIdAsync(id);
@@ -222,6 +235,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("GetAllMessagesAsync")]
+        [EnableCors("AllowOrigin")]
         public async Task<IEnumerable<Message>> GetAllMessagesAsync()
         {
             return await _businessLogicClass.GetAllMessagesAsync();
@@ -229,6 +243,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("DisplayAllFriendRequests")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<FriendList>> DisplayAllFriendRequests(int UserId)
         {
             List<FriendList> list = await _businessLogicClass.GetAllFriendRequestsOUserId(UserId);
@@ -237,6 +252,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpGet]
         [Route("AreWeFriends")]
+        [EnableCors("AllowOrigin")]
         public async Task<bool> AreWeFriends(int userId, int FriendId)
         {
             bool AreFriends = await _businessLogicClass.AreWeFriends(userId, FriendId);
