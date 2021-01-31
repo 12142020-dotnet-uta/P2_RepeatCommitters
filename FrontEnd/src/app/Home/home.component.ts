@@ -1,10 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { DOCUMENT } from '@angular/common';
 
 import { Song } from '../song';
 import { LoginService } from '../login.service';
 import { SongService } from '../song.service';
 import { FriendService } from '../friend.service';
+import { GeniusService } from '../genius.service';
+import { SpotifyService } from '../spotify.service';
 
 @Component
 ({
@@ -16,12 +20,33 @@ import { FriendService } from '../friend.service';
 export class HomeComponent implements OnInit 
 {
     public homepageSong: Song;
-    public bannerSongIds: Array<number> = new Array<number>();
     public query: string;// = "";
     public userquery: string;// = "";
+
     
-    constructor(public loginService: LoginService, public songService: SongService, public friendService: FriendService, private router: Router)
+    public songIn: Array<Song> = new Array<Song>();
+    public songSelected: boolean;
+    public selectedSong: Song;
+    public selectedSongIndex: number; //For the Banner
+
+    //Spotify stuff
+    private authCode: string = null;
+    
+    constructor(public loginService: LoginService, public songService: SongService, public friendService: FriendService, 
+                    public spotifyService: SpotifyService, public geniusService: GeniusService,
+                    private route: ActivatedRoute, private router: Router, 
+                    @Inject(DOCUMENT) private document: Document)
     {
+        route.queryParams.pipe(filter(params => params.code)).subscribe
+        (
+            params => 
+            {
+                this.authCode = params.code;
+                console.log(this.authCode);
+            }
+        );
+    
+
         //Parse Friend Requests
         //As it currently is, will require another subscription for getting user name.
         //We should fix this in db.
@@ -84,7 +109,8 @@ export class HomeComponent implements OnInit
 
         //Test song
         //this.homepageSong = new Song("Moonlight Sonata 3", "Viossy", "Viossy", "Rock", 2010, "https://soundcloud.com/xabcxyzx/drviossy-moonlight-sonata-beethoven-metal-version", false);
-        this.homepageSong = new Song("Joel's Song", "Joel", "Joel's Album", "Rock", 2000, "https://soundcloud.com/00joel/dgnj", true);
+        //this.homepageSong = new Song("Joel's Song", "Joel", "Joel's Album", "Rock", 2000, "https://soundcloud.com/00joel/dgnj", true);
+        this.homepageSong = new Song("St. Matthew's Passion", "Bach", "Work", "Orchestral", 2021, "track/5PGo11SpjSti3e6qi3CItZ", false);
         this.homepageSong.lyrics = "Instrumental";
     }
 
@@ -98,40 +124,30 @@ export class HomeComponent implements OnInit
         this.router.navigate(['/usersearch'], { queryParams: { query: this.userquery } });
     }
     
-    displaySong(songId: number): void
+    displaySong(x: number)
     {
-        this.songService.getSong(songId).subscribe
-        (
-            (data) => 
-            {
-                this.homepageSong = data;
-            },
-            (error) => alert(error)
-        );
-    }
+        this.selectedSong = this.songIn[x];
+        this.songSelected = true;
+        this.selectedSongIndex = x;
+    } 
 
-    setBannerSongs(songIds: Array<number>): void
-    {
-        this.bannerSongIds = songIds;
-    }
-
+    //Banner Methods
     getNextBannerSong(): void
     {
-        const index = this.bannerSongIds.indexOf(this.homepageSong.id);
-        if(this.bannerSongIds.length <= index + 1)
-            this.displaySong(this.bannerSongIds[0]);
+        if(this.songIn.length <= this.selectedSongIndex + 1)
+            this.displaySong(0);
         else
-            this.displaySong(this.bannerSongIds[index + 1]);
+            this.displaySong(this.selectedSongIndex + 1);
     }
 
     getPrevBannerSong(): void
     {
-        const index = this.bannerSongIds.indexOf(this.homepageSong.id);
-        if(index <= 0)
-            this.displaySong(this.bannerSongIds[this.bannerSongIds.length - 1]);
+        if(this.selectedSongIndex <= 0)
+            this.displaySong(this.songIn.length - 1);
         else
-            this.displaySong(this.bannerSongIds[index - 1]);
+            this.displaySong(this.selectedSongIndex - 1);
     }
+
     
     test(): void
     {
@@ -142,4 +158,60 @@ export class HomeComponent implements OnInit
             () => alert("ERROR")
         );
     }
+
+    testSpotify2(): void
+    {
+        this.document.location.href = this.spotifyService.getAuthUrl();
+    }
+
+    testSpotify22(): void
+    {
+        if(!this.authCode)
+        {
+            console.log("Your authCode is not set. Try doing Step 1 again.");
+            return;
+        }
+        this.spotifyService.authStepTwo(this.authCode).subscribe
+        (
+            (data) => 
+            {
+                console.log(data["access_token"]);
+                this.spotifyService.access_token = data["access_token"];
+            },
+            (error) => 
+            {
+                console.log(error["error"]);
+                console.log(error["error_description"]);
+            }
+        );
+    }
+
+    /*
+    testGenius(): void
+    {
+        this.document.location.href = this.geniusService.getAuthUrl();
+    }
+
+    testGenius2(): void
+    {
+        if(!this.authCode)
+        {
+            console.log("Your authCode is not set. Try doing Step 1 again.");
+            return;
+        }
+        this.geniusService.authStepTwo(this.authCode).subscribe
+        (
+            (data) => 
+            {
+                console.log(data["access_token"]);
+                this.spotifyService.access_token = data["access_token"];
+            },
+            (error) => 
+            {
+                console.log(error["error"]);
+                console.log(error["error_description"]);
+            }
+        );
+    }
+    */
 }

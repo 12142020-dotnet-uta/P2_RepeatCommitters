@@ -7,8 +7,15 @@
             <img width="300px" height="300px" src={{song.albumURL}} style="float: left;"/>
             <iframe width="500px" height="300px" [src]='getYoutubeURL()' frameborder="0" style="float: right;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             -->
-            <!-- Will need ngIf Soundcloud, ngElse Spotify-->
-            <iframe width="500px" height="300px" scrolling="no" frameborder="no" allow="autoplay" style="float: right;" [src]="getURL()"></iframe>
+
+            <!-- ngIf Soundcloud, ngElse Spotify -->
+            <span *ngIf="song.isOriginal; else elseblock">
+                <iframe width="500px" height="300px" scrolling="no" frameborder="no" allow="autoplay" style="float: right;" [src]="getURL()"></iframe>
+            </span>
+            <ng-template #elseblock>
+                <iframe [src]="getSpotifyURL()" style="float: right;" width="500px" height="300px" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+            </ng-template>
+
             Title: {{song.title}}<br/>
             Artist: {{song.artistName}}
             <span *ngIf="song.album"><br/>Album: {{song.album}}</span><br/>

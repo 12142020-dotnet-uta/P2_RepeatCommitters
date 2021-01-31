@@ -3,7 +3,7 @@ import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
 import { ChatComponent } from './Chat/chat.component';
@@ -25,6 +25,8 @@ import { GuardService } from './guard.service';
 import { SongService } from './song.service';
 import { FriendService } from './friend.service';
 import { MessageService } from './message.service';
+import { GeniusService } from './genius.service';
+import { SpotifyService } from './spotify.service';
 
 @NgModule
 ({
@@ -61,7 +63,9 @@ import { MessageService } from './message.service';
         GuardService,
         SongService,
         FriendService,
-        MessageService
+        MessageService,
+        GeniusService,
+        SpotifyService
     ],
     bootstrap: [AppComponent]
 })

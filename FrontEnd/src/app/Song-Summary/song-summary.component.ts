@@ -29,16 +29,23 @@ export class SongSummaryComponent implements OnInit
     {
         this.lyrics = false;
         this.checkFavourite();
-        this.songService.incrementPlays(this.song.id).subscribe
-        (
-            () => this.song.numberOfPlays++, 
-            () => alert("Error Incrementing Plays")
-        );
+        
+        if(this.loginService.loggedIn)
+            this.songService.incrementPlays(this.song.id).subscribe
+            (
+                () => this.song.numberOfPlays++, 
+                () => alert("Error Incrementing Plays")
+            );
     }
 
     getURL(): SafeResourceUrl
     {
         return this.sanitizer.bypassSecurityTrustResourceUrl("https://w.soundcloud.com/player/?url=" + this.song.urlPath);
+    }
+
+    getSpotifyURL(): SafeResourceUrl
+    {
+        return this.sanitizer.bypassSecurityTrustResourceUrl("https://open.spotify.com/embed/" + this.song.urlPath);
     }
 
     showLyrics(): void
