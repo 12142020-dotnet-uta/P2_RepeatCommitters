@@ -17,8 +17,8 @@ export class LoginService
     //DB Strings
     //private connection: string = "http://localhost:3000"; //Mocked DB
     //private connection: string = "http://localhost:65418"; //Whatever our real backend is
-    private connection: string = "/api";
-    //private connection: string = "https://p2pipeline.azurewebsites.net";
+    //private connection: string = "/api";
+    private connection: string = "https://p2pipeline.azurewebsites.net";
 
     constructor(private http: HttpClient){}
 
