@@ -13,14 +13,19 @@
                 <iframe width="500px" height="300px" scrolling="no" frameborder="no" allow="autoplay" style="float: right;" [src]="getURL()"></iframe>
             </span>
             <ng-template #elseblock>
-                <iframe [src]="getSpotifyURL()" style="float: right;" width="500px" height="300px" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                <span *ngIf="song.urlPath; else elseblock2">
+                    <iframe [src]="getSpotifyURL()" style="float: right;" width="500px" height="300px" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                </span>
+                <ng-template #elseblock2>
+                    <p style="color: green; min-height: 300px; font: 30px bold; float: right;"> Spotify doesn't have this song :( </p>
+                </ng-template>
             </ng-template>
 
             Title: {{song.title}}<br/>
             Artist: {{song.artistName}}
-            <span *ngIf="song.album"><br/>Album: {{song.album}}</span><br/>
-            Genre: {{song.genre}}
-            <span *ngIf="song.year"><br/>Year: {{song.year}}</span><br/>
+            <span *ngIf="song.album.length > 0"><br/>Album: {{song.album}}</span>
+            <span *ngIf="song.genre.length > 0"><br/>Genre: {{song.genre}}</span>
+            <span *ngIf="song.year > 0"><br/>Year: {{song.year}}</span><br/>
             Plays: {{song.numberOfPlays}}<br/>
             <span *ngIf="song.lyrics"><button class="btn btn-success" (click)="showLyrics()"> Lyrics </button></span>
         </p>
@@ -33,6 +38,17 @@
 
 <div *ngIf="lyrics">
     <div class="lyrics" style="white-space: pre-line">
-        <p>{{song.lyrics}}</p>
+        <div *ngIf="song.isOriginal; else genius">
+            <p>{{song.lyrics}}</p>
+        </div>
+        <ng-template #genius>
+            <!--
+            <div id='rg_embed_link_110601' class='rg_embed_link' data-song-id='110601'>
+                Read <a [href]="getGeniusLyrics()">Lyrics</a> on Genius
+            </div> 
+            <script crossorigin src='//genius.com/songs/110601/embed.js'></script>
+            -->
+            Read <a [href]="getGeniusLyrics()">Lyrics</a> on Genius
+        </ng-template>
     </div>
 </div>

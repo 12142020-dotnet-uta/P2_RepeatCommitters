@@ -4,6 +4,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
 import { LoginService } from '../login.service';
 import { Song } from '../song';
 import { SongService } from '../song.service';
+import { SpotifyService } from '../spotify.service';
 
 @Component
 ({
@@ -18,7 +19,8 @@ export class SongSummaryComponent implements OnInit
     public lyrics: boolean;
     public isFavourite: boolean = false;
 
-    constructor(public loginService: LoginService, public songService: SongService, public sanitizer: DomSanitizer){}
+    constructor(public loginService: LoginService, public songService: SongService, public spotifyService: SpotifyService,
+                    public sanitizer: DomSanitizer){}
   
     ngOnInit(): void 
     {
@@ -47,6 +49,12 @@ export class SongSummaryComponent implements OnInit
     {
         return this.sanitizer.bypassSecurityTrustResourceUrl("https://open.spotify.com/embed/" + this.song.urlPath);
     }
+
+    getGeniusLyrics(): SafeResourceUrl
+    {
+        return this.sanitizer.bypassSecurityTrustResourceUrl('https://genius.com' + this.song.lyrics);
+    }
+
 
     showLyrics(): void
     {

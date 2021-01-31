@@ -43,6 +43,7 @@ export class HomeComponent implements OnInit
             {
                 this.authCode = params.code;
                 console.log(this.authCode);
+                this.testSpotify22();
             }
         );
     
@@ -177,6 +178,7 @@ export class HomeComponent implements OnInit
             {
                 console.log(data["access_token"]);
                 this.spotifyService.access_token = data["access_token"];
+                this.spotifyService.loggedIn = true;
             },
             (error) => 
             {
