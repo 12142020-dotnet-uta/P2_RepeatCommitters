@@ -29,22 +29,9 @@ namespace WhatsThatSong
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options =>
+            services.AddCors(c =>
             {
-                options.AddPolicy("Policy1",
-                    builder =>
-                    {
-                        builder.WithOrigins("http://example.com",
-                                            "http://www.contoso.com");
-                    });
-
-                options.AddPolicy("AnotherPolicy",
-                    builder =>
-                    {
-                        builder.WithOrigins("http://www.contoso.com")
-                                            .AllowAnyHeader()
-                                            .AllowAnyMethod();
-                    });
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
 
             //services.AddSingleton<IFileProvider>(
@@ -53,6 +40,7 @@ namespace WhatsThatSong
             //services.AddHttpContextAccessor();
             //services.AddMvc();
             //services.AddControllersWithViews();
+            services.AddCors();
             services.AddControllers();
             services.AddScoped<BusinessLogicClass>();
             services.AddScoped<Repository>();
@@ -64,6 +52,7 @@ namespace WhatsThatSong
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Main", Version = "v1" });
             });
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -89,7 +78,7 @@ namespace WhatsThatSong
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors(options => options.AllowAnyOrigin());
 
             app.UseAuthorization();
 

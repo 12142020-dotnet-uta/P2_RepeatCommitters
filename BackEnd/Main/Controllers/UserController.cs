@@ -11,9 +11,10 @@ using System.Threading.Tasks;
 
 namespace WhatsThatSong.Controllers
 {
-    [EnableCors]
+    
     [ApiController]
     [Route("user")]
+    [EnableCors("AllowOrigin")]
     public class UserController : ControllerBase
     {
         private readonly BusinessLogicClass _businessLogicClass;
@@ -203,9 +204,10 @@ namespace WhatsThatSong.Controllers
             return viewModel;
         }
 
-        [EnableCors]
+        
         [HttpGet]
         [Route("getAllUsers")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<User>> GetAllUsersAsync()
         {
             return await _businessLogicClass.GetAllUsersAsync();
