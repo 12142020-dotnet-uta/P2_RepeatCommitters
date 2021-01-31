@@ -3,6 +3,9 @@ import { of } from 'rxjs';
 import { Song } from '../song';
 import { SongService } from '../song.service';
 import { LoginService } from '../login.service';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home.component';
 
@@ -28,6 +31,7 @@ describe('HomeComponent', () => {
   beforeEach(async() => {
     mockService = jasmine.createSpyObj('SongService', ['ngOnInit']);
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
       declarations: [ HomeComponent ]
     })
     .compileComponents();
@@ -43,22 +47,23 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should get the home page song', ()=>{
-  //   component.homepageSong = {
-  //     id: 1, 
-  //     title: "Dummy Title", 
-  //     artistName: "Dummy Artist", 
-  //     album: "", year: 1, 
-  //     genre: "Dummy", 
-  //     urlPath:"", 
-  //     numberOfPlays:0, 
-  //     isOriginal: true, 
-  //     duration: "",
-  //     albumURL: "",
-  //     lyrics: ""
-  //   };
+  it('should get the home page song', ()=>{
+    component.homepageSong = {
+      id: 1, 
+      title: "Dummy Title", 
+      artistName: "Dummy Artist", 
+      album: "", year: 1, 
+      genre: "Dummy", 
+      urlPath:"", 
+      numberOfPlays:0, 
+      isOriginal: true, 
+      duration: "",
+      albumURL: "",
+      lyrics: ""
+    };
 
-  //   mockHomePageSong = mockService.ngOnInit.and.returnValue(of(component.homepageSong));
-  //   expect(component.homepageSong).toBe(mockSong);
-  // });
+    mockHomePageSong = mockService.ngOnInit.and.returnValue(of(component.homepageSong));
+    fixture.detectChanges();
+    expect(component.homepageSong).toEqual(mockSong);
+  });
 });
