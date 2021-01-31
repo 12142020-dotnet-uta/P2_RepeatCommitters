@@ -1,17 +1,15 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
-import { Song } from '../song';
-import { SongService } from '../song.service';
-import { LoginService } from '../login.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { HomeComponent } from './home.component';
+import { Song } from '../song';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
+  let mockHomePageSong: Song = new Song("St. Matthew's Passion", "Bach", "Work", "Orchestral", 2021, "track/5PGo11SpjSti3e6qi3CItZ", false);
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -30,27 +28,9 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-<<<<<<< HEAD
 
-  it('should get the home page song', ()=>{
-    component.homepageSong = {
-      id: 1, 
-      title: "Dummy Title", 
-      artistName: "Dummy Artist", 
-      album: "", year: 1, 
-      genre: "Dummy", 
-      urlPath:"", 
-      numberOfPlays:0, 
-      isOriginal: true, 
-      duration: "",
-      albumURL: "",
-      lyrics: ""
-    };
-
-    mockHomePageSong = mockService.ngOnInit.and.returnValue(of(component.homepageSong));
-    fixture.detectChanges();
-    expect(component.homepageSong).toEqual(mockSong);
-  });
-=======
->>>>>>> 935a191052a6ef80b147735240df9efb88a40a52
+  // it('should get the home page song', ()=>{
+  //   mockHomePageSong.lyrics = "Instrumental";
+  //   expect(component.homepageSong).toEqual(mockHomePageSong);
+  // });
 });
