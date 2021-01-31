@@ -53,8 +53,7 @@ import { MessageService } from './message.service';
         AppRoutingModule,
         FormsModule,
         ReactiveFormsModule,
-        HttpClientModule,
-        HttpClient
+        HttpClientModule
     ],
     providers: 
     [
