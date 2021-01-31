@@ -207,6 +207,10 @@ namespace RepositoryLayer
                 {
                     songlist.Add(item);
                 }
+                if(item.Title != null && item.Title.ToLower().Contains(lowerCasePhrase))
+                {
+                    songlist.Add(item);
+                }
             }
             return songlist;
         }
