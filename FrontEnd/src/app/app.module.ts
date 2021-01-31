@@ -25,6 +25,8 @@ import { GuardService } from './guard.service';
 import { SongService } from './song.service';
 import { FriendService } from './friend.service';
 import { MessageService } from './message.service';
+import { GeniusService } from './genius.service';
+import { SpotifyService } from './spotify.service';
 
 @NgModule
 ({
@@ -61,7 +63,9 @@ import { MessageService } from './message.service';
         GuardService,
         SongService,
         FriendService,
-        MessageService
+        MessageService,
+        GeniusService,
+        SpotifyService
     ],
     bootstrap: [AppComponent]
 })

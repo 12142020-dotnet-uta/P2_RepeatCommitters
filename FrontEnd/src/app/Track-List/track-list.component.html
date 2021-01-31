@@ -9,7 +9,7 @@
             </tr>
         </thead>
         <tbody class="table-hover">
-            <tr mdbTableCol *ngFor="let s of songs; let o = odd;" [ngClass]="{oddRow: o}" (click)="displaySong(s)">
+            <tr mdbTableCol *ngFor="let s of songs; let o = odd; let i = index;" [ngClass]="{oddRow: o}" (click)="emitSongIndex(i)">
                 <td> <img width="80px" height="80px" src={{s.albumURL}}/> </td>
                 <td > {{s.title}} </td>
                 <td> {{s.artistName}} </td>

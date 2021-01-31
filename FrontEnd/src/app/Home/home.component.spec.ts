@@ -12,30 +12,14 @@ import { HomeComponent } from './home.component';
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  let mockHomePageSong;
-  let mockService;
-  let mockSong: Song = {
-    id: 1, 
-    title: "Dummy Title", 
-    artistName: "Dummy Artist", 
-    album: "", year: 1, 
-    genre: "Dummy", 
-    urlPath:"", 
-    numberOfPlays:0, 
-    isOriginal: true, 
-    duration: "",
-    albumURL: "",
-    lyrics: ""
-  };
 
-  beforeEach(async() => {
-    mockService = jasmine.createSpyObj('SongService', ['ngOnInit']);
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
       declarations: [ HomeComponent ]
     })
     .compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
@@ -46,6 +30,7 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+<<<<<<< HEAD
 
   it('should get the home page song', ()=>{
     component.homepageSong = {
@@ -66,4 +51,6 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
     expect(component.homepageSong).toEqual(mockSong);
   });
+=======
+>>>>>>> 935a191052a6ef80b147735240df9efb88a40a52
 });

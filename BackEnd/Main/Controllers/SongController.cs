@@ -11,6 +11,7 @@ using System.Web;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting.Internal;
+using Microsoft.AspNetCore.Cors;
 
 //using System.Web.Abstractions;
 
@@ -41,6 +42,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getSong")]
+        [EnableCors("AllowOrigin")]
         public async Task<Song> GetSongByIdAsync(int id)
         {
             return await _businessLogicClass.GetSongById(id);
@@ -53,6 +55,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("addSongToFavorites")]
+        [EnableCors("AllowOrigin")]
         public async Task addSongToFavorites(int songid, int userId)
         {
             await _businessLogicClass.AddSongToFavorites(songid, userId);
@@ -92,6 +95,7 @@ namespace WhatsThatSong.Controllers
 
         [HttpPost]
         [Route("uploadSong")]
+        [EnableCors("AllowOrigin")]
         public async Task UploadSong(Song song)
         {
             Song s = new Song(song.ArtistName, song.Genre, song.Title, song.Lyrics, song.UrlPath, true);
@@ -106,6 +110,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetAllSongsByACertainUser")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<Song>> GetAllSongsByACertainUser(int id)
         {
             List<Song> allUserSongs = await _businessLogicClass.GetallSongsByAUser(id);
@@ -120,6 +125,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getOriginalsongSearch")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<Song>> GetOriginalSongSearchByGenre(string genre)
         {
             List<Song> originalSongSearch = await _businessLogicClass.GetSongsBySearhGenre(genre);
@@ -133,6 +139,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getOriginalsongsByLyrics")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<Song>> GetOriginalsongsByLyrics(string phrase)
         {
             List<Song> originalSongSearch = await _businessLogicClass.GetOriginalsongsByLyrics(phrase);
@@ -146,6 +153,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("getTop5Originals")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<Song>> GetTop5Originals()
         {
             List<Song> songs = await _businessLogicClass.GetTop5Originals();
@@ -157,6 +165,7 @@ namespace WhatsThatSong.Controllers
         /// </summary>
         [HttpGet]
         [Route("incrementNumPlays")]
+        [EnableCors("AllowOrigin")]
         public async Task IncrementNumPlays(int songId)
         {
             await _businessLogicClass.IncrementNUmPlays(songId);
@@ -168,6 +177,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("GetUsersFavoriteSongs")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<Song>> GetUsersFavoriteSongs(int Id)
         {
             List<Song> songs = await _businessLogicClass.GetUsersFavoriteSongs(Id);
@@ -181,6 +191,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("Get5FavoriteSongsForUser")]
+        [EnableCors("AllowOrigin")]
         public async Task<List<Song>> Get5FavoriteSongsForUser(int Id)
         {
             List<Song> songs = await _businessLogicClass.Get5FavoriteSongsForUser(Id);
@@ -195,6 +206,7 @@ namespace WhatsThatSong.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("isSongAlreadyAFavorite")]
+        [EnableCors("AllowOrigin")]
         public async Task<bool> isSongAlreadyAFavorite(int songId, int userId)
         {
             bool isFavorite = await _businessLogicClass.IsFavorite(songId, userId);

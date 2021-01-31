@@ -10,8 +10,8 @@ using RepositoryLayer;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210129214734_m7")]
-    partial class m7
+    [Migration("20210130234937_m11")]
+    partial class m11
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
