@@ -202,12 +202,24 @@ namespace RepositoryLayer
             List<Song> songlist = new List<Song>();
             await foreach (var item in songs)
             {
-                if(item.Lyrics.Contains(phrase))
+                if(item.Lyrics != null && item.Lyrics.Contains(phrase))
                 {
                     songlist.Add(item);
                 }
             }
             return songlist;
+        }
+
+
+        /// <summary>
+        /// gets a favoriteslist item buy the userid and songId
+        /// </summary>
+        /// <param name="songId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        public async Task<FavoriteList> GetFavoriteBySongIdUserId(int songId, int userId)
+        {
+            return await favoriteLists.FirstOrDefaultAsync(x => x.SongId == songId && x.UserId == userId);
         }
 
         public async Task<User> GetUserByNameAndPass(string username, string passw)

@@ -51,24 +51,14 @@ namespace WhatsThatSong.Controllers
         /// </summary>
         /// <param name="songid"></param>
         /// <returns></returns>
-        [HttpPut]
+        [HttpGet]
         [Route("addSongToFavorites")]
         public async Task addSongToFavorites(int songid, int userId)
         {
             await _businessLogicClass.AddSongToFavorites(songid, userId);
         }
 
-        /// <summary>
-        /// gets all of a users favorite songs
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        [Route("getAllSongs")]
-        public async Task<List<FavoriteList>> GetUsersFavorites(int userId)
-        {
-            List<FavoriteList> favs = await _businessLogicClass.GetUsersFavorites(userId);
-            return favs;
-        }
+        
 
         //[HttpPost]
         //[Route("uploadSongWithFile")]
@@ -134,7 +124,6 @@ namespace WhatsThatSong.Controllers
         {
             List<Song> originalSongSearch = await _businessLogicClass.GetSongsBySearhGenre(genre);
             return originalSongSearch;
-
         }
 
         /// <summary>
@@ -166,11 +155,50 @@ namespace WhatsThatSong.Controllers
         /// <summary>
         /// increments the song number of plays property
         /// </summary>
-        [HttpPost]
+        [HttpGet]
         [Route("incrementNumPlays")]
         public async Task IncrementNumPlays(int songId)
         {
             await _businessLogicClass.IncrementNUmPlays(songId);
+        }
+
+        /// <summary>
+        /// gets all of a users favorite songs
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("GetUsersFavoriteSongs")]
+        public async Task<List<Song>> GetUsersFavoriteSongs(int Id)
+        {
+            List<Song> songs = await _businessLogicClass.GetUsersFavoriteSongs(Id);
+            return songs;
+        }
+
+        /// <summary>
+        /// gets a users forst 5 favorite songs
+        /// </summary>
+        /// <param name="Id"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("Get5FavoriteSongsForUser")]
+        public async Task<List<Song>> Get5FavoriteSongsForUser(int Id)
+        {
+            List<Song> songs = await _businessLogicClass.Get5FavoriteSongsForUser(Id);
+            return songs;
+        }
+
+        /// <summary>
+        /// returns a boolean for show weather a song is already on a users favorites list. 
+        /// </summary>
+        /// <param name="songId"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("isSongAlreadyAFavorite")]
+        public async Task<bool> isSongAlreadyAFavorite(int songId, int userId)
+        {
+            bool isFavorite = await _businessLogicClass.IsFavorite(songId, userId);
+            return isFavorite;
         }
     }
 }
