@@ -34,6 +34,7 @@ namespace ModelLayer.Models
         [NotMapped] public int year{ get; set;} = 0;
         public string JpgStringSong { get; set; } = null;
         public byte[] ByteArrayImage { get; set; } = null;
+        public string albumUrl { get; set; }
 
         
         public Song(string artist, string genre, string title, string lyrics, string urlPath, bool isOriginal)
