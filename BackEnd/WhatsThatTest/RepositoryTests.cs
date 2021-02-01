@@ -348,8 +348,8 @@ namespace WhatsThatTest
                         repository.SaveSongToDb(song).Wait();
                     }
 
-                    Task<List<Song>> listOf5Songs = repository.GetTop5Originals();
-                    Assert.Equal(5, listOf5Songs.Result.Count);
+                    List<Song> listOf5Songs = repository.GetTop5Originals().Result;
+                    Assert.Equal(5, listOf5Songs.Count);
                 }
             });
         }
