@@ -55,6 +55,13 @@ export class LoginService
 		return this.http.get<User>(this.connection + "/user/getUserByIdaAync", {headers, params});
     }
 
+    getUserByUsername(name: string): Observable<User>
+    {
+        const headers = new HttpHeaders().append('Content-Type', 'application/json');
+        const params = new HttpParams().append('userName', "" + name);
+		return this.http.get<User>(this.connection + "/user/GetUserByName", {headers, params});
+    }
+
     getValidUsers(): Observable<User[]>
 	{
 		return this.http.get<User[]>(this.connection + "/user/getAllUsers");

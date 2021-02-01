@@ -247,9 +247,9 @@ namespace WhatsThatSong.Controllers
         [HttpGet]
         [Route("IsSongInDb")]
         [EnableCors("AllowOrigin")]
-        public async Task<bool> IsSongInDb(string artistName, string title)
+        public async Task<Song> IsSongInDb(string artistName, string title)
         {
-            bool isInDataBase = await _businessLogicClass.IsInDataBase(artistName, title);
+            Song isInDataBase = await _businessLogicClass.IsInDataBase(artistName, title);
             return isInDataBase;
         }
     }

@@ -229,6 +229,11 @@ namespace RepositoryLayer
             await _applicationDbContext.SaveChangesAsync();
         }
 
+        public async Task<User> GetUserByNameAndPass(string userName)
+        {
+            return await users.FirstOrDefaultAsync(x => x.UserName == userName);
+        }
+
         public async Task DeleteUploadedSong(Song song)
         {
             songs.Remove(song);

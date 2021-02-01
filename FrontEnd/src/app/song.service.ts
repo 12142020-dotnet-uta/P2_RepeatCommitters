@@ -99,10 +99,10 @@ export class SongService
         return this.http.get<Song[]>(this.connection + "/Song/getOriginalsongsByLyrics", {headers, params});   
     }
 
-    songExists(title: string, artist: string): Observable<boolean>
+    songExists(title: string, artist: string): Observable<Song>
     {
         const headers = new HttpHeaders().append('Content-Type', 'application/json');
         const params = new HttpParams().append('artistName', artist).append('title', title);
-        return this.http.get<boolean>(this.connection + "/Song/IsSongInDb", {headers, params});   
+        return this.http.get<Song>(this.connection + "/Song/IsSongInDb", {headers, params});   
     }
 }

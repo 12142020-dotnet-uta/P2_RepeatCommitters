@@ -224,6 +224,11 @@ namespace BusinessLogicLayer
             await _repository.AcceptRequest(friendToEdit);
         }
 
+        public async Task<User> GetUserByName(string userName)
+        {
+            return await _repository.GetUserByNameAndPass(userName);
+        }
+
         public async Task DeleteFavoritesListForUser(int userId, int songId)
         {
             await _repository.DeleteFavoriteListitem(userId, songId);
@@ -256,11 +261,17 @@ namespace BusinessLogicLayer
             }
         }
 
-        public async Task<bool> IsInDataBase(string artistName, string title)
+        public async Task<Song> IsInDataBase(string artistName, string title)
         {
             Song song = await _repository.GetSongByArtistNameAndTitle(artistName, title);
-            if(song == null)    return false;
-            else                return true;
+            if(song != null)
+            {
+                return song;
+            }
+            else
+            {
+                return null;
+            }
         }
 
         public async Task<List<Song>> GetTop5Originals()

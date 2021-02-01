@@ -212,6 +212,14 @@ namespace WhatsThatSong.Controllers
         }
 
         [HttpGet]
+        [Route("GetUserByName")]
+        [EnableCors("AllowOrigin")]
+        public async Task<User> GetUserByName(string userName)
+        {
+            return await _businessLogicClass.GetUserByName(userName);
+        }
+
+        [HttpGet]
         [Route("GetAllMessagesAsync")]
         [EnableCors("AllowOrigin")]
         public async Task<IEnumerable<Message>> GetAllMessagesAsync()
