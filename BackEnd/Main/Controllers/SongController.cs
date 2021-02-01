@@ -53,7 +53,7 @@ namespace WhatsThatSong.Controllers
         /// </summary>
         /// <param name="songid"></param>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet]   //Should probably be post, but don't have time to figure it out
         [Route("addSongToFavorites")]
         [EnableCors("AllowOrigin")]
         public async Task addSongToFavorites(int songid, int userId)
@@ -163,7 +163,7 @@ namespace WhatsThatSong.Controllers
         /// <summary>
         /// increments the song number of plays property
         /// </summary>
-        [HttpGet]
+        [HttpGet] //Should probably be put, but don't have time to figure it out
         [Route("incrementNumPlays")]
         [EnableCors("AllowOrigin")]
         public async Task IncrementNumPlays(int songId)
@@ -219,7 +219,8 @@ namespace WhatsThatSong.Controllers
         /// <param name="userId"></param>
         /// <param name="songId"></param>
         /// <returns></returns>
-        [HttpGet]
+        //[HttpGet]
+        [HttpDelete]
         [Route("DeleteSongFromFavorites")]
         [EnableCors("AllowOrigin")]
         public async Task DeleteSongFromFavorites(int userId, int songId)
@@ -232,7 +233,8 @@ namespace WhatsThatSong.Controllers
         /// </summary>
         /// <param name="songId"></param>
         /// <returns></returns>
-        [HttpGet]
+        //[HttpGet]
+        [HttpDelete]
         [Route("DeleteUploadedSong")]
         [EnableCors("AllowOrigin")]
         public async Task DeleteUploadedSong(int songId)
