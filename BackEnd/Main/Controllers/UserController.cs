@@ -122,6 +122,7 @@ namespace WhatsThatSong.Controllers
         {
             await _businessLogicClass.AcceptFriend(friend);
         }
+
         /// <summary>
         /// sends a list of friends that have been accepted
         /// </summary>
@@ -148,7 +149,8 @@ namespace WhatsThatSong.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [HttpGet]
+        //[HttpGet]
+        [HttpDelete]
         [Route("DeleteFriend")]
         [EnableCors("AllowOrigin")]
         public async Task<List<FriendList>> DeleteFriend(int LoggedInUserId, int friendToDeleteId)
@@ -209,14 +211,6 @@ namespace WhatsThatSong.Controllers
         public async Task<User> GetUserByIdAsync(int id)
         {
             return await _businessLogicClass.GetUserByIdAsync(id);
-        }
-
-        [HttpGet]
-        [Route("GetUserByName")]
-        [EnableCors("AllowOrigin")]
-        public async Task<User> GetUserByName(string userName)
-        {
-            return await _businessLogicClass.GetUserByName(userName);
         }
 
         [HttpGet]

@@ -34,31 +34,14 @@ export class FriendService
         return this.http.get<boolean>(this.connection + "/user/AreWeFriends", {headers, params}); 
     }
 
-    /*
-    requestFriend(idA: number, idB: number): Observable<any>
-    {
-        const headers = new HttpHeaders().append('Content-Type', 'application/json');
-        const params = new HttpParams().append('userId', "" + idA).append('requestedFriendId', "" + idB);
-        return this.http.get<any>(this.connection + "/user/RequestFriend", {headers, params}); 
-    }
-    */
     requestFriend(fr: FriendList): Observable<FriendList>
     {
         return this.http.post<FriendList>(this.connection + "/user/RequestFriend", fr);
     }
 
-    acceptFriend(idA: number, idB: number): Observable<any>
-    {
-        const headers = new HttpHeaders().append('Content-Type', 'application/json');
-        const params = new HttpParams().append('LoggedInId', "" + idA).append('pendingFriendId', "" + idB);
-        return this.http.get<any>(this.connection + "/user/AcceptFriend", {headers, params}); 
-    }
-    
     deleteFriend(idA: number, idB: number): Observable<any>
     {
-        const headers = new HttpHeaders().append('Content-Type', 'application/json');
-        const params = new HttpParams().append('LoggedInUserId', "" + idA).append('friendToDeleteId', "" + idB);
-        return this.http.get<any>(this.connection + "/user/DeleteFriend", {headers, params}); 
+        return this.http.delete<any>(this.connection + "/user/DeleteFriend?LoggedInUserId=" + idA + "&friendToDeleteId=" + idB);
     }
 
     getAllFriendRequests(uId: number): Observable<FriendList[]>
@@ -68,7 +51,6 @@ export class FriendService
         return this.http.get<any>(this.connection + "/user/DisplayAllFriendRequests", {headers, params}); 
     }
 
-    //editFriendRequest(id: number, fr: FriendList): Observable<FriendList>
     editFriendRequest(fr: FriendList): Observable<FriendList>
     {
         return this.http.put<FriendList>(this.connection + "/user/EditFriendStatus", fr);

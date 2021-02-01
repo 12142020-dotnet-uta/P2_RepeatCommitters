@@ -45,9 +45,7 @@ export class SongService
 
     deleteMySong(id: number): Observable<void>
     {
-        const headers = new HttpHeaders().append('Content-Type', 'application/json');
-        const params = new HttpParams().append('songid', "" + id);
-        return this.http.get<void>(this.connection + "/Song/DeleteUploadedSong", {headers, params});   
+        return this.http.delete<void>(this.connection + "/Song/DeleteUploadedSong?songid=" + id);
     }
 
     incrementPlays(id: number): Observable<void>
@@ -87,9 +85,7 @@ export class SongService
 
     deleteFavourite(sId: number, uId: number): Observable<void>
     {
-        const headers = new HttpHeaders().append('Content-Type', 'application/json');
-        const params = new HttpParams().append('userId', "" + uId).append('songid', "" + sId);
-        return this.http.get<void>(this.connection + "/Song/DeleteSongFromFavorites", {headers, params});   
+       return this.http.delete<void>(this.connection + "/Song/DeleteSongFromFavorites?userId=" + uId + "&songid=" + sId);
     }
 
     searchOriginalsByLyrics(query: string): Observable<Song[]>
