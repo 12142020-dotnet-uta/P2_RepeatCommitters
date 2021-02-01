@@ -1,5 +1,7 @@
+
+<h1> inHarmony - Share Your Music With Friends and New Fans </h1>
 <div *ngIf="loginService.loggedIn; else elseBlock">
-	<h1> Welcome, {{loginService.loggedInUser.userName}}</h1>
+	<h3> Welcome, {{loginService.loggedInUser.userName}}</h1>
     <h4> You are logged in </h4>
 
     <div style="text-align:center;">
@@ -8,36 +10,15 @@
 </div>
 
 <ng-template #elseBlock>
-    <h4>You are logged out</h4>
+    <h4>You are not logged in</h4>
     <div style="text-align:center;">
         <button routerLink="/registration" routerLinkActive="active" class="btn btn-warning"> Register </button>
         <button routerLink="/login" routerLinkActive="active" class="btn btn-warning"> Log In </button>
     </div>
 </ng-template>
 
+<app-song-summary [song]="homepageSong"></app-song-summary>
 
-<!-- Card Component -->
-<div class="card mb-4">
-    <div class="card-body">
-      <div class="row">
-        <div class="col-lg-6">
-          <a href="#">
-            <img class="img-fluid rounded" src="http://placehold.it/750x300" alt="">
-          </a>
-        </div>
-        <div class="col-lg-6">
-          <h2 class="card-title">Post Title</h2>
-          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-          <a href="#" class="btn btn-primary">Read More &rarr;</a>
-        </div>
-        <app-song-summary [song]="homepageSong"></app-song-summary>
-      </div>
-    </div>
-    <div class="card-footer text-muted">
-      Posted on January 1, 2017 by
-      <a href="#">Start Bootstrap</a>
-    </div>
-</div>
     <!-- Pagination -->
     <ul class="pagination justify-content-center mb-4">
         <li class="page-item">
