@@ -18,7 +18,8 @@ export class AppComponent
 
     logout()
     {
-        this.loginService.loggedIn = false;
+        //this.loginService.loggedIn = false;
         //this.router.navigate(['/']);
+        this.loginService.logoutLocal();
     }
 }

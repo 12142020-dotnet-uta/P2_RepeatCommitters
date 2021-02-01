@@ -198,11 +198,11 @@ namespace RepositoryLayer
             List<Song> songlist = new List<Song>();
             await foreach (var item in songs)
             {
-                if(item.Lyrics != null && item.Lyrics.ToLower().Contains(lowerCasePhrase))
+                if(item.Title != null && item.Title.ToLower().Contains(lowerCasePhrase))
                 {
                     songlist.Add(item);
                 }
-                if(item.Title != null && item.Title.ToLower().Contains(lowerCasePhrase))
+                else if(item.Lyrics != null && item.Lyrics.ToLower().Contains(lowerCasePhrase))
                 {
                     songlist.Add(item);
                 }
