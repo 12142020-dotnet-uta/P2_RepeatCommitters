@@ -21,6 +21,17 @@ body {
     padding-top: 56px;
 }
 
+content {
+    margin: 10px auto;
+    width: 95%;
+    display: block;
+}
+
+iframe{
+    width: 100%;
+    min-height: 300px;
+}
+
 a {
     color: var(--link);
 }

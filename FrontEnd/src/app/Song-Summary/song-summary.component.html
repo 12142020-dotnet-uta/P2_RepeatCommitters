@@ -4,12 +4,12 @@
       <div class="row">
           <!-- If Song is Original-->
         <div *ngIf="song.isOriginal; else elseblock" class="col-lg-6">
-            <iframe width="750px" height="300px" scrolling="no" frameborder="no" allow="autoplay" style="float: left;" [src]="getURL()"></iframe>
+            <iframe scrolling="no" frameborder="no" allow="autoplay" style="float: left;" [src]="getURL()"></iframe>
         </div>
         <!-- Else -->
         <ng-template #elseblock>
             <div *ngIf="song.urlPath; else elseblock2" class="col-lg-6">
-                <iframe [src]="getSpotifyURL()" style="float: right;" width="750px" height="300px" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                <iframe [src]="getSpotifyURL()" style="float: right;"frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             </div>
         </ng-template>
         <!-- Else No Song-->
