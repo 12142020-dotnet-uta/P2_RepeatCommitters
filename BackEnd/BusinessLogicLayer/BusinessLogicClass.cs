@@ -264,13 +264,13 @@ namespace BusinessLogicLayer
         public async Task<Song> IsInDataBase(string artistName, string title)
         {
             Song song = await _repository.GetSongByArtistNameAndTitle(artistName, title);
-            if(song == null)
+            if(song != null)
             {
-                return true;
+                return song;
             }
             else
             {
-                return false;
+                return null;
             }
         }
 
