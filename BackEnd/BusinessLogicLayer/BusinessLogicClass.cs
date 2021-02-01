@@ -222,6 +222,11 @@ namespace BusinessLogicLayer
             await _repository.AcceptRequest(friendToEdit);
         }
 
+        public async Task DeleteFavoritesListForUser(int userId, int songId)
+        {
+            await _repository.DeleteFavoriteListitem(userId, songId);
+        }
+
         /// <summary>
         /// checks to see if the user exists and logs them in if they do. returns null if they dont exist
         /// </summary>
