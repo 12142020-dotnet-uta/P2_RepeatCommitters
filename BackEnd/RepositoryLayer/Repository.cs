@@ -148,7 +148,7 @@ namespace RepositoryLayer
         /// <returns></returns>
         public async Task<List<Song>> GetTop5Originals()
         {
-            var topSongs = (List<Song>)songs.OrderByDescending(x => x.NumberOfPlays);
+            List<Song> topSongs = (List<Song>)songs.OrderByDescending(x => x.NumberOfPlays);
             List<Song> songtoSend = new List<Song>();
             int count = 5;
             for(int i =0; i < count && i < topSongs.Count(); i++)
@@ -223,6 +223,11 @@ namespace RepositoryLayer
             FavoriteList fToDelete = await favoriteLists.FirstOrDefaultAsync(x => x.UserId == userId && x.SongId == songId);
             favoriteLists.Remove(fToDelete);
             await _applicationDbContext.SaveChangesAsync();
+        }
+
+        public async Task<User> GetUserByNameAndPass(string userName)
+        {
+            return await users.FirstOrDefaultAsync(x => x.UserName == userName);
         }
 
         public async Task DeleteUploadedSong(Song song)
