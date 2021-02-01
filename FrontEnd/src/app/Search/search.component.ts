@@ -77,6 +77,7 @@ export class SearchComponent implements OnInit
                                                             result["external_urls"]["spotify"].substring(25), false);
                                         s.albumUrl = result["album"]["images"][0]["url"];
                                         s.lyrics = lyrics;
+                                        s.numberOfPlays = Math.floor(Math.random() * 100);
                                         break;
                                     }
                                 }

@@ -91,6 +91,21 @@ export class SongSummaryComponent implements OnInit
             );
     }
 
+    goToProfile(): void
+    {
+        /*
+        this.loginService.getUser(this.song.artistName).subscribe
+        (
+            (data) => 
+            {
+                if(data)    this.router.navigate(['/profile/' + data.id]);
+                else        alert("User profile does not exist!");
+            },
+            () => alert("Error finding user profile")
+        );
+        */
+    }
+
     saveToDb(): void
     {
         //First we check if it is already in our database. If not, then we upload.
@@ -106,12 +121,24 @@ export class SongSummaryComponent implements OnInit
                     if(!data)
                     {
                         this.song.genre="Rock";//TEMP needs to be fixed
+                        //this.song.numberOfPlays = 1;
                         this.songService.uploadSong(this.song).subscribe
                         (
                             () => console.log(this.song.title + " uploaded to db"),
                             () => alert("Error uploading song")
                         );
                     }
+                    /*
+                    else //Song exists
+                    {
+                        this.song = data;
+                        this.songService.incrementPlays(this.song.id).subscribe
+                        (
+                            () => this.song.numberOfPlays++, 
+                            () => alert("Error Incrementing Plays")
+                        );
+                    }
+                    */
                 },
                 () => alert("Error checking if song exists in db")
             );
