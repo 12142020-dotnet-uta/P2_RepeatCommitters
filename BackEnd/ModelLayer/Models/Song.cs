@@ -37,7 +37,7 @@ namespace ModelLayer.Models
         public string albumUrl { get; set; }
 
         
-        public Song(string artist, string genre, string title, string lyrics, string urlPath, bool isOriginal)
+        public Song(string artist, string genre, string title, string lyrics, string urlPath, bool isOriginal, string alubumurl)
         {
             this.ArtistName = artist;
             this.Genre = genre;
@@ -45,6 +45,7 @@ namespace ModelLayer.Models
             this.Lyrics = lyrics;
             this.UrlPath = urlPath;
             this.isOriginal = isOriginal;
+            this.albumUrl = alubumurl;
         }
 
         public Song()

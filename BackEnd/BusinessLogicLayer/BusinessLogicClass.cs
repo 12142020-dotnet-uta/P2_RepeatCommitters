@@ -33,14 +33,16 @@ namespace BusinessLogicLayer
         public async Task AddSongToFavorites(int songid, int userId)
         {
             List<FavoriteList> AllUsersIdfavoriteLists = await _repository.GetUsersFavorites(userId);
-            foreach (var item in AllUsersIdfavoriteLists)
+            if(AllUsersIdfavoriteLists != null)
             {
-                if (item.SongId == songid)
+                foreach (var item in AllUsersIdfavoriteLists)
                 {
-                    return;
+                    if (item.SongId == songid)
+                    {
+                        return;
+                    }
                 }
             }
-            
             FavoriteList fSong = new FavoriteList(songid, userId);
             await _repository.AddSongToFavorites(fSong);
         }
@@ -254,6 +256,19 @@ namespace BusinessLogicLayer
             }
         }
 
+        public async Task<bool> IsInDataBase(string artistName, string title)
+        {
+            Song song = await _repository.GetSongByArtistNameAndTitle(artistName, title);
+            if(song == null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         public async Task<List<Song>> GetTop5Originals()
         {
             List<Song> songs = await _repository.GetTop5Originals();
@@ -265,9 +280,9 @@ namespace BusinessLogicLayer
             return await _repository.GetOriginalSongByLyrics(phrase);
         }
 
-        public async Task<FriendList> RequestFriend(int userid, int RerequestedFriendId)
+        public async Task<FriendList> RequestFriend(FriendList newF)
         {
-            return await _repository.RequestFriend(userid, RerequestedFriendId);
+            return await _repository.RequestFriend(newF);
         }
 
         public async Task IncrementNUmPlays(int songId)
