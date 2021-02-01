@@ -212,5 +212,32 @@ namespace WhatsThatSong.Controllers
             bool isFavorite = await _businessLogicClass.IsFavorite(songId, userId);
             return isFavorite;
         }
+       
+        /// <summary>
+        /// delets a favoriteslist object form a users favoritesList
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="songId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("DeleteSongFromFavorites")]
+        [EnableCors("AllowOrigin")]
+        public async Task DeleteSongFromFavorites(int userId, int songId)
+        {
+            await _businessLogicClass.DeleteFavoritesListForUser(userId, songId);
+        }
+
+        /// <summary>
+        /// deletes a song from the songs list of uploaded songs
+        /// </summary>
+        /// <param name="songId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("DeleteUploadedSong")]
+        [EnableCors("AllowOrigin")]
+        public async Task DeleteUploadedSong(int songId)
+        {
+            await _businessLogicClass.DeleteUploadedSong(songId);
+        }
     }
 }

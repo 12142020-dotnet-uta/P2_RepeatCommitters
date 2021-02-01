@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RepositoryLayer.Migrations
 {
-    public partial class m11 : Migration
+    public partial class m12 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -98,7 +98,8 @@ namespace RepositoryLayer.Migrations
                     UrlPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     isOriginal = table.Column<bool>(type: "bit", nullable: false),
                     JpgStringSong = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ByteArrayImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true)
+                    ByteArrayImage = table.Column<byte[]>(type: "varbinary(max)", nullable: true),
+                    albumUrl = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

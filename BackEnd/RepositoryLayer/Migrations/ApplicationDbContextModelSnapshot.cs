@@ -167,6 +167,9 @@ namespace RepositoryLayer.Migrations
                     b.Property<string>("UrlPath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("albumUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("isOriginal")
                         .HasColumnType("bit");
 

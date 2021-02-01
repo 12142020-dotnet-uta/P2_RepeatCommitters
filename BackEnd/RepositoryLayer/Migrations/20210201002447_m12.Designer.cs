@@ -10,8 +10,8 @@ using RepositoryLayer;
 namespace RepositoryLayer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210130234937_m11")]
-    partial class m11
+    [Migration("20210201002447_m12")]
+    partial class m12
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -167,6 +167,9 @@ namespace RepositoryLayer.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UrlPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("albumUrl")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("isOriginal")
