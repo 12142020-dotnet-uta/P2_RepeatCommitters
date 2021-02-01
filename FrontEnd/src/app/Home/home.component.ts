@@ -46,6 +46,12 @@ export class HomeComponent implements OnInit
                 this.testSpotify22();
             }
         );
+
+        songService.getHomepageSongs().subscribe
+        (
+            (data) => {this.songIn = data; this.homepageSong = data[0];},
+            () => alert("Error getting Favourites")
+        );
     
 
         //Parse Friend Requests
@@ -111,8 +117,8 @@ export class HomeComponent implements OnInit
         //Test song
         //this.homepageSong = new Song("Moonlight Sonata 3", "Viossy", "Viossy", "Rock", 2010, "https://soundcloud.com/xabcxyzx/drviossy-moonlight-sonata-beethoven-metal-version", false);
         //this.homepageSong = new Song("Joel's Song", "Joel", "Joel's Album", "Rock", 2000, "https://soundcloud.com/00joel/dgnj", true);
-        this.homepageSong = new Song("St. Matthew's Passion", "Bach", "Work", "Orchestral", 2021, "track/5PGo11SpjSti3e6qi3CItZ", false);
-        this.homepageSong.lyrics = "Instrumental";
+        //this.homepageSong = new Song("St. Matthew's Passion", "Bach", "Work", "Orchestral", 2021, "track/5PGo11SpjSti3e6qi3CItZ", false);
+        //this.homepageSong.lyrics = "Instrumental";
     }
 
     search(): void

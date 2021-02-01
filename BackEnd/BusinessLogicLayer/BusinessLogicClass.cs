@@ -259,14 +259,8 @@ namespace BusinessLogicLayer
         public async Task<bool> IsInDataBase(string artistName, string title)
         {
             Song song = await _repository.GetSongByArtistNameAndTitle(artistName, title);
-            if(song == null)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            if(song == null)    return false;
+            else                return true;
         }
 
         public async Task<List<Song>> GetTop5Originals()

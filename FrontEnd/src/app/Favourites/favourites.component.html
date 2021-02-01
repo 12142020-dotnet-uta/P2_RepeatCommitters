@@ -9,7 +9,12 @@
 
     <!-- We need this ngIf to prevent the component loading before songIn is initialized -->
     <div *ngIf="songIn.length > 0">
-        <app-track-list [songIn]="songIn" (foundSongId)="displaySong($event)" (allSongIds)="setBannerSongs($event)"></app-track-list>
+        <div *ngIf="homeUser; else else2">
+            <app-track-list [songIn]="songIn" (foundSongIndex)="displaySong($event)"  [deletable]="homeUser" (deleteIndex)="delete($event)"></app-track-list>
+        </div>
+        <ng-template #else2>
+            <app-track-list [songIn]="songIn" (foundSongIndex)="displaySong($event)"></app-track-list>
+        </ng-template>
     </div>
 </div>
 

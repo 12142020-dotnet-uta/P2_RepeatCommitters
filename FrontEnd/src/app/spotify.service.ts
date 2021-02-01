@@ -20,6 +20,7 @@ export class SpotifyService
     //User Info
     public loggedIn: boolean;
     public access_token: string;
+    //public access_token: string = "BQASLGfsjOyVY1CJ4-JMT844K2m_HYic3cqP5Vxe1f6M8lSYMRu8Ti_IdfJIUG583IlNjdmLWpKRk_YQJ_ZqrrCSi9U9x6-dOL5Rbcpgg0hmHmUBkOd4xFNOsrv5-ifkDvoNYuAXPfY5F1GMxKV0_w7T6b1VLS6WLw";
 
     constructor(private http: HttpClient)
     {

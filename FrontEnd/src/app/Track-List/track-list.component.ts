@@ -12,13 +12,13 @@ import { SongService } from '../song.service';
 
 export class TrackListComponent implements OnInit 
 {
-    @Input() search: string;
     @Input() songIn: Array<Song> = null;
-    @Output() foundSongId = new EventEmitter<number>();
-    @Output() foundSong = new EventEmitter<Song>();
     @Output() foundSongIndex = new EventEmitter<number>();
-    @Output() allSongIds = new EventEmitter<Array<number>>();
     public songs: Array<Song>;
+
+    //Favourites List Fields
+    @Input() deletable: boolean;
+    @Output() deleteIndex = new EventEmitter<number>();
 
     constructor(public songService: SongService){}
   
@@ -31,5 +31,10 @@ export class TrackListComponent implements OnInit
     emitSongIndex(x: number): void
     {
         this.foundSongIndex.emit(x);
+    }
+
+    delete(x: number): void
+    {
+        this.deleteIndex.emit(x);
     }
 }

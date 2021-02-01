@@ -30,6 +30,7 @@ export class Song
         this.numberOfPlays = 0;
         this.lyrics = "";
         //Album URL???
-        this.albumUrl = "";
+        if(o)   this.albumUrl = "https://edm.com/.image/t_share/MTU5NDY5Nzk2NTUzOTI1OTA1/soundcloud.png";
+        else    this.albumUrl = "https://upload.wikimedia.org/wikipedia/commons/e/ea/Spotify_logo_vertical_black.jpg";
     }
 }

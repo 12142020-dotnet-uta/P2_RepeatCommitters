@@ -35,9 +35,9 @@ export class LoginService
 		return this.http.get<User[]>(this.connection + "/user/getAllUsers");
     }
     
-    register(user: User): Observable<User[]>
+    register(user: User): Observable<User>
 	{
-		return this.http.post<User[]>(this.connection + "/user/CreateUser", user);
+		return this.http.post<User>(this.connection + "/user/CreateUser", user);
     }
 
     login(user: User): Observable<User>

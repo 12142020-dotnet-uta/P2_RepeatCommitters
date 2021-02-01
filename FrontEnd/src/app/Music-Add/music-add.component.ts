@@ -26,18 +26,22 @@ export class MusicAddComponent implements OnInit
 	ngOnInit(): void 
 	{
         this.formdata = new FormGroup
-        ({
-			title: new FormControl("", Validators.required),
-			album: new FormControl("", Validators.required),
-			genre: new FormControl("", Validators.required),
-			urlPath: new FormControl("", Validators.required),
-			lyrics: new FormControl("")
-        });	
+        (
+            {
+                title: new FormControl("", Validators.required),
+                album: new FormControl("", Validators.required),
+                genre: new FormControl("", Validators.required),
+                urlPath: new FormControl("", Validators.required),
+                lyrics: new FormControl("")
+            }
+        );	
 	}
 	
 	upload(s: Song): void
 	{
         s.artistName = this.user.userName;
+        s.isOriginal = true;
+        s.albumUrl = "https://edm.com/.image/t_share/MTU5NDY5Nzk2NTUzOTI1OTA1/soundcloud.png";
         //s.year = 2021;
         this.songService.uploadSong(s).subscribe
         (
