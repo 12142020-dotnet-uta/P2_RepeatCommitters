@@ -24,24 +24,56 @@
 
     </header> -->
 
-    <h1> inHarmony - Share Your Music With Friends and New Fans </h1>
-    <div *ngIf="loginService.loggedIn; else elseBlock">
-        <h1> Welcome, {{loginService.loggedInUser.userName}}</h1>
-        <h4> You are logged in </h4>
-    
-        <div style="text-align:center;">
-            <button routerLink="/profile" routerLinkActive="active" class="btn btn-warning"> My Profile </button>
-        </div>
+    <header>
+  <!-- Navigation -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="http://inharmony.azurewebsites.net">inHarmony</a>
+      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Top Songs</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About Us</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li>
+          <li *ngIf="loginService.loggedIn; else loginBlock" class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{loginService.loggedInUser.userName}}
+            </a>
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
+              <a class="dropdown-item" routerLink="/profile" routerLinkActive="active" >View Profile</a>
+              <a class="dropdown-item" href="#">View Friends</a>
+            </div>
+          </li> <!-- End If Logged In Block-->
+            <ng-template #elseBlock>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="/login" routerLinkActive="active">Login</a>
+            </li>
+            </ng-template>
+        </ul>
+      </div>
     </div>
+  </nav>
+    </header>
+
+    <h1> inHarmony - Share Your Music With Friends and New Fans </h1>
+
 
     
-<ng-template #elseBlock>
+<!-- <ng-template #elseBlock>
     <h4>You are logged out</h4>
     <div style="text-align:center;">
         <button routerLink="/registration" routerLinkActive="active" class="btn btn-warning"> Register </button>
         <button routerLink="/login" routerLinkActive="active" class="btn btn-warning"> Log In </button>
     </div>
-</ng-template>
+</ng-template> -->
     
     <router-outlet></router-outlet>
 
