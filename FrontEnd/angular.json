@@ -90,8 +90,11 @@
               "src/assets"
             ],
             "styles": [
+<<<<<<< HEAD
+              "src/styles.css"
+=======
               "src/styles.css",
-              "src/css/custom-styles.css"
+>>>>>>> a038cdacc2dee661d1ef5126084d359d22b574be
             ],
             "scripts": []
           }
