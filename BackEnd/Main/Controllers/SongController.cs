@@ -226,5 +226,18 @@ namespace WhatsThatSong.Controllers
         {
             await _businessLogicClass.DeleteFavoritesListForUser(userId, songId);
         }
+
+        /// <summary>
+        /// deletes a song from the songs list of uploaded songs
+        /// </summary>
+        /// <param name="songId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("DeleteUploadedSong")]
+        [EnableCors("AllowOrigin")]
+        public async Task DeleteUploadedSong(int songId)
+        {
+            await _businessLogicClass.DeleteUploadedSong(songId);
+        }
     }
 }
