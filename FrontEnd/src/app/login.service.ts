@@ -20,7 +20,32 @@ export class LoginService
     //private connection: string = "/api";
     private connection: string = "https://p2pipeline.azurewebsites.net";
 
-    constructor(private http: HttpClient){}
+    constructor(private http: HttpClient)
+    {
+        if(!this.loggedIn)
+        {
+            let json = localStorage.getItem('loggedInUser');
+            if(json != null)
+            {
+                this.loggedInUser = JSON.parse(json);
+                this.loggedIn = true;
+            }
+        }
+    }
+
+    loginLocal(u: User)
+    {
+        this.loggedInUser = u;
+        this.loggedIn = true;
+        localStorage.setItem('loggedInUser', JSON.stringify(u))
+    }
+
+    logoutLocal()
+    {
+        this.loggedIn = false;
+        localStorage.removeItem('loggedInUser');
+    }
+
 
     //HTTP Methods
     getUser(id: number): Observable<User>

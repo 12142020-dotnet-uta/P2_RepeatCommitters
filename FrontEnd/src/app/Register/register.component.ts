@@ -46,9 +46,7 @@ export class RegisterComponent implements OnInit
                     alert("User Already Exists!");
                 else
                 {
-                    //this.loginService.loggedInUser = u;
-                    this.loginService.loggedInUser = data;
-                    this.loginService.loggedIn = true;
+                    this.loginService.loginLocal(data);
                     this.router.navigate(['/']);
                 }
             },
