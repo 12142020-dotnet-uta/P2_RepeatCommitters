@@ -10,7 +10,8 @@ import { Observable } from "rxjs";
 export class SpotifyService 
 {    
     //Connection Constants
-    private authConnection: string = "https://accounts.spotify.com"
+    private connection: string = "https://api.spotify.com/v1";
+    private authConnection: string = "https://accounts.spotify.com";
     private clientId: string = "c81d713ce2b3474d8bfad80c777ae5d5";
     private redirectURL: string = "https://inharmony.azurewebsites.net";
     private redirectURLEncoded: string = "https%3A%2F%2Finharmony.azurewebsites.net";
@@ -39,35 +40,16 @@ export class SpotifyService
 
     authStepTwo(code: string): Observable<any>
     {
-        console.log(code);
-
         const headers = new HttpHeaders().append('Authorization', 'Basic ' + this.authorizationString)
                                             .append('Content-Type', 'application/x-www-form-urlencoded');
-                                            
-        //const params = new HttpParams().append('grant_type', "authorization_code").append('code', code).append('redirect_uri', this.redirectURL);
-        //return this.http.post<any>(this.authConnection + "/api/token", {headers, params});
         const payload = new HttpParams().set('grant_type', "authorization_code").set('code', code).append('redirect_uri', this.redirectURL);
         return this.http.post<any>(this.authConnection + "/api/token", payload, {headers: headers}); 
-        //const body = new URLSearchParams();
-        //body.set('grant_type', "authorization_code");
-        //body.set('code', code);
-        //body.set('redirect_uri', this.redirectURL);
-        //return this.http.post<any>(this.authConnection + "/api/token", body.toString(), {headers: headers}); 
-        /*
-        return this.http.post<any>(this.authConnection + "/api/token", 
-        {
-            params: {
-              grant_type : "authorization_code",
-              code : code,
-              redirect_uri : this.redirectURL
-            },
-            headers: {
-              'Authorization' : "Basic " + this.authorizationString,
-              'Content-Type':'application/x-www-form-urlencoded'
-            }
-          });
-          */
-        //return this.http.post<any>(this.authConnection + "/api/token?grant_type=authorization_code&code=" + code
-        //                                                        + "&redirect_uri=" + this.redirectURL, {headers: headers});
+    }
+
+    
+    searchTracks(query: string): Observable<any>
+    {
+        const headers = new HttpHeaders().append('Authorization', 'Bearer ' + this.access_token);
+        return this.http.get<any>(this.connection + "/search?q=" + query + "&type=track&limit=10", {headers: headers}); 
     }
 }

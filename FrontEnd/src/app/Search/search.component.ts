@@ -5,6 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Song } from '../song';
 import { SongService } from '../song.service';
 import { GeniusService } from '../genius.service';
+import { SpotifyService } from '../spotify.service';
 
 @Component
 ({
@@ -22,7 +23,8 @@ export class SearchComponent implements OnInit
     public selectedSong: Song;
     public selectedSongIndex: number; //For the Banner
 
-    constructor(public songService: SongService, public geniusService: GeniusService, private route: ActivatedRoute, private router: Router)
+    constructor(public songService: SongService, public geniusService: GeniusService, public spotifyService: SpotifyService,
+                        private route: ActivatedRoute, private router: Router)
     {
         route.queryParams.pipe(filter(params => params.query))
         .subscribe(params => 
@@ -30,27 +32,62 @@ export class SearchComponent implements OnInit
             this.query = params.query;
         });
 
-        songService.searchOriginalsByLyrics(this.query).subscribe
-        (
-            (data) => this.songIn = data,
-            () => alert("Error Searching")
-        );
-
-        geniusService.search(this.query).subscribe
-        (
-            (data) =>
-            {
-                const results = data["response"]["hits"];
-                for(let x = 0; x < results.length; x++)
+        if(this.query.length > 2)
+        {
+            songService.searchOriginalsByLyrics(this.query).subscribe
+            (
+                (data) => 
                 {
-                    const result = results[x]["result"];
-                    let s = new Song(result["title"], result["primary_artist"]["name"], "", "", 2021, "", false);
-                    this.songIn.push(s);
-                }
-                console.log("Success");
-            },
-            () => alert("Error with Genius API")
-        );
+                    for(let x = 0; x < data.length; x++)
+                        this.songIn.push(data[x]);
+                },
+                () => alert("Error Searching")
+            );
+
+            geniusService.search(this.query).subscribe
+            (
+                (data) =>
+                {
+                    const results = data["response"]["hits"];
+                    for(let x = 0; x < results.length; x++)
+                    {
+                        const result = results[x]["result"];
+
+                        const title = result["title"];
+                        const artistName = result["primary_artist"]["name"];
+                        const lyrics = result["path"];
+                        let s = new Song(result["title"], result["primary_artist"]["name"], "", "", 2021, "", false);
+                        s.lyrics = result["path"];
+
+                        //Get Spotify Info
+                        this.spotifyService.searchTracks(title).subscribe
+                        (
+                            (data) =>
+                            {
+                                const results = data["tracks"]["items"];
+                                for(let x = 0; x < results.length; x++)
+                                {
+                                    const result = results[x];
+                                    if(result["artists"][0]["name"].toLowerCase() == artistName.toLowerCase())
+                                    {
+                                        s = new Song(title, artistName, result["album"]["name"], "", 
+                                                            parseInt(result["album"]["release_date"].slice(0, 4)), 
+                                                            result["external_urls"]["spotify"].substring(25), false);
+                                        s.albumUrl = result["album"]["images"][0]["url"];
+                                        s.lyrics = lyrics;
+                                        break;
+                                    }
+                                }
+                                this.songIn.push(s);
+                            },
+                            () => alert("Error with Spotify API")
+                        );
+                    }
+                    console.log("Success");
+                },
+                () => alert("Error with Genius API")
+            );
+        }
 
         router.routeReuseStrategy.shouldReuseRoute = function () 
         {
@@ -96,17 +133,46 @@ export class SearchComponent implements OnInit
 
     testGenius(): void
     {
-        this.geniusService.search(this.query).subscribe
+        this.geniusService.search("The sin I bring").subscribe
         (
             (data) =>
             {
                 const results = data["response"]["hits"];
-                const result = data[0]["result"];
-                let s = new Song(result["title"], result["primary_artist"]["name"], "", "", 2021, "", false);
-                this.songIn.push(s);
-                alert("Success");
+                for(let x = 0; x < results.length; x++)
+                {
+                    const result = results[x]["result"];
+                    let s = new Song(result["title"], result["primary_artist"]["name"], "", "", 2021, "", false);
+                    this.songIn.push(s);
+                    console.log(result["title"]);
+                }
             },
             () => alert("Error with Genius API")
+        );
+    }
+
+    testSpotify(): void
+    {
+        const title: string = "Rosenrot";
+        const artistName: string = "Rammstein";
+        this.spotifyService.searchTracks(title).subscribe
+        (
+            (data) =>
+            {
+                const results = data["tracks"]["items"];
+                for(let x = 0; x < results.length; x++)
+                {
+                    const result = results[x];//["album"];
+                    if(result["artists"][0]["name"].toLowerCase() == artistName.toLowerCase())
+                    {
+                        let s = new Song(result["name"], result["artists"][0]["name"], result["album"]["name"], "", 
+                                            parseInt(result["album"]["release_date"].slice(0, 4)), 
+                                            result["external_urls"]["spotify"].substring(25), false);
+                        this.songIn.push(s);
+                        console.log(result["name"]);
+                    }
+                }
+            },
+            () => alert("Error with Spotify API")
         );
     }
 }

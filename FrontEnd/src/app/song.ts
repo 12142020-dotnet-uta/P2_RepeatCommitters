@@ -14,6 +14,7 @@ export class Song
     public duration: string;
     public albumURL: string;
     public lyrics: string;
+    public albumUrl: string;
     //public similarSongs: Array<Song>;
 
     constructor(t: string, art: string, al: string, g: string, y: number, url: string, o: boolean)
@@ -29,5 +30,6 @@ export class Song
         this.numberOfPlays = 0;
         this.lyrics = "";
         //Album URL???
+        this.albumUrl = "";
     }
 }
