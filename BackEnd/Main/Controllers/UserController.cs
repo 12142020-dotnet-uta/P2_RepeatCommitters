@@ -25,28 +25,13 @@ namespace WhatsThatSong.Controllers
             _businessLogicClass = businessLogicClass;
             _logger = logger;
         }
-        /*
-        [HttpPost]
-        [Route("CreateUser")]
-        public async Task<UserProfileViewModel> CreateUser(string userName, string password, string email)
-        {
-            User newUser = await _businessLogicClass.CreatNewBC(userName, password, email);
-            UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
-            if(newUser != null)
-            {
-                return UPVM;
-            }
-            else
-            {
-                return null;
-            }
-        }
-        */
+		/*
         [HttpPost]
         [Route("CreateUser")]
         [EnableCors("AllowOrigin")]
         public async Task<UserProfileViewModel> CreateUser(User u)
         {
+			
             User newUser = await _businessLogicClass.CreatNewBC(u.UserName, u.Password, u.Email);
             if (newUser != null)
             {
@@ -58,6 +43,15 @@ namespace WhatsThatSong.Controllers
                 return null;
             }
         }
+		*/
+		[HttpPost]
+        [Route("CreateUser")]
+        [EnableCors("AllowOrigin")]
+        public async Task<User> CreateUser(User u)
+        {
+			
+            return await _businessLogicClass.CreatNewBC(u.UserName, u.Password, u.Email);
+        }
 
         [HttpGet]
         [Route("login")]
@@ -65,30 +59,10 @@ namespace WhatsThatSong.Controllers
         //public async Task<UserProfileViewModel> login(string userName, string password)
         public async Task<User> login(string userName, string password)
         {
-            //User LoggedInUser = await _businessLogicClass.LoginUser(userName, password);
             return await _businessLogicClass.LoginUser(userName, password);
-            //if (LoggedInUser != null)
-            //return loggedInUser;
-            //return await _businessLogicClass.GetUserProfileViewModel(LoggedInUser.Id);
-            //else
-            //return null;
-        }
+		}
 
-        /*   
-           [HttpPost]
-           [Route("login")]
-           public async Task<UserProfileViewModel> login(User u)
-           {
-               User LoggedInUser = await _businessLogicClass.LoginUser(u.UserName, u.Password);
-               UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(LoggedInUser.Id);
-
-               if (LoggedInUser != null)
-               {
-                   return UPVM;
-               }
-                   return null;
-           }
-           */
+        
         /// <summary>
         /// Gets the user to edit
         /// </summary>
