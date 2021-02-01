@@ -1,4 +1,4 @@
-<!-- <div *ngIf="loginService.loggedIn; else elseBlock">
+<div *ngIf="loginService.loggedIn; else elseBlock">
 	<h1> Welcome, {{loginService.loggedInUser.userName}}</h1>
     <h4> You are logged in </h4>
 
@@ -13,7 +13,7 @@
         <button routerLink="/registration" routerLinkActive="active" class="btn btn-warning"> Register </button>
         <button routerLink="/login" routerLinkActive="active" class="btn btn-warning"> Log In </button>
     </div>
-</ng-template> -->
+</ng-template>
 
 
 <!-- Card Component -->
@@ -56,7 +56,6 @@
     <button class="btn btn-success" (click)="testSpotify2()"> Spotify Login </button>
 </div> -->
 
-<app-song-summary [song]="homepageSong"></app-song-summary>
 
 <span>
     <form (ngSubmit)="search()">
@@ -85,14 +84,17 @@
     </form>
 </span>
 
-<!--
-<div>
-    <button (click)="testGenius()"> Test Genius</button>
-    <button (click)="testGenius2()"> Part 2 </button>
-</div>
--->
 
-<iframe src="https://open.spotify.com/embed/track/5PGo11SpjSti3e6qi3CItZ" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-artist/12Chz98pHFMPJEknJQMWvI
-album/4ovjS3yvn1WNjtrUQWwlnd
-track/5PGo11SpjSti3e6qi3CItZ
+<h2 style="margin: 40px;"> Best Songs Ever </h2>
+
+
+<span *ngIf="homepageSong">
+    <button class="w3-button w3-black w3-display-left" (click)="getPrevBannerSong()">&#10094;</button>
+    <app-song-summary [song]="homepageSong"></app-song-summary>
+    <button class="w3-button w3-black w3-display-right" (click)="getNextBannerSong()">&#10095;</button>
+</span>
+
+<!-- We need this ngIf to prevent the component loading before songIn is initialized -->
+<div *ngIf="songIn.length > 0">
+    <app-track-list [songIn]="songIn" (foundSongIndex)="displaySong($event)"></app-track-list>
+</div>

@@ -26,19 +26,14 @@ export class SongService
         return this.http.get<Song>(this.connection + "/Song/getSong", {headers, params});
     }
 
-    getAllSongs(): Observable<Song[]>
+    getHomepageSongs(): Observable<Song[]>
     {
-        return this.http.get<Song[]>(this.connection + "/song");
+        return this.http.get<Song[]>(this.connection + "/Song/getTop5Originals");
     }
 
-    editSong(id: number, s: Song): Observable<Song[]>
+    uploadSong(s: Song): Observable<void>
     {
-        return this.http.put<Song[]>(this.connection + "/song/" + id, s);
-    }
-
-    uploadSong(s: Song): Observable<Song>
-    {
-        return this.http.post<Song>(this.connection + "/Song/uploadSong", s);
+        return this.http.post<void>(this.connection + "/Song/uploadSong", s);
     }
 
     getUserSongs(uId: number): Observable<Song[]>
@@ -46,6 +41,13 @@ export class SongService
         const headers = new HttpHeaders().append('Content-Type', 'application/json');
         const params = new HttpParams().append('id', "" + uId);
         return this.http.get<Song[]>(this.connection + "/Song/GetAllSongsByACertainUser", {headers, params});
+    }
+
+    deleteMySong(id: number): Observable<void>
+    {
+        const headers = new HttpHeaders().append('Content-Type', 'application/json');
+        const params = new HttpParams().append('songid', "" + id);
+        return this.http.get<void>(this.connection + "/Song/DeleteUploadedSong", {headers, params});   
     }
 
     incrementPlays(id: number): Observable<void>
@@ -79,14 +81,28 @@ export class SongService
     isFavourite(sId: number, uId: number): Observable<boolean>
     {
         const headers = new HttpHeaders().append('Content-Type', 'application/json');
-        const params = new HttpParams().append('songid', "" + sId).append('userId', "" + uId);
+        const params = new HttpParams().append('songId', "" + sId).append('userId', "" + uId);
         return this.http.get<boolean>(this.connection + "/Song/isSongAlreadyAFavorite", {headers, params});   
+    }
+
+    deleteFavourite(sId: number, uId: number): Observable<void>
+    {
+        const headers = new HttpHeaders().append('Content-Type', 'application/json');
+        const params = new HttpParams().append('userId', "" + uId).append('songid', "" + sId);
+        return this.http.get<void>(this.connection + "/Song/DeleteSongFromFavorites", {headers, params});   
     }
 
     searchOriginalsByLyrics(query: string): Observable<Song[]>
     {
         const headers = new HttpHeaders().append('Content-Type', 'application/json');
-        const params = new HttpParams().append('phrase', "" + query);
+        const params = new HttpParams().append('phrase', query);
         return this.http.get<Song[]>(this.connection + "/Song/getOriginalsongsByLyrics", {headers, params});   
+    }
+
+    songExists(title: string, artist: string): Observable<boolean>
+    {
+        const headers = new HttpHeaders().append('Content-Type', 'application/json');
+        const params = new HttpParams().append('artistName', artist).append('title', title);
+        return this.http.get<boolean>(this.connection + "/Song/IsSongInDb", {headers, params});   
     }
 }

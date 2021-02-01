@@ -21,11 +21,13 @@ export class SearchUsersComponent implements OnInit
   
     ngOnInit(): void 
     {
-        this.route.queryParams.pipe(filter(params => params.query))
-                .subscribe(params => 
-                {
-                    this.query = params.query;
-                });
+        this.route.queryParams.pipe(filter(params => params.query)).subscribe
+        ( 
+            params => 
+            { 
+                this.query = params.query; 
+            } 
+        );
         
         this.router.routeReuseStrategy.shouldReuseRoute = function () 
         {

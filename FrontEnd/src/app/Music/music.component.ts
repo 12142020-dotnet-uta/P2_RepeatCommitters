@@ -26,13 +26,16 @@ export class MusicComponent implements OnInit
     constructor(public loginService: LoginService, public songService: SongService, private route: ActivatedRoute, private router: Router)
     {
         let id: number;
-        route.params.subscribe(params => 
-                {
-                    if(params.id)  id = params['id'];
-                    else           id = -1;
-                });
+        route.params.subscribe
+        (
+            params => 
+            {
+                if(params.id)  id = params['id'];
+                else           id = -1;
+            }
+        );
                 
-        if(id == loginService.loggedInUser.id || id == -1)
+        if(id == -1 || (this.loginService.loggedIn && this.loginService.loggedInUser.id == id))
         {
             this.user = loginService.loggedInUser;
             this.homeUser = true;
@@ -53,7 +56,6 @@ export class MusicComponent implements OnInit
                 {
                     this.user = data;
                     this.homeUser = false;
-                    //this.songIn = data.songs; 
 
                     //Get Songs
                     songService.getUserSongs(this.user.id).subscribe
@@ -78,6 +80,28 @@ export class MusicComponent implements OnInit
         this.songSelected = true;
         this.selectedSongIndex = x;
     }  
+
+    delete(x: number)
+    {
+        this.deleteFromFavourites(this.songIn[x], x);
+    }
+
+    deleteFromFavourites(s: Song, index: number)
+    {
+        if(this.homeUser)
+        {
+            this.songService.deleteMySong(s.id).subscribe
+            (
+                () =>
+                {
+                    this.songIn.splice(index, 1);
+                },
+                () => alert("Error Deleting from favourites")
+            );
+        }
+        else    alert("You do not have permission to delete these items!");
+    }
+
 
     //Routing Methods
     addSong(): void

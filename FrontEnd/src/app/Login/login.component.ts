@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
-import { HttpClient } from '@angular/common/http';
 
 import { LoginService } from "../login.service";
 import { User } from "../user";
@@ -22,10 +21,12 @@ export class LoginComponent implements OnInit
     ngOnInit(): void
     {
         this.formdata = new FormGroup
-        ({
-            userName: new FormControl("", Validators.required),
-            password: new FormControl("", Validators.required)
-        });
+        (
+            {
+                userName: new FormControl("", Validators.required),
+                password: new FormControl("", Validators.required)
+            }
+        );
     }
 
     login(user: User): void
@@ -37,8 +38,8 @@ export class LoginComponent implements OnInit
             {
                 if(data)
                 {
-                    this.loginService.loggedIn = true;
                     this.loginService.loggedInUser = data;
+                    this.loginService.loggedIn = true;
                     this.router.navigate(['/']);
                 }
                 else

@@ -148,15 +148,19 @@ namespace RepositoryLayer
         /// <returns></returns>
         public async Task<List<Song>> GetTop5Originals()
         {
-            var topSongs = (List<Song>)songs.OrderByDescending(x => x.NumberOfPlays);
+			IOrderedQueryable<Song> topSongs = songs.OrderByDescending(x => x.NumberOfPlays);
             List<Song> songtoSend = new List<Song>();
-            int count = 5;
-            for(int i =0; i < count && i < topSongs.Count(); i++)
+
+            int max = 5, count = 0;
+            foreach(Song x in topSongs)
             {
-                songtoSend.Add(topSongs[i]);
+                if(count >= max)    break;
+           
+                songtoSend.Add(x);
+                count++;
             }
             
-            return (List<Song>)songtoSend; 
+            return songtoSend; 
            
         }
 

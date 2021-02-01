@@ -1,7 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 import { ProfileEditComponent } from './profile-edit.component';
 
 describe('ProfileEditComponent', () => {
@@ -10,7 +8,6 @@ describe('ProfileEditComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule],
       declarations: [ ProfileEditComponent ]
     })
     .compileComponents();
@@ -22,7 +19,7 @@ describe('ProfileEditComponent', () => {
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   expect(component).toBeTruthy();
-  // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

@@ -20,17 +20,17 @@ export class RegisterComponent implements OnInit
 	ngOnInit(): void 
 	{
         this.formdata = new FormGroup
-        ({
-            //firstName: new FormControl("", Validators.required),
-            //lastName: new FormControl("", Validators.required),
-            email: new FormControl("", [Validators.required, Validators.email]),
-			userName: new FormControl("", Validators.required),
-			password: new FormControl("", Validators.required),
-			rePassword: new FormControl("", Validators.required)
-        },
-        {
+        (
+            {
+                email: new FormControl("", [Validators.required, Validators.email]),
+                userName: new FormControl("", Validators.required),
+                password: new FormControl("", Validators.required),
+                rePassword: new FormControl("", Validators.required)
+            },
+            {
             validators: this.PasswordValidator
-        });	
+            }
+        );	
 	}
 	
 	register(user: User): void
@@ -46,7 +46,8 @@ export class RegisterComponent implements OnInit
                     alert("User Already Exists!");
                 else
                 {
-                    this.loginService.loggedInUser = u;
+                    //this.loginService.loggedInUser = u;
+                    this.loginService.loggedInUser = data;
                     this.loginService.loggedIn = true;
                     this.router.navigate(['/']);
                 }
