@@ -234,7 +234,9 @@ namespace WhatsThatTest
                     Email = "johnnytest123@zmail.com"
                 };
 
-                var friendRequest = await businessLogicClass.RequestFriend(user1.Id, user2.Id);
+                var fl = new FriendList { FriendId=user1.Id, RequestedFriendId=user2.Id };
+
+                var friendRequest = await businessLogicClass.RequestFriend(fl);
                 Assert.NotNull(friendRequest);
             }
         }
@@ -343,7 +345,7 @@ namespace WhatsThatTest
                     };
 
                     // instantiate friend list
-                    FriendList fl = new FriendList(user1.Id, user2.Id);
+                    FriendList fl = new FriendList(user1.Id, user2.Id, user2.UserName, user1.UserName);
                     _repository.friendList.Add(fl);
                     context.SaveChanges();
 
@@ -876,7 +878,7 @@ namespace WhatsThatTest
                 _repository.users.Add(user2);
                 context.SaveChanges();
 
-                var fl = new FriendList(user1.Id, user2.Id);
+                var fl = new FriendList(user1.Id, user2.Id, user1.UserName, user2.UserName);
                 _repository.friendList.Add(fl);
                 context.SaveChanges();
 

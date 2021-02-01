@@ -50,7 +50,7 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                Task<UserProfileViewModel> upvm = userController.CreateUser(user);
+                Task<User> upvm = userController.CreateUser(user);
                 Assert.NotNull(upvm);
             }
         }
@@ -80,7 +80,7 @@ namespace WhatsThatTest
                     Email = "johnnytest123@email.com"
                 };
 
-                Task<UserProfileViewModel> upvm = userController.CreateUser(user);
+                Task<User> upvm = userController.CreateUser(user);
                 Task<User> upvm2 = userController.login(user.UserName, user.Password);
                 Assert.NotNull(upvm2);
             }
