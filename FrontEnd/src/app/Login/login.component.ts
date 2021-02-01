@@ -38,8 +38,7 @@ export class LoginComponent implements OnInit
             {
                 if(data)
                 {
-                    this.loginService.loggedInUser = data;
-                    this.loginService.loggedIn = true;
+                    this.loginService.loginLocal(data);
                     this.router.navigate(['/']);
                 }
                 else
