@@ -22,11 +22,11 @@
             </ng-template>
 
             Title: {{song.title}}<br/>
-            <!--
+            
             <span *ngIf="song.isOriginal; else notOriginal"> <a (click)="goToProfile()">Artist: {{song.artistName}}</a> </span>
             <ng-template #notOriginal>Artist: {{song.artistName}}</ng-template>
-            -->
-            Artist: {{song.artistName}}
+            
+            <!-- Artist: {{song.artistName}} -->
             <span *ngIf="song.album && song.album.length > 0"><br/>Album: {{song.album}}</span>
             <!-- <span *ngIf="song.genre && song.genre.length > 0"><br/>Genre: {{song.genre}}</span> -->
             <span *ngIf="song.year && song.year > 0"><br/>Year: {{song.year}}</span><br/>

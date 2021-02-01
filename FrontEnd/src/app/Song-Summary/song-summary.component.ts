@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 
 import { LoginService } from '../login.service';
 import { Song } from '../song';
@@ -20,7 +21,7 @@ export class SongSummaryComponent implements OnInit
     public isFavourite: boolean = false;
 
     constructor(public loginService: LoginService, public songService: SongService, public spotifyService: SpotifyService,
-                    public sanitizer: DomSanitizer){}
+                    private router: Router, public sanitizer: DomSanitizer){}
   
     ngOnInit(): void 
     {
@@ -93,8 +94,7 @@ export class SongSummaryComponent implements OnInit
 
     goToProfile(): void
     {
-        /*
-        this.loginService.getUser(this.song.artistName).subscribe
+        this.loginService.getUserByUsername(this.song.artistName).subscribe
         (
             (data) => 
             {
@@ -103,7 +103,6 @@ export class SongSummaryComponent implements OnInit
             },
             () => alert("Error finding user profile")
         );
-        */
     }
 
     saveToDb(): void
@@ -121,14 +120,12 @@ export class SongSummaryComponent implements OnInit
                     if(!data)
                     {
                         this.song.genre="Rock";//TEMP needs to be fixed
-                        //this.song.numberOfPlays = 1;
                         this.songService.uploadSong(this.song).subscribe
                         (
                             () => console.log(this.song.title + " uploaded to db"),
                             () => alert("Error uploading song")
                         );
                     }
-                    /*
                     else //Song exists
                     {
                         this.song = data;
@@ -138,7 +135,6 @@ export class SongSummaryComponent implements OnInit
                             () => alert("Error Incrementing Plays")
                         );
                     }
-                    */
                 },
                 () => alert("Error checking if song exists in db")
             );

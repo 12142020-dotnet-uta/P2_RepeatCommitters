@@ -49,7 +49,12 @@ export class HomeComponent implements OnInit
 
         songService.getHomepageSongs().subscribe
         (
-            (data) => {this.songIn = data; this.homepageSong = data[0];},
+            (data) => 
+            {
+                this.songIn = data; 
+                this.displaySong(0);
+                //this.displaySong(Math.floor(Math.random() * 5)); //5 = # of top songs displayed
+            },
             () => alert("Error getting Favourites")
         );
     
@@ -111,10 +116,10 @@ export class HomeComponent implements OnInit
   
     ngOnInit(): void 
     {
-        //this.homepageSong = songService.songs[0];
-        //this.displaySong(Math.floor(Math.random() * 12));
+        //this.displaySong(0);
+        //this.displaySong(Math.floor(Math.random() * 5)); //5 = # of top songs displayed
 
-        //Test song
+        //Test songs
         //this.homepageSong = new Song("Moonlight Sonata 3", "Viossy", "Viossy", "Rock", 2010, "https://soundcloud.com/xabcxyzx/drviossy-moonlight-sonata-beethoven-metal-version", false);
         //this.homepageSong = new Song("Joel's Song", "Joel", "Joel's Album", "Rock", 2000, "https://soundcloud.com/00joel/dgnj", true);
         //this.homepageSong = new Song("St. Matthew's Passion", "Bach", "Work", "Orchestral", 2021, "track/5PGo11SpjSti3e6qi3CItZ", false);
