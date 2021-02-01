@@ -21,6 +21,8 @@ steps:
     cliProjectKey: 'inharmony-portal'
     cliProjectName: 'inHarmony'
     cliSources: './FrontEnd/'
+    extraProperties: |
+      sonar.exclusions= **/FrontEnd/src/vendor/**
 
 
 - task: NodeTool@0
