@@ -95,9 +95,9 @@ namespace RepositoryLayer
             await _applicationDbContext.SaveChangesAsync();
         }
 
-        public async Task<FriendList> RequestFriend(int userId, int RerequestedFriendId)
+        public async Task<FriendList> RequestFriend(FriendList fl)
         {
-            FriendList request = new FriendList(userId, RerequestedFriendId);
+            FriendList request = fl;
             await friendList.AddAsync(request);
             await _applicationDbContext.SaveChangesAsync();
             return request;
@@ -148,25 +148,16 @@ namespace RepositoryLayer
         /// <returns></returns>
         public async Task<List<Song>> GetTop5Originals()
         {
-            int count = 0;
-            List<Song> allSongs = await getAllSongs();
-            List<Song> fiveSongs = new List<Song>();
-            do
+            var topSongs = (List<Song>)songs.OrderByDescending(x => x.NumberOfPlays);
+            List<Song> songtoSend = new List<Song>();
+            int count = 5;
+            for(int i =0; i < count && i < topSongs.Count(); i++)
             {
-                Song highest = new Song();
-                foreach (var item in allSongs)
-                {
-                    if(item.NumberOfPlays > highest.NumberOfPlays)
-                    {
-                        highest = item;
-                    }
-                }
-                fiveSongs.Add(highest);
-                allSongs.Remove(highest);
-                count++;
+                songtoSend.Add(topSongs[i]);
             }
-            while (fiveSongs.Count < 5);
-            return fiveSongs; 
+            
+            return (List<Song>)songtoSend; 
+           
         }
 
         public async Task IncrementNumPlays(int songId)
@@ -262,6 +253,13 @@ namespace RepositoryLayer
             await _applicationDbContext.SaveChangesAsync();
             return UserInDb;
         }
+
+        public async Task<Song> GetSongByArtistNameAndTitle(string artistName, string title)
+        {
+            return await songs.FirstOrDefaultAsync(x => x.ArtistName == artistName && x.Title == title);
+        }
+
+
 
         /// <summary>
         /// creates a new user

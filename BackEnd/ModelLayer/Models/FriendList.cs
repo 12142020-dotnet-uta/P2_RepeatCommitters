@@ -24,10 +24,12 @@ namespace ModelLayer.Models
         public string FromUsername { get; set; }
 
         public FriendList() { }
-        public FriendList(int userid, int requestedFriendid)
+        public FriendList(int userid, int requestedFriendid, string touserName,string fromuserName)
         {
-            FriendId = userid;
-            RequestedFriendId = requestedFriendid;
+            this.FriendId = userid;
+            this.RequestedFriendId = requestedFriendid;
+            this.ToUsername = touserName;
+            this.FromUsername = fromuserName;
         }
     }
 }

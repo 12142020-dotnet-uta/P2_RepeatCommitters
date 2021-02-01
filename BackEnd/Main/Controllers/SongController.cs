@@ -98,7 +98,7 @@ namespace WhatsThatSong.Controllers
         [EnableCors("AllowOrigin")]
         public async Task UploadSong(Song song)
         {
-            Song s = new Song(song.ArtistName, song.Genre, song.Title, song.Lyrics, song.UrlPath, true);
+            Song s = new Song(song.ArtistName, song.Genre, song.Title, song.Lyrics, song.UrlPath, song.isOriginal, song.albumUrl);
             await _businessLogicClass.SaveSong(s);
 
         }
@@ -238,6 +238,19 @@ namespace WhatsThatSong.Controllers
         public async Task DeleteUploadedSong(int songId)
         {
             await _businessLogicClass.DeleteUploadedSong(songId);
+        }
+
+        /// <summary>
+        /// returns a bool to see in a song is in the database
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("IsSongInDb")]
+        [EnableCors("AllowOrigin")]
+        public async Task<bool> IsSongInDb(string artistName, string title)
+        {
+            bool isInDataBase = await _businessLogicClass.IsInDataBase(artistName, title);
+            return isInDataBase;
         }
     }
 }

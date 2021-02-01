@@ -45,18 +45,10 @@ namespace WhatsThatSong.Controllers
         [HttpPost]
         [Route("CreateUser")]
         [EnableCors("AllowOrigin")]
-        public async Task<UserProfileViewModel> CreateUser(User u)
+        public async Task<User> CreateUser(User u)
         {
-            User newUser = await _businessLogicClass.CreatNewBC(u.UserName, u.Password, u.Email);
-            if (newUser != null)
-            {
-                UserProfileViewModel UPVM = await _businessLogicClass.GetUserProfileViewModel(newUser.Id);
-                return UPVM;
-            }
-            else
-            {
-                return null;
-            }
+
+            return await _businessLogicClass.CreatNewBC(u.UserName, u.Password, u.Email);
         }
 
         [HttpGet]
@@ -131,9 +123,8 @@ namespace WhatsThatSong.Controllers
         [EnableCors("AllowOrigin")]
         public async Task FriendRequest(FriendList fl)
         {
-
-            await _businessLogicClass.RequestFriend(fl.FriendId, fl.RequestedFriendId);
-            // User LoggedInUser = await _businessLogicClass.GetUserByIdAsync(userId);
+            FriendList newf = new FriendList(fl.FriendId, fl.RequestedFriendId, fl.ToUsername, fl.FromUsername);
+            await _businessLogicClass.RequestFriend(newf);
         }
 
 
