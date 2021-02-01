@@ -24,7 +24,24 @@
 
     </header> -->
 
-    <h1> Whats That Song??? </h1>
+    <h1> inHarmony - Share Your Music With Friends and New Fans </h1>
+    <div *ngIf="loginService.loggedIn; else elseBlock">
+        <h1> Welcome, {{loginService.loggedInUser.userName}}</h1>
+        <h4> You are logged in </h4>
+    
+        <div style="text-align:center;">
+            <button routerLink="/profile" routerLinkActive="active" class="btn btn-warning"> My Profile </button>
+        </div>
+    </div>
+
+    
+<ng-template #elseBlock>
+    <h4>You are logged out</h4>
+    <div style="text-align:center;">
+        <button routerLink="/registration" routerLinkActive="active" class="btn btn-warning"> Register </button>
+        <button routerLink="/login" routerLinkActive="active" class="btn btn-warning"> Log In </button>
+    </div>
+</ng-template>
     
     <router-outlet></router-outlet>
 
