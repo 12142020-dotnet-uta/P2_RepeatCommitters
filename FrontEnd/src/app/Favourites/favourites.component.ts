@@ -14,6 +14,7 @@ import { SongService } from '../song.service';
 
 export class FavouritesComponent implements OnInit 
 {
+    public homeUser: boolean;
     public songIn: Array<Song> = new Array<Song>();
     public songSelected: boolean;
     public selectedSong: Song;
@@ -22,11 +23,17 @@ export class FavouritesComponent implements OnInit
     constructor(public loginService: LoginService, public songService: SongService, private route: ActivatedRoute)
     {
         let id: number;
-        route.params.subscribe(params => 
-                {
-                    if(params.id)  id = params['id'];
-                    else           id = -1;
-                });
+        route.params.subscribe
+        (
+            params => 
+            {
+                if(params.id)  id = params['id'];
+                else           id = -1;
+            }
+        );
+                
+        if(id == -1 || this.loginService.loggedInUser.id == id)  this.homeUser = true;
+        else    this.homeUser = false;
 
         //Just in case
         if(id == -1 && loginService.loggedIn)  id = loginService.loggedInUser.id;
@@ -49,6 +56,27 @@ export class FavouritesComponent implements OnInit
         this.songSelected = true;
         this.selectedSongIndex = x;
     }  
+
+    delete(x: number)
+    {
+        this.deleteFromFavourites(this.songIn[x], x);
+    }
+
+    deleteFromFavourites(s: Song, index: number)
+    {
+        if(this.homeUser)
+        {
+            this.songService.deleteFavourite(s.id, this.loginService.loggedInUser.id).subscribe
+            (
+                () =>
+                {
+                    this.songIn.splice(index, 1);
+                },
+                () => alert("Error Deleting from favourites")
+            );
+        }
+        else    alert("You do not have permission to delete these items!");
+    }
     
     //Banner Methods
     getNextBannerSong(): void

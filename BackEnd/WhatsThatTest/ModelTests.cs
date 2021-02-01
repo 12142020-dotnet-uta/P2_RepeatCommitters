@@ -448,7 +448,7 @@ namespace WhatsThatTest
             Assert.Equal(0, errorcount);
 
             // overload song
-            var song2 = new Song("z", "Rock", "Du Hast", "", "", false);
+            var song2 = new Song("z", "Rock", "Du Hast", "", "", false, "");
             errorcount = ValidateModel(song2).Count;
             Assert.Equal(0, errorcount);
 

@@ -22,6 +22,7 @@ https://api.genius.com/oauth/authorize?client_id=PtPJ6dadTTUzZ-kQTxs5EBhD4hHaA61
 
 
 
+
 Passwords:
 SpotifyRevature
 GeniusRevature

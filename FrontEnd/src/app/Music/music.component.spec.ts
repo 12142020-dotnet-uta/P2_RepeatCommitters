@@ -16,7 +16,6 @@ describe('MusicComponent', () => {
     })
     .compileComponents();
   }));
-
   beforeEach(() => {
     fixture = TestBed.createComponent(MusicComponent);
     component = fixture.componentInstance;
@@ -26,4 +25,7 @@ describe('MusicComponent', () => {
   // it('should create', () => {
   //   expect(component).toBeTruthy();
   // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

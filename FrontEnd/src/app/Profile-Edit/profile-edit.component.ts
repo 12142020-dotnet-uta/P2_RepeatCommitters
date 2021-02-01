@@ -21,11 +21,14 @@ export class ProfileEditComponent implements OnInit
     constructor(public loginService: LoginService, private route: ActivatedRoute, private router: Router) 
     {
         let routeId: number;
-        route.params.subscribe(params => 
+        route.params.subscribe
+        (
+            params => 
             {
                 if(params.id)  routeId = params['id'];
                 else           routeId = 0;
-            });
+            }
+        );
 
         loginService.getUser(routeId).subscribe
         (
@@ -36,18 +39,9 @@ export class ProfileEditComponent implements OnInit
     
 	ngOnInit(): void 
 	{
-        this.formdataDescription = new FormGroup
-        ({
-			description: new FormControl("")
-        });	
-        this.formdataFirstName = new FormGroup
-        ({
-			firstName: new FormControl("")
-        });	
-        this.formdataLastName = new FormGroup
-        ({
-			lastName: new FormControl("")
-        });	
+        this.formdataDescription = new FormGroup({ description: new FormControl("") });	
+        this.formdataFirstName = new FormGroup({ firstName: new FormControl("") });	
+        this.formdataLastName = new FormGroup({ lastName: new FormControl("") });	
 	}
 	
 	updateDescription(description: string): void

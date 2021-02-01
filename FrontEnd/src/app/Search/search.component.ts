@@ -26,11 +26,13 @@ export class SearchComponent implements OnInit
     constructor(public songService: SongService, public geniusService: GeniusService, public spotifyService: SpotifyService,
                         private route: ActivatedRoute, private router: Router)
     {
-        route.queryParams.pipe(filter(params => params.query))
-        .subscribe(params => 
-        {
-            this.query = params.query;
-        });
+        route.queryParams.pipe(filter(params => params.query)).subscribe
+        (
+            params => 
+            {
+                this.query = params.query;
+            }
+        );
 
         if(this.query.length > 2)
         {
@@ -75,6 +77,7 @@ export class SearchComponent implements OnInit
                                                             result["external_urls"]["spotify"].substring(25), false);
                                         s.albumUrl = result["album"]["images"][0]["url"];
                                         s.lyrics = lyrics;
+                                        s.numberOfPlays = Math.floor(Math.random() * 100);
                                         break;
                                     }
                                 }

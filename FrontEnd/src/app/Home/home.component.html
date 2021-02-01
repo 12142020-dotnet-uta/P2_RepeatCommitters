@@ -1,4 +1,4 @@
-<!-- <div *ngIf="loginService.loggedIn; else elseBlock">
+<div *ngIf="loginService.loggedIn; else elseBlock">
 	<h1> Welcome, {{loginService.loggedInUser.userName}}</h1>
     <h4> You are logged in </h4>
 
@@ -13,15 +13,49 @@
         <button routerLink="/registration" routerLinkActive="active" class="btn btn-warning"> Register </button>
         <button routerLink="/login" routerLinkActive="active" class="btn btn-warning"> Log In </button>
     </div>
-</ng-template> -->
+</ng-template>
 
-<button (click)="test()"> TEST </button>
+
+<!-- Card Component -->
+<div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-lg-6">
+          <a href="#">
+            <img class="img-fluid rounded" src="http://placehold.it/750x300" alt="">
+          </a>
+        </div>
+        <div class="col-lg-6">
+          <h2 class="card-title">Post Title</h2>
+          <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
+          <a href="#" class="btn btn-primary">Read More &rarr;</a>
+        </div>
+        <app-song-summary [song]="homepageSong"></app-song-summary>
+      </div>
+    </div>
+    <div class="card-footer text-muted">
+      Posted on January 1, 2017 by
+      <a href="#">Start Bootstrap</a>
+    </div>
+</div>
+    <!-- Pagination -->
+    <ul class="pagination justify-content-center mb-4">
+        <li class="page-item">
+          <a class="page-link" href="#" (click)="getPrevBannerSong()">&larr; Older</a>
+        </li>
+        <li class="page-item disabled">
+          <a class="page-link" href="#"(click)="getNextBannerSong()">Newer &rarr;</a>
+        </li>
+      </ul>
+
+
+
+<!-- <button (click)="test()"> TEST </button>
 
 <div style="text-align: center;">
     <button class="btn btn-success" (click)="testSpotify2()"> Spotify Login </button>
-</div>
+</div> -->
 
-<app-song-summary [song]="homepageSong"></app-song-summary>
 
 <span>
     <form (ngSubmit)="search()">
@@ -29,6 +63,8 @@
         <button type="submit" class="btn btn-warning"> Search </button>
     </form>
 </span>
+
+
 
 <!--
 <h2 style="margin: 40px;"> Best Songs Ever </h2>
@@ -48,14 +84,17 @@
     </form>
 </span>
 
-<!--
-<div>
-    <button (click)="testGenius()"> Test Genius</button>
-    <button (click)="testGenius2()"> Part 2 </button>
-</div>
--->
 
-<iframe src="https://open.spotify.com/embed/track/5PGo11SpjSti3e6qi3CItZ" width="300" height="380" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
-artist/12Chz98pHFMPJEknJQMWvI
-album/4ovjS3yvn1WNjtrUQWwlnd
-track/5PGo11SpjSti3e6qi3CItZ
+<h2 style="margin: 40px;"> Best Songs Ever </h2>
+
+
+<span *ngIf="homepageSong">
+    <button class="w3-button w3-black w3-display-left" (click)="getPrevBannerSong()">&#10094;</button>
+    <app-song-summary [song]="homepageSong"></app-song-summary>
+    <button class="w3-button w3-black w3-display-right" (click)="getNextBannerSong()">&#10095;</button>
+</span>
+
+<!-- We need this ngIf to prevent the component loading before songIn is initialized -->
+<div *ngIf="songIn.length > 0">
+    <app-track-list [songIn]="songIn" (foundSongIndex)="displaySong($event)"></app-track-list>
+</div>

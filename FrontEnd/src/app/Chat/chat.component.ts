@@ -25,13 +25,16 @@ export class ChatComponent implements OnInit
     constructor(public loginService: LoginService, public messageService: MessageService, private route: ActivatedRoute, private elementRef: ElementRef)
     {
         //ONE OF THE USERS SHOULD BE LOGGEDINUSER
-        route.params.subscribe(params => 
-                {
+        route.params.subscribe
+        (
+            params => 
+            {
                     if(params.aId)  this.aId = params["aId"];
-                    else              alert("Error");
+                    else            alert("Error");
                     if(params.bId)  this.bId = params["bId"];
-                    else              alert("Error");
-                });
+                    else            alert("Error");
+            }
+        );
 
         messageService.getChatMessages(this.aId, this.bId).subscribe
         (

@@ -266,11 +266,11 @@ namespace BusinessLogicLayer
             Song song = await _repository.GetSongByArtistNameAndTitle(artistName, title);
             if(song == null)
             {
-                return song;
+                return true;
             }
             else
             {
-                return null;
+                return false;
             }
         }
 

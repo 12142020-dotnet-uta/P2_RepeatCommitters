@@ -148,15 +148,19 @@ namespace RepositoryLayer
         /// <returns></returns>
         public async Task<List<Song>> GetTop5Originals()
         {
-            List<Song> topSongs = (List<Song>)songs.OrderByDescending(x => x.NumberOfPlays);
+			IOrderedQueryable<Song> topSongs = songs.OrderByDescending(x => x.NumberOfPlays);
             List<Song> songtoSend = new List<Song>();
-            int count = 5;
-            for(int i =0; i < count && i < topSongs.Count(); i++)
+
+            int max = 5, count = 0;
+            foreach(Song x in topSongs)
             {
-                songtoSend.Add(topSongs[i]);
+                if(count >= max)    break;
+           
+                songtoSend.Add(x);
+                count++;
             }
             
-            return (List<Song>)songtoSend; 
+            return songtoSend; 
            
         }
 
@@ -194,11 +198,11 @@ namespace RepositoryLayer
             List<Song> songlist = new List<Song>();
             await foreach (var item in songs)
             {
-                if(item.Lyrics != null && item.Lyrics.ToLower().Contains(lowerCasePhrase))
+                if(item.Title != null && item.Title.ToLower().Contains(lowerCasePhrase))
                 {
                     songlist.Add(item);
                 }
-                if(item.Title != null && item.Title.ToLower().Contains(lowerCasePhrase))
+                else if(item.Lyrics != null && item.Lyrics.ToLower().Contains(lowerCasePhrase))
                 {
                     songlist.Add(item);
                 }

@@ -38,6 +38,7 @@ describe('ProfileComponent', () => {
     genre: "Pop", urlPath: "dummydata.com/album/Dummy", 
     numberOfPlays: 24, isOriginal: true,
     duration: "15", albumURL: "dummydata.com/album",
+    albumUrl: "dummydata.com/album",
     lyrics: "Dummy quick slim thick wit it"
   };
   let friend: FriendList = {
@@ -57,8 +58,10 @@ describe('ProfileComponent', () => {
     mockSongService.getTopFavourites.and.returnValue(of(song));
     mockFriendService = jasmine.createSpyObj('FriendService', ['checkFriends']);
     mockFriendService.checkFriends.and.returnValue(of(friend));
+  });
 
     // Compile the test bed component
+  beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
       declarations: [ ProfileComponent ],
@@ -67,7 +70,7 @@ describe('ProfileComponent', () => {
       ]
     })
     .compileComponents();
-  });
+  }));
 
   beforeEach(() => {
     // create component and test fixture
@@ -81,4 +84,8 @@ describe('ProfileComponent', () => {
   // it('should create', () => {
   //   expect(component).toBeTruthy();
   // });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
 });
