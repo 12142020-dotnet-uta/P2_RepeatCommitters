@@ -91,7 +91,6 @@
             ],
             "styles": [
               "src/styles.css",
-              "src/css/custom-styles.css"
             ],
             "scripts": []
           }
