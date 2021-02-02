@@ -73,11 +73,8 @@ describe('ProfileComponent', () => {
     fixture = TestBed.createComponent(ProfileComponent);
     // get test component from the fixture
     component = fixture.componentInstance;
-    // component.user = user1;
-    // component.
-    // component.homeUser = true;
+    // force login service data to contain user1
     component.loginService.login(user1);
-    // component.loginService.loggedIn = true;
     component.loginService.loggedInUser = user1;
     // detect and save changes
     fixture.detectChanges();
@@ -85,9 +82,66 @@ describe('ProfileComponent', () => {
 
   it('should create', () => {
     component.user = user1;
-    //fixture.detectChanges();
     expect(component).toBeTruthy();
-    //expect(mockLoginUser.calls.any()).toBeTruthy();
   });
 
+  it('should call ngOnInit() with different data', ()=>{
+    component.loginService.loggedInUser.id = -2;
+    component.ngOnInit();
+    expect(user1.id).toEqual(-2);
+  });
+
+  it('should call displaySong()', ()=>{
+    component.displaySong(1);
+    expect(component).toBeTruthy();
+  });
+
+  it('should call makeFriend()', ()=>{
+    component.makeFriend();
+    expect(component).toBeTruthy();
+  });
+
+  it('should call removeFriend()', ()=>{
+    component.removeFriend();
+    expect(component).toBeTruthy();
+  });
+
+  it('should call findFriend()', ()=>{
+    component.loginService.loggedInUser.friends = [user2];
+    component.findFriend(user2);
+    expect(component).toBeTruthy();
+  });
+
+  /* Routes require different implementation to properly test */
+
+  // it('should call goToChat()', ()=>{
+  //   component.goToChat();
+  //   expect(component).toBeTruthy();
+  // });
+
+  // it('should call goToEdit()', ()=>{
+  //   component.loginService.loggedInUser.id = 1;
+  //   component.goToEdit();
+  //   expect(component).toBeTruthy();
+  // });
+
+  // it('should call goToFavourites()', ()=>{
+  //   component.goToFavourites();
+  //   expect(component).toBeTruthy();
+  // });
+
+  // it('should call goToOriginalMusic()', ()=>{
+  //   component.goToOriginalMusic();
+  //   expect(component).toBeTruthy();
+  // });
+
+  it('should call getNextBannerSong()', ()=>{
+    component.getNextBannerSong();
+    expect(component).toBeTruthy();
+  });
+
+  it('should call getPrevBannerSong()', ()=>{
+    component.getPrevBannerSong();
+    expect(component).toBeTruthy();
+  });
 });

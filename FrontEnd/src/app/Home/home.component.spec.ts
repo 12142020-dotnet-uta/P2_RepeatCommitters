@@ -26,9 +26,39 @@ describe('HomeComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+//
+  // it('should call userSearch()', ()=>{
+  //   component.userSearch();
+  //   expect(component).toBeTruthy();
+  // });
 
   // it('should call search()', ()=>{
   //   component.search();
-  //   expect(component).toEqual();
+  //   expect(component).toBeTruthy();
+  // });
+
+  // it('should call displaySong()', ()=>{
+  //   component.displaySong(mockHomePageSong.id);
+  //   expect(component).toBeTruthy();
+  // });
+
+  // it('should call getNextBannerSong()', ()=>{
+  //   component.getNextBannerSong();
+  //   expect(component).toBeTruthy();
+  // });
+
+  // it('should call getPrevBannerSong()', ()=>{
+  //   component.getPrevBannerSong();
+  //   expect(component).toBeTruthy();
+  // });
+
+  // it('should call testSpotify2()', ()=>{
+  //   component.testSpotify2();
+  //   expect(component).toBeTruthy();
+  // });
+
+  // it('should call testSpotify22()', ()=>{
+  //   component.testSpotify22();
+  //   expect(component).toBeTruthy();
   // });
 });
