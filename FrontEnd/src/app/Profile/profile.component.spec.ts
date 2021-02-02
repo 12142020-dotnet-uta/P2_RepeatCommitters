@@ -97,11 +97,13 @@ describe('ProfileComponent', () => {
   });
 
   it('should call makeFriend()', ()=>{
+    component.homeUser = false;
     component.makeFriend();
     expect(component).toBeTruthy();
   });
 
   it('should call removeFriend()', ()=>{
+    component.homeUser = false;
     component.removeFriend();
     expect(component).toBeTruthy();
   });
