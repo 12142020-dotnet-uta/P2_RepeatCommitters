@@ -161,43 +161,43 @@ export class HomeComponent implements OnInit
     }
 
     
-    test(): void
-    {
-        alert("Testing.");
-        this.loginService.getValidUsers().subscribe
-        (
-            (data) => alert("SUCCESS"),
-            () => alert("ERROR")
-        );
-    }
+    // test(): void
+    // {
+    //     alert("Testing.");
+    //     this.loginService.getValidUsers().subscribe
+    //     (
+    //         (data) => alert("SUCCESS"),
+    //         () => alert("ERROR")
+    //     );
+    // }
 
-    testSpotify2(): void
-    {
-        this.document.location.href = this.spotifyService.getAuthUrl();
-    }
+    // testSpotify2(): void
+    // {
+    //     this.document.location.href = this.spotifyService.getAuthUrl();
+    // }
 
-    testSpotify22(): void
-    {
-        if(!this.authCode)
-        {
-            console.log("Your authCode is not set. Try doing Step 1 again.");
-            return;
-        }
-        this.spotifyService.authStepTwo(this.authCode).subscribe
-        (
-            (data) => 
-            {
-                console.log(data["access_token"]);
-                this.spotifyService.access_token = data["access_token"];
-                this.spotifyService.loggedIn = true;
-            },
-            (error) => 
-            {
-                console.log(error["error"]);
-                console.log(error["error_description"]);
-            }
-        );
-    }
+    // testSpotify22(): void
+    // {
+    //     if(!this.authCode)
+    //     {
+    //         console.log("Your authCode is not set. Try doing Step 1 again.");
+    //         return;
+    //     }
+    //     this.spotifyService.authStepTwo(this.authCode).subscribe
+    //     (
+    //         (data) => 
+    //         {
+    //             console.log(data["access_token"]);
+    //             this.spotifyService.access_token = data["access_token"];
+    //             this.spotifyService.loggedIn = true;
+    //         },
+    //         (error) => 
+    //         {
+    //             console.log(error["error"]);
+    //             console.log(error["error_description"]);
+    //         }
+    //     );
+    // }
 
     /*
     testGenius(): void

@@ -42,7 +42,7 @@ export class ChatComponent implements OnInit
             {
                 this.messages = data["messages"]; 
                 let host = this.elementRef.nativeElement.querySelector('.host');
-                alert(data["messages"].length);
+                // alert(data["messages"].length);
                 
                 for(let x = 0; x < data["messages"].length; x++)
                 {

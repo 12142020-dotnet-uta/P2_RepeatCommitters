@@ -11,12 +11,12 @@
             <div *ngIf="song.urlPath; else elseblock2" class="col-lg-6">
                 <iframe [src]="getSpotifyURL()" style="float: right;"frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
             </div>
-        </ng-template>
-        <!-- Else No Song-->
-        <ng-template #elseblock2>
-            <div *ngIf="song.urlPath; else elseblock2" class="col-lg-6">
-                <p style="color: green; min-height: 300px; font: 30px bold; float: right;"> Spotify doesn't have this song :( </p>
-            </div>
+            <!-- Else No Song File-->
+            <ng-template #elseblock2>
+                <div class="col-lg-6">
+                    <p style="color: green; min-height: 300px; font: 30px bold; float: right;"> Spotify doesn't have this song :( </p>
+                </div>
+            </ng-template>
         </ng-template>
 
         <div class="col-lg-6">

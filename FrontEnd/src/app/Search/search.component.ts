@@ -83,12 +83,12 @@ export class SearchComponent implements OnInit
                                 }
                                 this.songIn.push(s);
                             },
-                            () => alert("Error with Spotify API")
+                            () => console.log("Error with Spotify API")
                         );
                     }
                     console.log("Success");
                 },
-                () => alert("Error with Genius API")
+                () => console.log("Error with Genius API")
             );
         }
 
@@ -134,48 +134,48 @@ export class SearchComponent implements OnInit
     }
 
 
-    testGenius(): void
-    {
-        this.geniusService.search("The sin I bring").subscribe
-        (
-            (data) =>
-            {
-                const results = data["response"]["hits"];
-                for(let x = 0; x < results.length; x++)
-                {
-                    const result = results[x]["result"];
-                    let s = new Song(result["title"], result["primary_artist"]["name"], "", "", 2021, "", false);
-                    this.songIn.push(s);
-                    console.log(result["title"]);
-                }
-            },
-            () => alert("Error with Genius API")
-        );
-    }
+    // testGenius(): void
+    // {
+    //     this.geniusService.search("The sin I bring").subscribe
+    //     (
+    //         (data) =>
+    //         {
+    //             const results = data["response"]["hits"];
+    //             for(let x = 0; x < results.length; x++)
+    //             {
+    //                 const result = results[x]["result"];
+    //                 let s = new Song(result["title"], result["primary_artist"]["name"], "", "", 2021, "", false);
+    //                 this.songIn.push(s);
+    //                 console.log(result["title"]);
+    //             }
+    //         },
+    //         () => alert("Error with Genius API")
+    //     );
+    // }
 
-    testSpotify(): void
-    {
-        const title: string = "Rosenrot";
-        const artistName: string = "Rammstein";
-        this.spotifyService.searchTracks(title).subscribe
-        (
-            (data) =>
-            {
-                const results = data["tracks"]["items"];
-                for(let x = 0; x < results.length; x++)
-                {
-                    const result = results[x];//["album"];
-                    if(result["artists"][0]["name"].toLowerCase() == artistName.toLowerCase())
-                    {
-                        let s = new Song(result["name"], result["artists"][0]["name"], result["album"]["name"], "", 
-                                            parseInt(result["album"]["release_date"].slice(0, 4)), 
-                                            result["external_urls"]["spotify"].substring(25), false);
-                        this.songIn.push(s);
-                        console.log(result["name"]);
-                    }
-                }
-            },
-            () => alert("Error with Spotify API")
-        );
-    }
+    // testSpotify(): void
+    // {
+    //     const title: string = "Rosenrot";
+    //     const artistName: string = "Rammstein";
+    //     this.spotifyService.searchTracks(title).subscribe
+    //     (
+    //         (data) =>
+    //         {
+    //             const results = data["tracks"]["items"];
+    //             for(let x = 0; x < results.length; x++)
+    //             {
+    //                 const result = results[x];//["album"];
+    //                 if(result["artists"][0]["name"].toLowerCase() == artistName.toLowerCase())
+    //                 {
+    //                     let s = new Song(result["name"], result["artists"][0]["name"], result["album"]["name"], "", 
+    //                                         parseInt(result["album"]["release_date"].slice(0, 4)), 
+    //                                         result["external_urls"]["spotify"].substring(25), false);
+    //                     this.songIn.push(s);
+    //                     console.log(result["name"]);
+    //                 }
+    //             }
+    //         },
+    //         () => alert("Error with Spotify API")
+    //     );
+    // }
 }
