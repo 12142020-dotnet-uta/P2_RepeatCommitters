@@ -18,13 +18,11 @@ export class MusicAddComponent implements OnInit
     public user: User;
 	public formdata: FormGroup;// = null;
 
-    constructor(public loginService: LoginService, private songService: SongService, private router: Router) 
-    { 
-        this.user = loginService.loggedInUser;
-    }
+    constructor(public loginService: LoginService, private songService: SongService, private router: Router) {}
 
 	ngOnInit(): void 
 	{
+        this.user = this.loginService.loggedInUser;
         this.formdata = new FormGroup
         (
             {

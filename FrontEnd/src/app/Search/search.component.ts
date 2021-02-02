@@ -24,9 +24,12 @@ export class SearchComponent implements OnInit
     public selectedSongIndex: number; //For the Banner
 
     constructor(public songService: SongService, public geniusService: GeniusService, public spotifyService: SpotifyService,
-                        private route: ActivatedRoute, private router: Router)
+                        private route: ActivatedRoute, private router: Router){}
+  
+    ngOnInit(): void 
     {
-        route.queryParams.pipe(filter(params => params.query)).subscribe
+        this.songSelected = false;
+        this.route.queryParams.pipe(filter(params => params.query)).subscribe
         (
             params => 
             {
@@ -36,7 +39,7 @@ export class SearchComponent implements OnInit
 
         if(this.query.length > 2)
         {
-            songService.searchOriginalsByLyrics(this.query).subscribe
+            this.songService.searchOriginalsByLyrics(this.query).subscribe
             (
                 (data) => 
                 {
@@ -46,7 +49,7 @@ export class SearchComponent implements OnInit
                 () => alert("Error Searching")
             );
 
-            geniusService.search(this.query).subscribe
+            this.geniusService.search(this.query).subscribe
             (
                 (data) =>
                 {
@@ -92,15 +95,10 @@ export class SearchComponent implements OnInit
             );
         }
 
-        router.routeReuseStrategy.shouldReuseRoute = function () 
+        this.router.routeReuseStrategy.shouldReuseRoute = function () 
         {
             return false;
         };
-    }
-  
-    ngOnInit(): void 
-    {
-        this.songSelected = false;
     }
 
     displaySong(x: number)
