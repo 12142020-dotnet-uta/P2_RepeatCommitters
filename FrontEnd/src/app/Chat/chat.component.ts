@@ -47,9 +47,11 @@ export class ChatComponent implements OnInit
                 for(let x = 0; x < data["messages"].length; x++)
                 {
                     if((data["messages"][x].toUserId == this.aId && data["messages"][x].fromUserId == this.bId))
-                        host.insertAdjacentHTML("beforeend", "<p style='text-align: left; margin: 10px;'> " + data["messages"][x].content + " </p>");
+                        host.insertAdjacentHTML("beforeend", "<p style='text-align: left; margin: 10px;'> " 
+                                                    + data["messages"][x].fromUserName + " says: " + data["messages"][x].content + " </p>");
                     else if((data["messages"][x].toUserId == this.bId) && (data["messages"][x].fromUserId == this.aId ))
-                        host.insertAdjacentHTML("beforeend", "<p style='text-align: right; margin: 10px;'> " + data["messages"][x].content + " </p>");
+                        host.insertAdjacentHTML("beforeend", "<p style='text-align: right; margin: 10px;'> " 
+                                                    + data["messages"][x].fromUserName + " says: " + data["messages"][x].content + " </p>");
                 }
             },
             () => alert("Error")
