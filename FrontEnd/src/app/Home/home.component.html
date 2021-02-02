@@ -25,19 +25,45 @@
 </div>
 
 
-<span>
+<div class="card mb-4">
+    <h5 class="card-header">Search</h5>
+    <div class="card-body">
+      <div class="input-group">
+        <form (ngSubmit)="search()" class="input-group">
+            <input type="text" class="form-control" placeholder="Search by lyrics" name="query" [(ngModel)]="query">
+            <span class="inpug-group-append">
+             <button class="btn btn-secondary" type="submit">Go!</button>
+            </span>
+        </form>
+      </div>
+    </div>
+  </div>
+<!-- <span>
     <form (ngSubmit)="search()">
         <input type="text" placeholder="Search original songs by lyrics" name="query" [(ngModel)]="query">
         <button type="submit" class="btn btn-warning"> Search </button>
     </form>
-</span>
+</span> -->
 
-<span>
+<div class="card mb-4">
+    <h5 class="card-header">Search</h5>
+    <div class="card-body">
+      <div class="input-group">
+        <form (ngSubmit)="userSearch()" class="input-group">
+            <input type="text" class="form-control" placeholder="Search users" name="userquery" [(ngModel)]="userquery">
+            <span class="inpug-group-append">
+             <button class="btn btn-secondary" type="submit">Search</button>
+            </span>
+        </form>
+      </div>
+    </div>
+  </div>
+<!-- <span>
     <form (ngSubmit)="userSearch()">
         <input type="text" placeholder="Search users" name="userquery" [(ngModel)]="userquery">
         <button type="submit" class="btn btn-warning"> Search </button>
     </form>
-</span>
+</span> -->
 
 
 <h2 style="margin: 40px;"> Best Songs Ever </h2>

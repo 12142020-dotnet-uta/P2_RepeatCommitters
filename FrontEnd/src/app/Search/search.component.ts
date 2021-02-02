@@ -86,7 +86,11 @@ export class SearchComponent implements OnInit
                                 }
                                 this.songIn.push(s);
                             },
-                            () => console.log("Error with Spotify API")
+                            () => 
+                            {
+                                console.log("Error with Spotify API"); 
+                                this.songIn.push(s);
+                            }
                         );
                     }
                     console.log("Success");
