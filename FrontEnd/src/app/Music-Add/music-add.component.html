@@ -41,10 +41,10 @@
                 and enter just submits the form-->
         <div class="form-group">
             <label>Lyrics</label>
-            <input type="textbox" class="form-control" name="lyrics" formControlName="lyrics" required ngModel>
+            <input type="text" class="form-control" name="lyrics" formControlName="lyrics" required ngModel>
         </div>   
 
-        <button type="submit" [disabled]="!formdata.valid" class="btn btn-warning">Upload</button>
+        <button type="submit" [disabled]="!formdata.valid" class="btn btn-primary">Upload</button>
 
     </form>
 </div>

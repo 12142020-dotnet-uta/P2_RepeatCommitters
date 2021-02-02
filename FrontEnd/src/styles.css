@@ -71,6 +71,7 @@ a:hover {
     color: var(--colorWhite);
     background-color: var(--colorTrue);
     border-color: var(--colorBright);
+    margin: 10px;
 }
 .btn-primary:hover, .btn-primary:not(:disabled):not(.disabled):active {
     color: var(--colorWhite);
@@ -148,4 +149,8 @@ form button:hover {
 
 thead tr, .oddRow {
     background-color: gray;
+}
+
+li {
+    list-style: none;
 }
