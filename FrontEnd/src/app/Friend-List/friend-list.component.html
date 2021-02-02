@@ -5,7 +5,7 @@
         <li *ngFor="let u of friends"> 
             <span>
                 <span style="font: 30px;" (click)="displayProfile(u)"> {{u.userName}} </span>
-                <button class="btn btn-warning" style="margin-left: 20xp;" (click)="goToChat(u)"> Chat </button>
+                <button class="btn btn-warning" style="margin-left: 5px;" (click)="goToChat(u)"> Chat </button>
                 <button class="btn btn-danger" style="margin-left: 5px;" (click)="deleteFriend(u)"> Delete </button>
             </span>
         </li>
