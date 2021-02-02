@@ -27,21 +27,18 @@ export class ProfileComponent implements OnInit
     public songSelected: boolean;// = false;
     public selectedSongIndex: number;
 
-    constructor(public loginService: LoginService, public songService: SongService, public friendService: FriendService, private route: ActivatedRoute, private router: Router)
-    {
+    constructor(public loginService: LoginService, public songService: SongService, public friendService: FriendService, private route: ActivatedRoute, private router: Router){}
+  
+    ngOnInit(): void {
         let id: number;
-        route.params.subscribe
+        this.route.params.subscribe
         (
             params => 
             {
-                //console.log(params); -- returns empty prototype
-                //console.log(this.homeUser); -- returns undefined
                 if(params.id)  id = params['id'];
                 else           id = -1;
             }
         );
-
-        console.log("Id: " + id); //-- returns -1, because user is not logged in
         
         if(id == -1 || (this.loginService.loggedIn && this.loginService.loggedInUser.id == id))  this.homeUser = true;
         else
@@ -69,35 +66,30 @@ export class ProfileComponent implements OnInit
                     );
 
                     //Then we get favourites
-                    songService.getTopFavourites(id).subscribe
+                    this.songService.getTopFavourites(id).subscribe
                     (
                         (data) => this.songIn = data,
                         () => alert("Error getting Favourites")
                     );
                 },
-                //() => this.homeUser = true
+                () => this.homeUser = true
             );
         }
 
         if(this.homeUser)
         {
-            this.user = loginService.loggedInUser;
-            //console.log("User of login service: " + this.user); -- returns null, because user is not logged in
+            this.user = this.loginService.loggedInUser;
 
             if(this.user != null){ // get the current user's top favourites
                 //Set the favourite songs
-                songService.getTopFavourites(this.user.id).subscribe
+                this.songService.getTopFavourites(this.user.id).subscribe
                 (
                     (data) => this.songIn = data,
                     () => alert("Error getting Favourites")
                 );
-                console.log("After getting top favourites...");
             }
         }
-        //console.log(this.homeUser); -- returns true, because it's set in previous
     }
-  
-    ngOnInit(): void {}
 
     
     displaySong(x: number)
@@ -112,10 +104,8 @@ export class ProfileComponent implements OnInit
         if(!this.homeUser)  //We shouldn't get this option otherwise
         {
             let fl: FriendList = new FriendList(this.loginService.loggedInUser.id, this.user.id);
-            console.log("In makeFriend function before grabbing username");
             fl.toUsername = this.user.userName;
             fl.fromUsername = this.loginService.loggedInUser.userName;
-            console.log("In makeFriend function after grabbing username");
             this.friendService.requestFriend(fl).subscribe
             (
                 () => alert("Sent a friend request to " + this.user.userName),

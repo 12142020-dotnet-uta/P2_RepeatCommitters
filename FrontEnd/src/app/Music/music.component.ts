@@ -23,10 +23,13 @@ export class MusicComponent implements OnInit
     public selectedSong: Song;
     public selectedSongIndex: number;
 
-    constructor(public loginService: LoginService, public songService: SongService, private route: ActivatedRoute, private router: Router)
+    constructor(public loginService: LoginService, public songService: SongService, private route: ActivatedRoute, private router: Router){}
+  
+    ngOnInit(): void 
     {
+        this.songSelected = false;
         let id: number;
-        route.params.subscribe
+        this.route.params.subscribe
         (
             params => 
             {
@@ -37,11 +40,11 @@ export class MusicComponent implements OnInit
                 
         if(id == -1 || (this.loginService.loggedIn && this.loginService.loggedInUser.id == id))
         {
-            this.user = loginService.loggedInUser;
+            this.user = this.loginService.loggedInUser;
             this.homeUser = true;
             
             //Get Songs
-            songService.getUserSongs(this.user.id).subscribe
+            this.songService.getUserSongs(this.user.id).subscribe
             (
                 (data) => this.songIn = data,
                 () => alert("Error getting songs")
@@ -50,7 +53,7 @@ export class MusicComponent implements OnInit
         }
         else
         {
-            loginService.getUser(id).subscribe
+            this.loginService.getUser(id).subscribe
             (
                 (data) => 
                 {
@@ -58,7 +61,7 @@ export class MusicComponent implements OnInit
                     this.homeUser = false;
 
                     //Get Songs
-                    songService.getUserSongs(this.user.id).subscribe
+                    this.songService.getUserSongs(this.user.id).subscribe
                     (
                         (data) => this.songIn = data,
                         () => alert("Error getting songs")
@@ -67,11 +70,6 @@ export class MusicComponent implements OnInit
                 (error) => alert(error)
             );
         }
-    }
-  
-    ngOnInit(): void 
-    {
-        this.songSelected = false;
     }
 
     displaySong(x: number)
