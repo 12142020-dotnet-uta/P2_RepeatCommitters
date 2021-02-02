@@ -27,8 +27,8 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  // it('should get the home page song', ()=>{
-  //   mockHomePageSong.lyrics = "Instrumental";
-  //   expect(component.homepageSong).toEqual(mockHomePageSong);
+  // it('should call search()', ()=>{
+  //   component.search();
+  //   expect(component).toEqual();
   // });
 });

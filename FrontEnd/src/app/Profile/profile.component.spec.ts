@@ -73,14 +73,21 @@ describe('ProfileComponent', () => {
     fixture = TestBed.createComponent(ProfileComponent);
     // get test component from the fixture
     component = fixture.componentInstance;
+    // component.user = user1;
+    // component.
+    // component.homeUser = true;
+    component.loginService.login(user1);
+    // component.loginService.loggedIn = true;
+    component.loginService.loggedInUser = user1;
     // detect and save changes
     fixture.detectChanges();
   });
 
-  // it('should create', () => {
-  //   component.user = user1;
-  //   expect(component).toBeTruthy();
-  //   //expect(mockLoginUser.calls.any()).toBeTruthy();
-  // });
+  it('should create', () => {
+    component.user = user1;
+    //fixture.detectChanges();
+    expect(component).toBeTruthy();
+    //expect(mockLoginUser.calls.any()).toBeTruthy();
+  });
 
 });
