@@ -17,8 +17,8 @@ import { FriendService } from '../friend.service';
 
 export class ProfileComponent implements OnInit 
 {
-    public user: User;// = null;
-    public homeUser: boolean;// = false;
+    public user: User;// = null; 
+    public homeUser: boolean;// = false; -- default undefined
     public isFriend: boolean = false;
 
     //Track List Info
@@ -34,10 +34,14 @@ export class ProfileComponent implements OnInit
         (
             params => 
             {
+                //console.log(params); -- returns empty prototype
+                //console.log(this.homeUser); -- returns undefined
                 if(params.id)  id = params['id'];
                 else           id = -1;
             }
         );
+
+        console.log("Id: " + id); //-- returns -1, because user is not logged in
         
         if(id == -1 || (this.loginService.loggedIn && this.loginService.loggedInUser.id == id))  this.homeUser = true;
         else
@@ -71,26 +75,29 @@ export class ProfileComponent implements OnInit
                         () => alert("Error getting Favourites")
                     );
                 },
-                () => this.homeUser = true
+                //() => this.homeUser = true
             );
         }
 
         if(this.homeUser)
         {
             this.user = loginService.loggedInUser;
+            //console.log("User of login service: " + this.user); -- returns null, because user is not logged in
 
-            //Set the favourite songs
-            songService.getTopFavourites(this.user.id).subscribe
-            (
-                (data) => this.songIn = data,
-                () => alert("Error getting Favourites")
-            );
+            if(this.user != null){ // get the current user's top favourites
+                //Set the favourite songs
+                songService.getTopFavourites(this.user.id).subscribe
+                (
+                    (data) => this.songIn = data,
+                    () => alert("Error getting Favourites")
+                );
+                console.log("After getting top favourites...");
+            }
         }
+        //console.log(this.homeUser); -- returns true, because it's set in previous
     }
   
-    ngOnInit(): void 
-    {
-    }
+    ngOnInit(): void {}
 
     
     displaySong(x: number)
@@ -105,8 +112,10 @@ export class ProfileComponent implements OnInit
         if(!this.homeUser)  //We shouldn't get this option otherwise
         {
             let fl: FriendList = new FriendList(this.loginService.loggedInUser.id, this.user.id);
+            console.log("In makeFriend function before grabbing username");
             fl.toUsername = this.user.userName;
             fl.fromUsername = this.loginService.loggedInUser.userName;
+            console.log("In makeFriend function after grabbing username");
             this.friendService.requestFriend(fl).subscribe
             (
                 () => alert("Sent a friend request to " + this.user.userName),
