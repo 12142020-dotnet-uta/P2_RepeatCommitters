@@ -13,6 +13,10 @@
     --hover: #ff3dfe;
 }
 
+body, html {
+    height: 100%;
+}
+
 body {
     background: url(https://www.psdgraphics.com/file/2018/futuristic-purple-wallpaper.jpg) no-repeat center center fixed;
     background-color: #010127;
@@ -25,6 +29,7 @@ content {
     margin: 10px auto;
     width: 95%;
     display: block;
+    min-height: 82%;
 }
 
 iframe{
@@ -122,4 +127,25 @@ a:hover {
     margin: 0px 30px;
 }
 
+/* Login Page */
+app-location, .login {
+    max-width: 300px;
+    display: block;
+    margin: 30px auto;
+}
 
+form button {
+    color: var(--colorWhite);
+    background-color: var(--colorTrue);
+    border-color: var(--colorBright);
+}
+
+form button:hover {
+    color: var(--colorWhite);
+    background-color: var(--colorBase);
+    border-color: var(--colorMain);
+}
+
+.oddRow {
+    background-color: gray;
+}

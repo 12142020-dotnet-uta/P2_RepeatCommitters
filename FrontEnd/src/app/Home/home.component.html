@@ -1,21 +1,13 @@
 
-<h1> inHarmony - Share Your Music With Friends and New Fans </h1>
+<h1>Share Your Music With Friends and New Fans </h1>
 <div *ngIf="loginService.loggedIn; else elseBlock">
-	<h1> Welcome, {{loginService.loggedInUser.userName}}</h1>
+	<!-- <h1> Welcome, {{loginService.loggedInUser.userName}}</h1>
     <h4> You are logged in </h4>
 
-    <div style="text-align:center;">
+    <div style="text-align:center;"> -->
         <button routerLink="/profile" routerLinkActive="active" class="btn btn-warning"> My Profile </button>
-    </div>
+    <!-- </div> -->
 </div>
-
-<ng-template #elseBlock>
-    <h4>You are logged out</h4>
-    <div style="text-align:center;">
-        <button routerLink="/registration" routerLinkActive="active" class="btn btn-warning"> Register </button>
-        <button routerLink="/login" routerLinkActive="active" class="btn btn-warning"> Log In </button>
-    </div>
-</ng-template>
 
 
 <!-- <button (click)="test()"> TEST </button> -->
@@ -25,11 +17,12 @@
 </div>
 
 <ol class="breadcrumb">
+    <li>Find Your Next Favorite Song</li>
     <li class="breadcrumb-item">
         <form (ngSubmit)="search()" class="input-group">
             <input type="text" class="form-control" placeholder="Search by lyrics" name="query" [(ngModel)]="query">
             <span class="inpug-group-append">
-             <button class="btn btn-secondary" type="submit">Go!</button>
+             <button class="btn btn-secondary" type="submit">Search</button>
             </span>
         </form>
     </li>
@@ -41,7 +34,10 @@
             </span>
         </form>
     </li>
-    <!-- <li class="breadcrumb-item">Page Name</li> -->
+    <ng-template #elseBlock>
+        <li><button routerLink="/registration" routerLinkActive="active" class="btn btn-warning"> Register </button></li>
+        <li><button routerLink="/login" routerLinkActive="active" class="btn btn-warning"> Log In </button></li>
+    </ng-template>
   </ol>
 <!-- <div class="card mb-4">
     <h5 class="card-header">Search</h5>
@@ -84,7 +80,7 @@
 </span> -->
 
 
-<h2 style="margin: 40px;"> Best Songs Ever </h2>
+<h2 style="margin: 40px;"> Top 5 Played Songs Ever </h2>
 
 
 <span *ngIf="selectedSong">

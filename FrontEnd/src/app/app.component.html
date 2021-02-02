@@ -9,7 +9,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a class="nav-link" href="#">Top Songs</a>
           </li>
           <li class="nav-item">
@@ -17,10 +17,10 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Contact</a>
-          </li>
+          </li> -->
           <li *ngIf="loginService.loggedIn; else loginBlock" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPortfolio" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                {{loginService.loggedInUser.userName}}
+                Welcome, {{loginService.loggedInUser.userName}}
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownPortfolio">
               <a class="dropdown-item" routerLink="/profile" routerLinkActive="active" >View Profile</a>
