@@ -1,6 +1,6 @@
 <div *ngIf="homeUser; else elseblock">
     <h2> My Music </h2>
-    <button class="btn btn-warning" (click)="addSong()"> Upload </button>
+    <button class="btn btn-primary" (click)="addSong()"> Upload </button>
 </div>
 
 <ng-template #elseblock>
@@ -17,7 +17,7 @@
 <span *ngIf="songSelected">
 
     <app-song-summary [song]="selectedSong"></app-song-summary>
-    
+
     <!-- Pagination -->
     <ul class="pagination justify-content-center mb-4">
         <li class="page-item">

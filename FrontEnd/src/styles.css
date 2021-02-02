@@ -135,6 +135,14 @@ a:hover {
     margin: 30px auto;
 }
 
+
+/* Chat Page */
+.login {
+    max-width: 500px;
+    display: block;
+    margin: 30px auto;
+}
+
 form button {
     color: var(--colorWhite);
     background-color: var(--colorTrue);
