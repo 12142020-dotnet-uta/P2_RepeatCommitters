@@ -2,17 +2,17 @@
     <table class="table" mdbTable>
         <thead>
             <tr>
-                <th></th> <!-- Album image -->
-                <th>Title</th>
-                <th>Artist</th>
+                <th scope="col"></th> <!-- Album image -->
+                <th scope="col">Title</th>
+                <th scope="col">Artist</th>
                 <!-- <th>Genre</th> -->
-                <th>Number of Plays</th>
-                <th></th> <!-- Delete Button -->
+                <th scope="col">Number of Plays</th>
+                <th scope="col"></th> <!-- Delete Button -->
             </tr>
         </thead>
         <tbody class="table-hover">
             <tr mdbTableCol *ngFor="let s of songs; let o = odd; let i = index;" [ngClass]="{oddRow: o}" (click)="emitSongIndex(i)">
-                <td> <img width="80px" height="80px" src={{s.albumUrl}}/> </td>
+                <td> <img width="80px" height="80px" alt="album art" src={{s.albumUrl}}/> </td>
                 <td > {{s.title}} </td>
                 <td> {{s.artistName}} </td>
                 <!-- <td> {{s.genre}} </td> -->
@@ -27,16 +27,16 @@
     <table class="table" mdbTable>
         <thead>
             <tr>
-                <th></th> <!-- Album image -->
-                <th>Title</th>
-                <th>Artist</th>
+                <th scope="col"></th> <!-- Album image -->
+                <th scope="col">Title</th>
+                <th scope="col">Artist</th>
                 <!-- <th>Genre</th> -->
-                <th>Number of Plays</th>
+                <th scope="col">Number of Plays</th>
             </tr>
         </thead>
         <tbody class="table-hover">
             <tr mdbTableCol *ngFor="let s of songs; let o = odd; let i = index;" [ngClass]="{oddRow: o}" (click)="emitSongIndex(i)">
-                <td> <img width="80px" height="80px" src={{s.albumUrl}}/> </td>
+                <td> <img width="80px" height="80px" alt="album art" src={{s.albumUrl}}/> </td>
                 <td > {{s.title}} </td>
                 <td> {{s.artistName}} </td>
                 <!-- <td> {{s.genre}} </td> -->
