@@ -2,7 +2,6 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { User } from '../user';
 import { Message } from '../message';
 import { MessageService } from '../message.service';
 import { LoginService } from '../login.service';

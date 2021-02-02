@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -19,8 +19,6 @@ describe('ProfileComponent', () => {
   let mockLoginService;
   let mockSongService;
   let mockFriendService;
-  let mockRegisterUser;
-  let mockLoginUser;
 
   let user1: User = {
     userName: "DummyUser", password: "Test123!", 
@@ -52,7 +50,7 @@ describe('ProfileComponent', () => {
   beforeEach(() => {
     // mock the login service
     mockLoginService = jasmine.createSpyObj('LoginService', ['login']);
-    mockLoginUser = mockLoginService.login.and.returnValue(of(user1));
+    mockLoginService.login.and.returnValue(of(user1));
     // mock the song service
     mockSongService = jasmine.createSpyObj('SongService', ['getTopFavourites']);
     mockSongService.getTopFavourites.and.returnValue(of(song));
