@@ -14,9 +14,9 @@
     
     <ol class="breadcrumb">
         <li>What would you like to do?</li>
-        <li class="breadcrumb-item"><button class="btn btn-primary" (click)="goToChat()"> Chat </button></li>
-        <li><button class="btn btn-primary" (click)="goToFavourites()"> {{user.userName}}'s Favourites </button></li>
-        <li><button class="btn btn-primary" (click)="goToOriginalMusic()"> {{user.userName}}'s Music </button></li>
+        <li class="breadcrumb-item"><button routerLink="/friends" routerLinkActive="active" class="btn btn-primary"> My Friends </button> </li>
+        <li><button class="btn btn-primary" (click)="goToFavourites()"> View Favourites </button></li>
+        <li><button class="btn btn-primary" (click)="goToOriginalMusic()"> View Music </button></li>
     </ol>
 
         
@@ -45,7 +45,6 @@
     
     <ol class="breadcrumb">
         <li>What would you like to do?</li>
-        <li class="breadcrumb-item"><button class="btn btn-primary" (click)="goToChat()"> Chat </button></li>
         <li><button class="btn btn-primary" (click)="goToFavourites()"> {{user.userName}}'s Favourites </button></li>
         <li><button class="btn btn-primary" (click)="goToOriginalMusic()"> {{user.userName}}'s Music </button></li>
     </ol>
