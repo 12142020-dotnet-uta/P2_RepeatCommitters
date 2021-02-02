@@ -12,7 +12,7 @@
         </thead>
         <tbody class="table-hover">
             <tr mdbTableCol *ngFor="let s of songs; let o = odd; let i = index;" [ngClass]="{oddRow: o}" (click)="emitSongIndex(i)">
-                <td> <img width="80px" height="80px" src={{s.albumUrl}}/> </td>
+                <td> <img width="80px" height="80px" alt="album art" src={{s.albumUrl}}/> </td>
                 <td > {{s.title}} </td>
                 <td> {{s.artistName}} </td>
                 <!-- <td> {{s.genre}} </td> -->
@@ -36,7 +36,7 @@
         </thead>
         <tbody class="table-hover">
             <tr mdbTableCol *ngFor="let s of songs; let o = odd; let i = index;" [ngClass]="{oddRow: o}" (click)="emitSongIndex(i)">
-                <td> <img width="80px" height="80px" src={{s.albumUrl}}/> </td>
+                <td> <img width="80px" height="80px" alt="album art" src={{s.albumUrl}}/> </td>
                 <td > {{s.title}} </td>
                 <td> {{s.artistName}} </td>
                 <!-- <td> {{s.genre}} </td> -->
