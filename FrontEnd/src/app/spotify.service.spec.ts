@@ -1,16 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule} from '@angular/common/http/testing';
 import { SpotifyService } from './spotify.service';
-import { User } from './user';
 
 describe('SpotifyService', () => {
   let service: SpotifyService;
-  let user1: User = {
-    userName: "DummyUser", password: "Test123!", 
-    firstName: "Johnny", lastName: "Test", 
-    email: "johnnytest123!@gmail.com", description: "Dummy description", 
-    favourites: null, friends: null, id: 1
-  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({

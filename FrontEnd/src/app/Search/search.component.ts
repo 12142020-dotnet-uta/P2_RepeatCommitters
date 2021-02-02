@@ -67,18 +67,18 @@ export class SearchComponent implements OnInit
                         //Get Spotify Info
                         this.spotifyService.searchTracks(title).subscribe
                         (
-                            (data) =>
+                            (data2) =>
                             {
-                                const results = data["tracks"]["items"];
-                                for(let x = 0; x < results.length; x++)
+                                const results2 = data2["tracks"]["items"];
+                                for(let i = 0; i < results2.length; i++)
                                 {
-                                    const result = results[x];
-                                    if(result["artists"][0]["name"].toLowerCase() == artistName.toLowerCase())
+                                    const result2 = results2[x];
+                                    if(result2["artists"][0]["name"].toLowerCase() == artistName.toLowerCase())
                                     {
-                                        s = new Song(title, artistName, result["album"]["name"], "", 
-                                                            parseInt(result["album"]["release_date"].slice(0, 4)), 
-                                                            result["external_urls"]["spotify"].substring(25), false);
-                                        s.albumUrl = result["album"]["images"][0]["url"];
+                                        s = new Song(title, artistName, result2["album"]["name"], "", 
+                                                            parseInt(result2["album"]["release_date"].slice(0, 4)), 
+                                                            result2["external_urls"]["spotify"].substring(25), false);
+                                        s.albumUrl = result2["album"]["images"][0]["url"];
                                         s.lyrics = lyrics;
                                         s.numberOfPlays = Math.floor(Math.random() * 100);
                                         break;

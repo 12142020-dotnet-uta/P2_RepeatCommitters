@@ -9,15 +9,6 @@ import { Song } from '../song';
 describe('FavouritesComponent', () => {
   let component: FavouritesComponent;
   let fixture: ComponentFixture<FavouritesComponent>;
-  let song: Song = {
-    id: 1, title: "Dummy", artistName: "Dummy", 
-    album: "DumDumDumDum", year: 1965, 
-    genre: "Pop", urlPath: "dummydata.com/album/Dummy", 
-    numberOfPlays: 24, isOriginal: true,
-    duration: "15", albumURL: "dummydata.com/album",
-    albumUrl: "dummydata.com/album",
-    lyrics: "Dummy quick slim thick wit it"
-  };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,8 +9,6 @@ import { User } from '../user';
 describe('ProfileEditComponent', () => {
   let component: ProfileEditComponent;
   let fixture: ComponentFixture<ProfileEditComponent>;
-  let mockLoginService;
-  let mockLoginUser;
 
   let user1: User = {
     userName: "DummyUser", password: "Test123!", 

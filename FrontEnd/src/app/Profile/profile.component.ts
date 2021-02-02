@@ -53,9 +53,9 @@ export class ProfileComponent implements OnInit
                     //Then we get friends
                     this.friendService.checkFriends(this.loginService.loggedInUser.id, data.id).subscribe
                     (
-                        (data) => 
+                        (data2) => 
                         {
-                            if(data)    this.isFriend = true;
+                            if(data2)    this.isFriend = true;
                             else        this.isFriend = false;
                         },
                         () => 
@@ -68,7 +68,7 @@ export class ProfileComponent implements OnInit
                     //Then we get favourites
                     this.songService.getTopFavourites(id).subscribe
                     (
-                        (data) => this.songIn = data,
+                        (data2) => this.songIn = data2,
                         () => alert("Error getting Favourites")
                     );
                 },
