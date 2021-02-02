@@ -37,7 +37,12 @@ export class HomeComponent implements OnInit
                     private route: ActivatedRoute, private router: Router, 
                     @Inject(DOCUMENT) private document: Document)
     {
-        route.queryParams.pipe(filter(params => params.code)).subscribe
+        
+    }
+  
+    ngOnInit(): void 
+    {
+        this.route.queryParams.pipe(filter(params => params.code)).subscribe
         (
             params => 
             {
@@ -47,7 +52,7 @@ export class HomeComponent implements OnInit
             }
         );
 
-        songService.getHomepageSongs().subscribe
+        this.songService.getHomepageSongs().subscribe
         (
             (data) => 
             {
@@ -62,20 +67,20 @@ export class HomeComponent implements OnInit
         //Parse Friend Requests
         //As it currently is, will require another subscription for getting user name.
         //We should fix this in db.
-       if(loginService.loggedIn)
+       if(this.loginService.loggedIn)
        {
-            friendService.getAllFriendRequests(loginService.loggedInUser.id).subscribe
+            this.friendService.getAllFriendRequests(this.loginService.loggedInUser.id).subscribe
             (
                 (data) => 
                 {
                     for(let x = 0; x < data.length; x++)
                     {
-                        if(friendService.isPending(data[x]))
+                        if(this.friendService.isPending(data[x]))
                         {
                             if(confirm("Would you like to become friends with " + data[x].fromUsername + "?"))
                             {
-                                friendService.setAccepted(data[x]);
-                                friendService.editFriendRequest(data[x]).subscribe
+                                this.friendService.setAccepted(data[x]);
+                                this.friendService.editFriendRequest(data[x]).subscribe
                                 (
                                     () => alert("You are now friends"),
                                     () => alert("Accept Error")
@@ -83,8 +88,8 @@ export class HomeComponent implements OnInit
                             }
                             else
                             {
-                                friendService.setRejected(data[x]);
-                                friendService.editFriendRequest(data[x]).subscribe(() => {}, () => alert("Error Rejecting"));
+                                this.friendService.setRejected(data[x]);
+                                this.friendService.editFriendRequest(data[x]).subscribe(() => {}, () => alert("Error Rejecting"));
                             }
                         }
                         //Keeps displaying. If we have time we can add another state = "Accepted Viewed"
@@ -95,16 +100,16 @@ export class HomeComponent implements OnInit
                             //friendService.deleteFriendRequest(data[x].id).subscribe();
                         }
                         */
-                        else if(friendService.isRejected(data[x]))
+                        else if(this.friendService.isRejected(data[x]))
                         {
                             alert(data[x].toUsername + " rejected your friend request.");
-                            friendService.deleteFriend(data[x].friendId, data[x].requestedFriendId).subscribe(() => {}, () => alert("Error Rection"));
+                            this.friendService.deleteFriend(data[x].friendId, data[x].requestedFriendId).subscribe(() => {}, () => alert("Error Rection"));
                             //friendService.deleteFriendRequest(data[x].id).subscribe();
                         }
-                        else if(friendService.isDeleted(data[x]))
+                        else if(this.friendService.isDeleted(data[x]))
                         {
                             alert(data[x].fromUsername + " is no longer your friend.");
-                            friendService.deleteFriend(data[x].friendId, data[x].requestedFriendId).subscribe(() => {}, () => alert("Error Deletion"));
+                            this.friendService.deleteFriend(data[x].friendId, data[x].requestedFriendId).subscribe(() => {}, () => alert("Error Deletion"));
                             //friendService.deleteFriendRequest(data[x].id).subscribe();
                         }
                     }
@@ -112,10 +117,6 @@ export class HomeComponent implements OnInit
                 (error) => alert(error)
             );
         }
-    }
-  
-    ngOnInit(): void 
-    {
         //this.displaySong(0);
         //this.displaySong(Math.floor(Math.random() * 5)); //5 = # of top songs displayed
 

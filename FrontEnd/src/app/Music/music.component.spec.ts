@@ -37,4 +37,24 @@ describe('MusicComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call displaySong()', () => {
+    component.displaySong(1);
+    expect(component).toBeTruthy();
+  });
+
+  // it('should call addSong()', () => {
+  //   component.addSong();
+  //   expect(component).toBeTruthy();
+  // });
+
+  it('should call getNextBannerSong()', () => {
+    component.getNextBannerSong();
+    expect(component).toBeTruthy();
+  });
+
+  it('should call getPrevBannerSong()', () => {
+    component.getPrevBannerSong();
+    expect(component).toBeTruthy();
+  });
 });

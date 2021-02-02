@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule} from '@angular/common/http/testing';
-import { LoginService } from './login.service';
+import { SpotifyService } from './spotify.service';
 import { User } from './user';
 
-describe('LoginService', () => {
-  let service: LoginService;
+describe('SpotifyService', () => {
+  let service: SpotifyService;
   let user1: User = {
     userName: "DummyUser", password: "Test123!", 
     firstName: "Johnny", lastName: "Test", 
@@ -16,37 +16,32 @@ describe('LoginService', () => {
     TestBed.configureTestingModule({
         imports: [HttpClientTestingModule]
     });
-    service = TestBed.inject(LoginService);
+    service = TestBed.inject(SpotifyService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  
-/* Creates an error during JSON stringify(u) */
-//   it('should call loginLocal()', () => {
-//     let user: User;
-//     service.loginLocal(user);
-//     expect(service).toBeTruthy();
-//   });
 
-  it('should call logoutLocal()', () => {
-    service.logoutLocal();
+  it('should call getauthUrl()', () => {
+    service.getAuthUrl();
     expect(service).toBeTruthy();
   });
 
-  it('should call getUser()', () => {
-    service.getUser(user1.id);
+  it('should call authStepOne()', () => {
+    service.authStepOne();
     expect(service).toBeTruthy();
   });
 
-  it('should call getUserByUsername()', () => {
-    service.getUserByUsername(user1.userName);
+  it('should call authStepTwo()', () => {
+      let code: string;
+    service.authStepTwo(code);
     expect(service).toBeTruthy();
   });
 
-  it('should call getValidUsers()', () => {
-    service.getValidUsers();
-    expect(service).toBeTruthy();
-  });
+  it('should call searchTracks()', () => {
+    let code: string = "rot";
+  service.searchTracks(code);
+  expect(service).toBeTruthy();
+});
 });

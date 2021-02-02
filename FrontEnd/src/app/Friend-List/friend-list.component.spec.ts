@@ -37,4 +37,19 @@ describe('FriendListComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should call deleteFriend()', () => {
+    component.deleteFriend(user1);
+    expect(component).toBeTruthy();
+  });
+
+  it('should call findFriend()', () => {
+    component.findFriend(user1);
+    expect(component).toBeTruthy();
+  });
+
+  it('should call displayProfile()', () => {
+    component.displayProfile(user1);
+    expect(component).toBeTruthy();
+  });
 });
