@@ -128,7 +128,7 @@ a:hover {
 }
 
 /* Login Page */
-app-location, .login {
+ .login {
     max-width: 300px;
     display: block;
     margin: 30px auto;
@@ -146,6 +146,6 @@ form button:hover {
     border-color: var(--colorMain);
 }
 
-.oddRow {
+thead tr, .oddRow {
     background-color: gray;
 }

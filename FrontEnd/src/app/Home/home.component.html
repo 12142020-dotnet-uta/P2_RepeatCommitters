@@ -1,13 +1,5 @@
 
 <h1>Share Your Music With Friends and New Fans </h1>
-<div *ngIf="loginService.loggedIn; else elseBlock">
-	<!-- <h1> Welcome, {{loginService.loggedInUser.userName}}</h1>
-    <h4> You are logged in </h4>
-
-    <div style="text-align:center;"> -->
-        <button routerLink="/profile" routerLinkActive="active" class="btn btn-warning"> My Profile </button>
-    <!-- </div> -->
-</div>
 
 
 <!-- <button (click)="test()"> TEST </button> -->
@@ -34,9 +26,14 @@
             </span>
         </form>
     </li>
+    
+    <li *ngIf="loginService.loggedIn; else elseBlock">
+        <button routerLink="/profile" routerLinkActive="active" class="btn btn-warning"> My Profile </button>
+    </li>
+
     <ng-template #elseBlock>
-        <li><button routerLink="/registration" routerLinkActive="active" class="btn btn-warning"> Register </button></li>
-        <li><button routerLink="/login" routerLinkActive="active" class="btn btn-warning"> Log In </button></li>
+        <li><button routerLink="/registration" routerLinkActive="active" class="btn btn-primary"> Register </button></li>
+        <li><button routerLink="/login" routerLinkActive="active" class="btn btn-primary"> Log In </button></li>
     </ng-template>
   </ol>
 <!-- <div class="card mb-4">
