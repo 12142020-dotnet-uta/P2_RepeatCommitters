@@ -19,6 +19,8 @@ describe('ProfileComponent', () => {
   let mockLoginService;
   let mockSongService;
   let mockFriendService;
+  let mockRegisterUser;
+  let mockLoginUser;
 
   let user1: User = {
     userName: "DummyUser", password: "Test123!", 
@@ -47,30 +49,24 @@ describe('ProfileComponent', () => {
     status: "pending", friendListLink: 1
   };
 
-  beforeEach(async() => {
-    mockLoginService = jasmine.createSpyObj('LoginService',['register', 'login', 'getUser']);
-    mockLoginService.register.and.returnValue(of(user1));
-    mockLoginService.login.and.returnValue(of(user1));
-    mockLoginService.getUser.and.returnValue(of(user1));
-    mockLoginService.loggedIn = true;
-    mockLoginService.loggedInUser = user1;
+  beforeEach(() => {
+    // mock the login service
+    mockLoginService = jasmine.createSpyObj('LoginService', ['login']);
+    mockLoginUser = mockLoginService.login.and.returnValue(of(user1));
+    // mock the song service
     mockSongService = jasmine.createSpyObj('SongService', ['getTopFavourites']);
     mockSongService.getTopFavourites.and.returnValue(of(song));
+    // mock the friend service
     mockFriendService = jasmine.createSpyObj('FriendService', ['checkFriends']);
     mockFriendService.checkFriends.and.returnValue(of(friend));
-  });
-
-    // Compile the test bed component
-  beforeEach(async(() => {
+    // create the test bed to compare against
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
       declarations: [ ProfileComponent ],
-      providers: [
-        {provide: LoginService, UseValue: mockLoginService},{provide: SongService, UseValue: mockSongService},{provide:FriendService, UseValue: mockFriendService}, HttpClientTestingModule
-      ]
+      imports: [RouterTestingModule, HttpClientTestingModule, FormsModule, ReactiveFormsModule, HttpClientModule],
+      providers: [ {provide: LoginService, UseValue: mockLoginService},{provide: SongService, UseValue: mockSongService},{provide:FriendService, UseValue: mockFriendService}, HttpClientTestingModule]
     })
     .compileComponents();
-  }));
+  });
 
   beforeEach(() => {
     // create component and test fixture
@@ -82,7 +78,9 @@ describe('ProfileComponent', () => {
   });
 
   // it('should create', () => {
+  //   component.user = user1;
   //   expect(component).toBeTruthy();
+  //   //expect(mockLoginUser.calls.any()).toBeTruthy();
   // });
 
 });
