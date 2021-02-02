@@ -117,3 +117,9 @@ a:hover {
 .card-body {
     color: black;
 }
+
+.breadcrumb li {
+    margin: 0px 30px;
+}
+
+
