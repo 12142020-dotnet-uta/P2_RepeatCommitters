@@ -5,8 +5,11 @@
 
 ## Tech Stack
   - C#
-  - ASP.NET MVC
+  - ASP.NET Web API
   - Postman
+  - Angular
+  - JavaScript
+  - TypeScript
   - xUnit
   - Jasmine
   - Karma
@@ -16,28 +19,52 @@
 ## Running the Project
   - You can try the project out at ```inharmony.azurewebsites.net```
 ### Alternatively you can run the project locally
+#### Via CMD line
   - Clone the repository
   ```git clone https://github.com/12142020-dotnet-uta/P2_RepeatCommitters```
   - Navigate to the correct directory
-  ```cd P2_RepeatCommitters```
+  ```cd P2_RepeatCommitters/FrontEnd```
+  - Start the Angular service
+  ```ng serve```
+  - Open your internet browser and navigate to
+  ```localhost:4200```
 
     
 ## API Routing
 |                            URI                             |     Method    |            Response            |
 | ---------------------------------------------------------- | ------------- |--------------------------------|
-| /api/v1/register                                           |      POST     | 201: Success <br> 409: Failure |
-| /api/v1/create_post                                        |      POST     | 201: Success <br> 409: Failure |
-| /api/v1/send_message                                       |      POST     | 201: Success <br> 409: Failure |
-| /api/v1/update_email                                       |      PUT      | 202: Success <br> 404: Failure |
-| /api/v1/increment_karma                                    |      PUT      | 202: Success <br> 404: Failure |
-| /api/v1/decrement_karma                                    |      PUT      | 202: Success <br> 404: Failure |
-| /api/v1/upvote_post/<int:post_id>                          |      PUT      | 202: Success <br> 404: Failure |
-| /api/v1/downvote_post/<int:post_id>                        |      PUT      | 202: Success <br> 404: Failure |
-| /api/v1/favorite_message/<int:message_id>                  |      PUT      | 202: Success <br> 404: Failure |
-| /api/v1/retrieve_post/<int:post_id>                        |      GET      | 202: Success <br> 404: Failure |
-| /api/v1/list_posts_by_comm/<string:community>/<int:number> |      GET      | 202: Success <br> 404: Failure |
-| /api/v1/list_posts/<int:number>                            |      GET      | 202: Success <br> 404: Failure |
-| /api/v1/list_post_votes/<int:post_id>                      |      GET      | 202: Success <br> 404: Failure |
-| /api/v1/deactivate_account/<int:user_id>                   |     DELETE    | 202: Success <br> 404: Failure |
-| /api/v1/delete_post/<int:post_id>                          |     DELETE    | 202: Success <br> 404: Failure |
-| /api/v1/delete_message/<int:message_id>                    |     DELETE    | 202: Success <br> 404: Failure |
+| /Home/SongEditHC                                           |      POST     | 201: Success <br> 409: Failure |
+| /Song/uploadSong                                           |      POST     | 201: Success <br> 409: Failure |
+| /user/CreateUser                                           |      POST     | 201: Success <br> 409: Failure |
+| /user/RequestFriend                                        |      POST     | 201: Success <br> 409: Failure |
+| /user/sendMessage                                          |      POST     | 201: Success <br> 409: Failure |
+| /user/SaveEdit                                             |      PUT      | 202: Success <br> 404: Failure |
+| /user/EditFriendStatus                                     |      PUT      | 202: Success <br> 404: Failure |
+| /Home/Index                                                |      GET      | 202: Success <br> 404: Failure |
+| /Song/getSong                                              |      GET      | 202: Success <br> 404: Failure |
+| /Song/addSongToFavorites                                   |      GET      | 202: Success <br> 404: Failure |
+| /Song/GetAllSongsByACertainUser                            |      GET      | 202: Success <br> 404: Failure |
+| /Song/getOriginalsongSearch                                |      GET      | 202: Success <br> 404: Failure |
+| /Song/getOriginalsongsByLyrics                             |      GET      | 202: Success <br> 404: Failure |
+| /Song/getTop5Originals                                     |      GET      | 202: Success <br> 404: Failure |
+| /Song/incrmentNumPlays                                     |      GET      | 202: Success <br> 404: Failure |
+| /Song/GetUsersFavoriteSongs                                |      GET      | 202: Success <br> 404: Failure |
+| /Song/Get5FavoriteSongsForUser                             |      GET      | 202: Success <br> 404: Failure |
+| /Song/isSongAlreadyAFavorite                               |      GET      | 202: Success <br> 404: Failure |
+| /Song/IsSongInDb                                           |      GET      | 202: Success <br> 404: Failure |
+| /user/login                                                |      GET      | 202: Success <br> 404: Failure |
+| /user/EditButton                                           |      GET      | 202: Success <br> 404: Failure |
+| /user/SearchForUsers                                       |      GET      | 202: Success <br> 404: Failure |
+| /user/GetFriends                                           |      GET      | 202: Success <br> 404: Failure |
+| /user/GetFriendsAsUsers                                    |      GET      | 202: Success <br> 404: Failure |
+| /user/GoToChat                                             |      GET      | 202: Success <br> 404: Failure |
+| /user/BakToProfile                                         |      GET      | 202: Success <br> 404: Failure |
+| /user/getAllUsers                                          |      GET      | 202: Success <br> 404: Failure |
+| /user/getUserByIdaAsync                                    |      GET      | 202: Success <br> 404: Failure |
+| /user/GetAllMessagesAsync                                  |      GET      | 202: Success <br> 404: Failure |
+| /user/DisplayAllFriendRequests                             |      GET      | 202: Success <br> 404: Failure |
+| /user/AreWeFriends                                         |      GET      | 202: Success <br> 404: Failure |
+| /Song/DeleteSongFromFavorites                              |     DELETE    | 202: Success <br> 404: Failure |
+| /Song/DeleteUploadedSong                                   |     DELETE    | 202: Success <br> 404: Failure |
+| /user/DeleteFriend                                         |     DELETE    | 202: Success <br> 404: Failure |
+
