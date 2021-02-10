@@ -1,7 +1,7 @@
 # InHarmony
 
 ## Introduction
-  This project was developed with ASP.NET Web API in the Visual Studio IDE. It implements post, account and message services by making use of HTTP methods. It utilizes spotify and soundcloud third party APIs. Early development testing was done using Postman, but has since been updated to test through xUnit tests. Frontend is tested with Jasmine and Karma. An Azure DevOps pipeline is used for CI/CD and the results of the tests are published to SonarCloud.
+  This project was developed with ASP.NET Web API in the Visual Studio IDE. It implements song management, account and message services by making use of HTTP methods. It utilizes Spotify and Soundcloud third-party APIs for finding published songs on those platforms. Early API development testing was done using Postman. The backend services are tested with mock data via xUnit tests, and the frontend is tested with spy objects via Jasmine and Karma. An Azure DevOps pipeline is used for CI/CD and the results of the tests are published to SonarCloud.
 
 ## Tech Stack
   - C#
